@@ -8,8 +8,11 @@ Authors@R:
            email = "alessandro.pandini@gmail.com",
            comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X"))
 Description: What the package does (one paragraph).
-License: GPL + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports: 
+    bio3d,
+    kohonen
