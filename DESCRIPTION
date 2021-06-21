@@ -1,12 +1,22 @@
 Package: SOMMD
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:c(
     person(given = "Alessandro",
            family = "Pandini",
            role = c("aut", "cre"),
            email = "alessandro.pandini@gmail.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X"))
+           comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X")),
+    person(given = "Shaziya",
+           family = "Mulla",
+           role = c("aut"),
+           email = "Shaziyaismail.m@gmail.com",
+           comment = c(ORCID = "https://orcid.org/0000-0002-7642-3136")),
+    person(given = "Hamid",
+           family = "Davoudkhani",
+           role = c("aut"),
+           email = "",
+           comment = c(ORCID = ""))) 
 Description: What the package does (one paragraph).
 License: GPL (>= 3)
 Encoding: UTF-8
