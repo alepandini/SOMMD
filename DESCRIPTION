@@ -16,7 +16,12 @@ Authors@R:c(
            family = "Davoudkhani",
            role = c("aut"),
            email = "h.davoudkhani@icloud.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-5369-0266"))) 
+           comment = c(ORCID = "https://orcid.org/0000-0002-5369-0266")), 
+    person(given = "Stefano",
+           family = "Motta",
+           role = c("aut"),
+           email = "stefano.motta@unimib.it",
+           comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
 Description: What the package does (one paragraph).
 License: GPL (>= 3)
 Encoding: UTF-8
