@@ -1,7 +1,7 @@
 Package: SOMMD
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R:c(
+Authors@R: c(
     person(given = "Alessandro",
            family = "Pandini",
            role = c("aut", "cre"),
@@ -31,3 +31,6 @@ RoxygenNote: 7.1.1
 Imports: 
     bio3d,
     kohonen
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
