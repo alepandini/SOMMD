@@ -1,8 +1,11 @@
-#' Title
+#' Calculation of Distance matrix
+#' @author Shaziya Ismail Mulla\email{shaziyaismail.m@@gmail.com}
 #'
-#' @param VEC
+#' @param VEC vector
+#' @param N_atm the number of atom
+#' @param dist the function distance
 #'
-#' @return
+#' @return MAT
 #' @export
 #'
 #' @examples

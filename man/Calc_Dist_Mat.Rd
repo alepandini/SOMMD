@@ -2,16 +2,23 @@
 % Please edit documentation in R/Calc_Dist_Mat.R
 \name{Calc_Dist_Mat}
 \alias{Calc_Dist_Mat}
-\title{Title}
+\title{Calculation of Distance matrix}
 \usage{
 Calc_Dist_Mat(VEC)
 }
 \arguments{
-\item{VEC}{}
+\item{VEC}{vector}
+
+\item{N_atm}{the number of atom}
+
+\item{dist}{the function distance}
 }
 \value{
-
+MAT
 }
 \description{
-Title
+Calculation of Distance matrix
+}
+\author{
+Shaziya Ismail Mulla\email{shaziyaismail.m@gmail.com}
 }
