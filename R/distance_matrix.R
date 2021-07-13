@@ -2,7 +2,7 @@
 library(bio3d)
 
 #Read the pdb file
-pdb <- read.pdb("C:/Users/shazi/Documents/Dissertation/Git/Protein/ref.pdb")
+pdb <- read.pdb("./data/ref.pdb")
 View(pdb)
 class(pdb)
 names(pdb)
@@ -28,5 +28,5 @@ plot(dist_mat,
      color.palette = mono.colors,
      xlab="Residue Number", ylab="Residue Number")
 
-head(distance_matrix)
+#head(distance_matrix)
 #=======================================================
