@@ -19,6 +19,9 @@ MAT
 \description{
 Calculation of Distance matrix
 }
+\examples{
+TODO Not added yet
+}
 \author{
 Shaziya Ismail Mulla\email{shaziyaismail.m@gmail.com}
 }
