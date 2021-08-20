@@ -1,7 +1,9 @@
 test_that("Reading Reference file with pdb Extension", {
-
+  pathFile <- "/Users/hamid/Documents/Dissertation/Provided Files/Scripts/SOMMD/data/ref.pdb"
   err <- "read_pdb: the specified file is not in pdb format or pdb index"
-  expect_error(SOMMD::read_pdb("../SOMMD/data/REP_001.xtc"), err)
-  expect_identical(bio3d::read.pdb("./data/ref.pdb"),
-                   read_pdb("./data/ref.pdb"))
+  sampleFile <- bio3d::read.pdb(pathFile)
+  testFile <- read_pdb(pathFile)
+  atomTableDimension <- dim(sampleFile$atom)
+  expect_identical(dim(testFile$atom), atomTableDimension )
+  expect_error(read_pdb("../SOMMD/data/REP_001.xtc"), err)
 })

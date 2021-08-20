@@ -1,4 +1,3 @@
-#' @name read_pdb
 #' @title Read PDB files
 #'
 #' @description
@@ -6,12 +5,13 @@
 #' commonly used within this package and ease access to  function reading pdb
 #' formatted file.
 #'
+#' the definition of argument duplicated from \link[bio3d]{read.pdb}:
+#'
 #'
 #' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #'
 #'
 #'
-#' the definition of argument duplicated from \link[bio3d]{read.pdb}:
 #'
 #' @param file   a single element character vector containing the name of the PDB file to be read, or the four letter PDB identifier for online file access.
 #' @param maxlines the maximum number of lines to read before giving up with large files. By default if will read up to the end of input on the connection.
@@ -30,9 +30,10 @@
 #'
 #' @seealso \code{\link[SOMMD]{read_traj}}
 #'
-#'
+#' @return
+#' @export
 
-function(file, maxlines = -1, multi = FALSE, rm.insert = FALSE,
+read_pdb <- function(file, maxlines = -1, multi = FALSE, rm.insert = FALSE,
          rm.alt = TRUE, ATOM.only = FALSE, hex = FALSE, verbose = TRUE){
 
   if(tools::file_ext(file) != "pdb" | length(file) == 4 ){

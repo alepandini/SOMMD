@@ -3,6 +3,18 @@
 \name{read_pdb}
 \alias{read_pdb}
 \title{Read PDB files}
+\usage{
+read_pdb(
+  file,
+  maxlines = -1,
+  multi = FALSE,
+  rm.insert = FALSE,
+  rm.alt = TRUE,
+  ATOM.only = FALSE,
+  hex = FALSE,
+  verbose = TRUE
+)
+}
 \arguments{
 \item{file}{a single element character vector containing the name of the PDB file to be read, or the four letter PDB identifier for online file access.}
 
@@ -20,10 +32,15 @@
 
 \item{verbose}{print details of the reading process.}
 }
+\value{
+
+}
 \description{
 This is a wrap around \link[bio3d]{read.pdb} to standardized functions format
 commonly used within this package and ease access to  function reading pdb
 formatted file.
+
+the definition of argument duplicated from \link[bio3d]{read.pdb}:
 }
 \references{
 Grant, B.J. et al. (2006) Bioinformatics 22, 2695–2696.
@@ -36,6 +53,4 @@ For a description of PDB format (version3.3) see:
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}
-
-the definition of argument duplicated from \link[bio3d]{read.pdb}:
 }
