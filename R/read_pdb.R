@@ -28,7 +28,8 @@
 #'For a description of PDB format (version3.3) see:
 #' \url{http://www.wwpdb.org/documentation/format33/v3.3.html}.
 #'
-#' @seealso \code{\link[SOMMD]{read_traj}}
+#' @seealso \code{\link[SOMMD]{read_ncdf}, \link[SOMMD]{write_dcd},
+#' \link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 #'
 #' @return
 #' @export

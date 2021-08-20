@@ -1,11 +1,11 @@
 #' Read AMBER Binary netCDF files
 #'
 #' @description
-#'  This is a wrap around \link[bio3d]{read.nc} to standardized functions format
-#' commonly used within this package and ease access to  function reading pdb
+#'  This is a wrap around \link[bio3d]{read.ncdf} to standardized functions format
+#' commonly used within this package and ease access to  function reading netCDF
 #' formatted file.
 #'
-#' the definition of argument duplicated from \link[bio3d]{read.nc}:
+#' the definition of argument duplicated from \link[bio3d]{read.ncdf}:
 #'
 #'
 #' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
@@ -27,7 +27,7 @@
 #'  \url{https://www.unidata.ucar.edu/software/netcdf/ }
 #'  \url{https://cirrus.ucsd.edu/~pierce/ncdf/ }
 #'  \url{https://ambermd.org/FileFormats.php#netcdf}
-#' @seealso \code{\link[SOMMD]{read_pdb}, \link[SOMMD]{write_nc}}
+#' @seealso \code{\link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 #'
 #' @examples
 #' nctrj <- read_ncdf("./data/TEST_001.nc")

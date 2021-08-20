@@ -2,5 +2,8 @@
 
 export(Calc_Dist_Mat)
 export(dRMSD)
+export(read_dcd)
 export(read_ncdf)
 export(read_pdb)
+export(write_ncdf)
+export(write_pdb)
