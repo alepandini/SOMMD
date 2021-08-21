@@ -4,7 +4,7 @@
 \alias{Calc_Dist_Mat}
 \title{Calculation of Distance matrix}
 \usage{
-Calc_Dist_Mat(VEC)
+Calc_Dist_Mat(MAT)
 }
 \arguments{
 \item{VEC}{vector}
