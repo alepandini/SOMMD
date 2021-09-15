@@ -17,17 +17,17 @@ Pre_algn_pdbaln(
 \arguments{
 \item{files}{a character vector of PDB file names. Alternatively, a list of pdb objects can be provided.}
 
-\item{fit}{desc}
+\item{fit}{fit logical, if TRUE coordinate superposition is performed on the input structures.}
 
-\item{pqr}{desc}
+\item{pqr}{pqr logical, if TRUE the input structures are assumed to be in PQR format.}
 
-\item{ncore}{desc}
+\item{ncore}{ncore number of CPU cores used to do the calculation. ncore>1 requires package ‘parallel’ installed.}
 
-\item{nseg.scale}{desc}
+\item{nseg.scale}{nseg.scale split input data into specified number of segments prior to running multiple core calculation. See fit.xyz.}
 
-\item{progress}{desc}
+\item{progress}{progress progress bar for use with shiny web app.}
 
-\item{...}{}
+\item{......}{extra arguments passed to seqaln function.}
 }
 \value{
 
@@ -35,7 +35,7 @@ Pre_algn_pdbaln(
 \description{
 This is a wrap around \link[bio3d]{pdbaln}
 This Creates multiple sequences alignments from a list of PDB files returning aligned sequence and structure records
-This is written for re-aligns the trajectory,  using output of requirement (REQ-32) as input ,
+This is written for re-aligns the trajectory,  using output of requirement (REQ-2) as input ,
 Returns a list of class "pdbs" with the five  components: xyz, resno, b, chain, id, ali, and call. The coordinates of the aligned trajectory.
 the definition of argument duplicated from \link[bio3d]{pdbaln}:
 
