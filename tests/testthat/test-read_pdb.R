@@ -1,5 +1,5 @@
 test_that("Reading Reference file with pdb Extension", {
-  pathFile <- "/Users/hamid/Documents/Dissertation/Provided Files/Scripts/SOMMD/data/ref.pdb"
+  pathFile <- "../SOMMD/data/ref.pdb"
   err <- "read_pdb: the specified file is not in pdb format or pdb index"
   sampleFile <- bio3d::read.pdb(pathFile)
   testFile <- read_pdb(pathFile)
