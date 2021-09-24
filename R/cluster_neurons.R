@@ -1,14 +1,26 @@
-#' Title
+#'  Find optimal clusters.
 #'
-#' @param som_obj
-#' @param min_cluster
-#' @param max_cluster
-#' @param kohonen_object
+#' @description
+#' evaluate the number of  different clusters with indexes such as silhouette,
+#' it also plot for each clusters
+#'
+#' @author Hamid davoudkhani \email{h.davoudkhani@@gmail.com}
+#' @param som_obj     should be a `kohonen` object, a `matrix`, or
+#' `dist` object of \link[stats]{dist()}
+#' @param min_cluster minimum number of clusters shoulde be evaluate
+#' @param max_cluster upper bond of number of clusters.
+#' @param kohonen_object if the `som-obj` was not as a `kohonen`
+#'  object it can call here to plot clustered som map
 #'
 #' @return
+#' a list consist of all clusters content such as neuron clusters number, silhouette score and its summary.
 #' @export
 #'
 #' @examples
+#' library(kohonen)
+#' data("wines)
+#' som_wines <- som(scale(wines), grid = somgrid(5, 5, "hexagonal"))
+#' (clusters_result <- cluster_neuron(som_wines, 3 , 7)
 cluster_neuron <- function(som_obj,
                            min_cluster = 6,
                            max_cluster = 15 ,
@@ -155,14 +167,10 @@ cluster_neuron <- function(som_obj,
     }
     print (comparison_table)
     ### reset the ploting settings
-    par(opar)
+    par(mfrow = c(1,1))
 
    return(output)
   }
-
-
-
-
 
 
 

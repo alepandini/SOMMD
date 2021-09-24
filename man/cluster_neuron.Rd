@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster_neurons.R
 \name{cluster_neuron}
 \alias{cluster_neuron}
-\title{Title}
+\title{Find optimal clusters.}
 \usage{
 cluster_neuron(
   som_obj,
@@ -12,11 +12,23 @@ cluster_neuron(
 )
 }
 \arguments{
-\item{kohonen_object}{}
+\item{som_obj}{should be a \code{kohonen} object, a \code{matrix}, or
+\code{dist} object of \link[stats]{dist()}}
+
+\item{min_cluster}{minimum number of clusters shoulde be evaluate}
+
+\item{max_cluster}{upper bond of number of clusters.}
+
+\item{kohonen_object}{if the \code{som-obj} was not as a \code{kohonen}
+object it can call here to plot clustered som map}
 }
 \value{
-
+a list consist of all clusters content such as neuron clusters number, silhouette score and its summary.
 }
 \description{
-Title
+evaluate the number of  different clusters with indexes such as silhouette,
+it also plot for each clusters
+}
+\author{
+Hamid davoudkhani \email{h.davoudkhani@gmail.com}
 }
