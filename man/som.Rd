@@ -86,8 +86,9 @@ unit, only returned if \code{keep.data == TRUE}.}
 \item{changes}{matrix of mean average deviations from code vectors;
 every map corresponds with one column.}
 
-\item{{alpha, }{radius, user.weights, whatmap, maxNA.fraction} input arguments
-presented to the function.}
+\item{{alpha, }{radius, user.weights, whatmap, maxNA.fraction}
+
+input arguments presented to the function.}
 
 \item{distance.weights}{if \code{normalizeDataLayers} weights to
 equalize the influence of the individual data layers, else a vector
@@ -101,9 +102,7 @@ The function is a wrapper over \link[kohonen]{supersom} to cover all the
 necessary function within the package, besides more specialized example for
 clustering MD trajectories.
 
-#' the definition of argument duplicated from \link[kohonen]{supersom}:
-
-@author Hamid Davoukhani \email{h.davoudkhani@gmail.com}
+the definition of argument duplicated from \link[kohonen]{supersom}:
 }
 \examples{
 
@@ -117,4 +116,7 @@ R. Wehrens and J. Kruisselbrink, submitted, 2017.
 }
 \seealso{
 \code{\link[kohonen]{supersom}}
+}
+\author{
+Hamid Davoukhani \email{h.davoudkhani@gmail.com}
 }

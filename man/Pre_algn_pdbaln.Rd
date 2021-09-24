@@ -36,13 +36,23 @@ Pre_algn_pdbaln(
 This is a wrap around \link[bio3d]{pdbaln}
 This Creates multiple sequences alignments from a list of PDB files returning aligned sequence and structure records
 This is written for re-aligns the trajectory,  using output of requirement (REQ-2) as input ,
-Returns a list of class "pdbs" with the five  components: xyz, resno, b, chain, id, ali, and call. The coordinates of the aligned trajectory.
+Returns a list of class "pdbs" with the five  components: xyz, resno, b, chain, id, ali, and call.
+The coordinates of the aligned trajectory.
 the definition of argument duplicated from \link[bio3d]{pdbaln}:
 
 @author Shaziya Ismail Mulla\email{shaziyaismail.m@gmail.com}
 }
 \examples{
-not yet
+files <- get.pdb(c("4q21","5p21"), URLonly=TRUE)
+
+
+
+
+}
+\references{
+:https://www.rdocumentation.org/packages/bio3d/versions/2.4-2/topics/pdbaln
+https://rdrr.io/cran/bio3d/man/pdbaln.html
+https://search.r-project.org/CRAN/refmans/bio3d/html/pdbaln.html
 }
 \seealso{
 \code{\link[SOMMD]{pdbaln}}

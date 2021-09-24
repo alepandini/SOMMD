@@ -2,7 +2,13 @@
 % Please edit documentation in R/dist_mat_frame.R
 \name{dist_mat_frame}
 \alias{dist_mat_frame}
-\title{Title :Calculating the distances between pairs of chosen set  atoms for each frame}
+\title{Title :Calculating the distances between pairs of chosen set  atoms for each frame
+'@description
+This is a wrap around \link[bio3d]{dm}
+Construct a distance matrix for a given protein structure.Returns a numeric matrix of class "dmat",
+with all N by N distances, where N is the number of
+selected atoms. With multiple frames the output is provided in a three dimensional array.
+the definition of argument duplicated from \link[bio3d]{dm}:}
 \usage{
 dist_mat_frame(pdb, inds = NULL, grp = TRUE, verbose = TRUE, ...)
 }
@@ -13,11 +19,35 @@ dist_mat_frame(pdb, inds = NULL, grp = TRUE, verbose = TRUE, ...)
 
 \item{grp}{: logical, if TRUE atomic distances will be grouped according to their residue membership. See ‘grpby’}
 
-\item{...}{}
+\item{verbose}{:logical, if TRUE possible warnings are printed.}
+
+\item{...}{:arguments passed to and from functions.}
 }
 \value{
 
 }
 \description{
 Title :Calculating the distances between pairs of chosen set  atoms for each frame
+'@description
+This is a wrap around \link[bio3d]{dm}
+Construct a distance matrix for a given protein structure.Returns a numeric matrix of class "dmat",
+with all N by N distances, where N is the number of
+selected atoms. With multiple frames the output is provided in a three dimensional array.
+the definition of argument duplicated from \link[bio3d]{dm}:
+}
+\examples{
+pdb <- read.pdb( "4q21" )
+k <- dm(pdb,inds="calpha")
+
+}
+\references{
+: https://cran.r-project.org/web/packages/bio3d/bio3d.pdf
+https://search.r-project.org/CRAN/refmans/bio3d/html/dm.html
+https://rdrr.io/cran/bio3d/man/dm.html
+}
+\seealso{
+\code{\link[SOMMD]{dm}
+}
+\author{
+Shaziya Ismail Mulla\email{shaziyaismail.m@gmail.com}
 }

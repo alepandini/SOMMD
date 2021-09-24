@@ -30,7 +30,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     bio3d,
-    kohonen
+    kohonen,
+    crayon
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

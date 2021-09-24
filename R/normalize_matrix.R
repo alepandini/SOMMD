@@ -21,7 +21,7 @@ scaler <- function(mat, method, by = "feature") {
 
   output <- switch (by,
     "feature" = feature(mat, method),
-    "whole" = scale(mat , method),
+    "whole" = scaling (mat , method),
     "trajaxis" = axis(mat , method)
   )
   return(output)
@@ -29,7 +29,7 @@ scaler <- function(mat, method, by = "feature") {
 
 feature <- function (mat , method) {
 
-  output <-  apply(mat, 2, function(x) scale(x, method))
+  output <-  apply(mat, 2, function(x) scaling(x, method))
   return(output)
 }
 
@@ -43,9 +43,9 @@ axis <- function( mat , method){
     axis_y <- mat[,y_ind]
     axis_z <- mat[,z_ind]
 
-    scaled_x <- scale (axis_x, method)
-    scaled_y <- scale (axis_y, method)
-    scaled_z <- scale (axis_z, method)
+    scaled_x <- scaling (axis_x, method)
+    scaled_y <- scaling (axis_y, method)
+    scaled_z <- scaling (axis_z, method)
 
     output[,x_ind] <- scaled_x
     output[,y_ind] <- scaled_y
@@ -53,7 +53,7 @@ axis <- function( mat , method){
 }
 
 
-scale <- function(mat , method){
+scaling <- function(mat , method){
   switch (method,
     "minmax" = minmax(mat),
     "robust" = robust(mat),

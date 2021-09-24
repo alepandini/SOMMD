@@ -2,6 +2,7 @@
 
 export(Calc_Dist_Mat)
 export(Pre_algn_pdbaln)
+export(cluster_neuron)
 export(dRMSD)
 export(dist_mat_frame)
 export(read_dcd)

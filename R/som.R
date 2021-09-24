@@ -6,10 +6,10 @@
 #' clustering MD trajectories.
 #'
 #'
-#' #' the definition of argument duplicated from \link[kohonen]{supersom}:
+#' the definition of argument duplicated from \link[kohonen]{supersom}:
 #'
 #'
-#'  @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
+#' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #'
 #'
 #'
@@ -73,8 +73,10 @@
 #' @param    codes a list of matrices containing codebook vectors.
 #' @param    changes matrix of mean average deviations from code vectors;
 #' every map corresponds with one column.
-#' @param {alpha, radius, user.weights, whatmap, maxNA.fraction} input arguments
-#'   presented to the function.
+#' @param {alpha, radius, user.weights, whatmap, maxNA.fraction}
+#'
+#'
+#'    input arguments presented to the function.
 #' @param    distance.weights if \code{normalizeDataLayers} weights to
 #'  equalize the influence of the individual data layers, else a vector
 #'   of ones.
@@ -108,6 +110,10 @@ som <- function(data,
                      init,
                      normalizeDataLayers = TRUE
 ){
+
+  # grid <- kohonen::check.somgrid(grid)
+  nhbrdist <- unit.distances(grid)
+
   som_result <- kohonen::supersom(data,
                        grid = grid,
                        rlen = rlen,
