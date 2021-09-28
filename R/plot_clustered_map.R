@@ -1,3 +1,20 @@
+#' Plot clusterd SOM map
+#' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
+#' @param som_obj  should be a `kohonen` object
+#' @param cluster can be a vector showing the number of cluster of each neurons or \code{NULL}
+#' @param cluster_method if \code{cluster} is \code{NULL} , either `"hier"` as hierarchical methods or
+#'  `"kmeans"` can be chosen to do a basic clustering based on `clustering_parameter`
+#' @param clustering_parameter is a list of to basic clustering hyper-parameter, first number of clusters
+#'  and second method of clustering in `hier` or algorithm in `kmeans methods`
+#' @param bgcols hues distinguish clusters can be introduced here
+#' @param shape shape of neurons , `straight` plots neurons as hexagons  and `round` as cricles
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+#'
 "plot_clustered_map" <- function(som_obj ,
                                  cluster = NULL ,
                                  cluster_method = c("hier", "kmeans"),

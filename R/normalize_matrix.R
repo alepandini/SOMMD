@@ -1,6 +1,6 @@
 
 #' Scaling the Distance or similar matrices by standardization or normalization
-#'
+#'i @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #' @param method accepts a character string determines what method implemented
 #'   *minmax* = transform the range to 0 and
 #'   "robust" = ?

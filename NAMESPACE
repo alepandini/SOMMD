@@ -2,9 +2,12 @@
 
 export(Calc_Dist_Mat)
 export(Pre_algn_pdbaln)
+export(add_evolution_trace)
+export(add_neuron_population)
 export(cluster_neuron)
 export(dRMSD)
 export(dist_mat_frame)
+export(plot_clustered_map)
 export(read_dcd)
 export(read_ncdf)
 export(read_pdb)

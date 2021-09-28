@@ -28,3 +28,6 @@ Scaling the Distance or similar matrices by standardization or normalization
 \examples{
 not provided here yet
 }
+\author{
+Hamid Davoukhani \email{h.davoudkhani@gmail.com}
+}
