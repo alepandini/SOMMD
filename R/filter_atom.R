@@ -2,6 +2,7 @@
 #' @description
 #' the function accept a pdb file and filter a given atom, and return either a pdb file or only coordinates
 #'
+#'  @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #' @param pdb_file  a \code{bio3d} pdb object
 #' @param atom      the atom which pdb file should be filtered
 #' @param output_type the output of the function  can be either pdb object which
