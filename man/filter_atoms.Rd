@@ -19,6 +19,8 @@ only contain attributes of the atoms, or a trajectory file contain the atom coor
 }
 \description{
 the function accept a pdb file and filter a given atom, and return either a pdb file or only coordinates
+
+@author Hamid Davoukhani \email{h.davoudkhani@gmail.com}
 }
 \examples{
 pdb1 <- read_pdb("../SOMMD/data/ref_1782.pdb")

@@ -16,10 +16,10 @@
 #' trj1 <- read_ncdf("../SOMMD/data/TEST_001.nc")
 #' merged_pdb <-  merge_pdb_trj(pdb1 , trj1)
 #' ## pdb outputs
-#' cb_pdb <-  fliter(merged_pdb , atom = "CB", output_type = "pdb")
+#' cb_pdb <-  filter_atoms(merged_pdb , atom = "CB", output_type = "pdb")
 #'
 #' ## coordinates output
-#' cb_coordinates <-  fliter(merged_pdb , atom = "CB", output_type = "xyz")
+#' cb_coordinates <-  filter_atoms(merged_pdb , atom = "CB", output_type = "xyz")
 "filter_atoms" <- function(pdb_file , atom = "CA", output_type = "pdb") {
 
   ## Check the input files
@@ -48,11 +48,13 @@
   chosen_atoms <- ifelse(atom3 == "CA", T, F)
   coordinate_of_chosen_atoms <-  pdb_file$xyz[,chosen_atoms]
   ## tailoring the output as requested
+  ## if output needs to be  pdb file but only contain information about the chosen atoms
   if ( output_type == "pdb") {
     mini_pdb <- pdb_file
     mini_pdb$atom <- pdb_file$atom[pdb_file$atom$elety == "CA" , ]
     mini_pdb$calpha <- pdb_file$calpha[ pdb_file$atom$elety == "CA"]
     return(mini_pdb)
+    ## if the output needs to be just the coordinate of chosen atoms
   }else if(output_type == "xyz") {
     return(coordinate_of_chosen_atoms)
   }
