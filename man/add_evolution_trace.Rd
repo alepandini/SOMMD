@@ -26,7 +26,7 @@ library(kohonen)
 data(wines)
 som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
 plot_clustered_map (som_wines,
- cluster_method "hier",
+ cluster_method = "hier",
  clustering_parameter = c( 5 , "ward.D"  ),
  shape = "straight" )
 add_evolution_trace(som_wines , path)
