@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_property.R
 \name{plot_property}
 \alias{plot_property}
-\title{Title}
+\title{Plot a heatmap based on a given property}
 \usage{
 plot_property(
   som_obj,
@@ -34,7 +34,7 @@ this given argument use as a function to aggregate values for each neurons}
 
 }
 \description{
-Title
+Plot a heatmap based on a given property
 }
 \examples{
  load("data/pdb_and_tarj_object.RData")
@@ -47,4 +47,10 @@ Title
  dummy_property_observation <-  rnorm(102 , mean = 8 , sd  = 4)
  plot_property(som_trj , property = dummy_property_observation, FUN = median ,shape = "straight",
  palette_name =  colorRampPalette(c("blue", "white", "red")))
+}
+\seealso{
+\link{plot_clustered_map} ,  \link{\code{add_evolution_trace}} , \link{\code{add_neuron_population}}
+}
+\author{
+Hamid Davoukhani \email{h.davoudkhani@gmail.com}
 }

@@ -12,7 +12,7 @@
 #' ###
 #' library(kohonen)
 #' data(wines)
-#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal))
+#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
 #' plot_clustered_map (som_wines,
 #' cluster_method "hier",
 #' clustering_parameter = c( 5 , "ward.D"  ),
@@ -63,7 +63,7 @@
 
 
 
-#' Title
+#' add_evolution_trace
 #'
 #' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #'
@@ -78,7 +78,7 @@
 #' @examples
 #' library(kohonen)
 #' data(wines)
-#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal))
+#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
 #' plot_clustered_map (som_wines,
 #'  cluster_method "hier",
 #'  clustering_parameter = c( 5 , "ward.D"  ),

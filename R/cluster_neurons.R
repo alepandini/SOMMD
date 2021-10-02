@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' library(kohonen)
-#' data("wines)
+#' data("wines")
 #' som_wines <- som(scale(wines), grid = somgrid(5, 5, "hexagonal"))
 #' (clusters_result <- cluster_neuron(som_wines, 3 , 7)
 cluster_neuron <- function(som_obj,

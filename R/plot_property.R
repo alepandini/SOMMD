@@ -1,4 +1,7 @@
-#' Title
+#' Plot a heatmap based on a given property
+#'
+#'
+#' @author Hamid Davoukhani \email{h.davoudkhani@@gmail.com}
 #'
 #' @param som_obj a \code{kohonen} object
 #' @param property a vector of property for either each neurons or each observation
@@ -11,6 +14,8 @@
 #'
 #' @return
 #' @export
+#'
+#' @seealso \link{plot_clustered_map} ,  \link{\code{add_evolution_trace}} , \link{\code{add_neuron_population}}
 #'
 #' @examples
 #'  load("data/pdb_and_tarj_object.RData")

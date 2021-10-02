@@ -2,7 +2,7 @@
 % Please edit documentation in R/viz_utils.R
 \name{add_evolution_trace}
 \alias{add_evolution_trace}
-\title{Title}
+\title{add_evolution_trace}
 \usage{
 add_evolution_trace(som_obj, path, line_thickness = 3, point_size = 2)
 }
@@ -19,7 +19,17 @@ add_evolution_trace(som_obj, path, line_thickness = 3, point_size = 2)
 
 }
 \description{
-Title
+add_evolution_trace
+}
+\examples{
+library(kohonen)
+data(wines)
+som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
+plot_clustered_map (som_wines,
+ cluster_method "hier",
+ clustering_parameter = c( 5 , "ward.D"  ),
+ shape = "straight" )
+add_evolution_trace(som_wines , path)
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}
