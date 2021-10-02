@@ -20,15 +20,17 @@ add_neuron_population(som_obj, text = FALSE, shape = c("hex", "round"))
 add populaiton of each neuron to the som plots
 }
 \examples{
-###
-library(kohonen)
-data(wines)
-som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
-plot_clustered_map (som_wines,
-cluster_method = "hier",
-clustering_parameter = c( 5 , "ward.D"  ),
-shape = "straight")
-add_neuron_population(som_wines , shape = "round" )
+load("data/pdb_and_tarj_object.RData")
+
+## neuron population
+
+som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
+som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
+plot_clustered_map (som_trj,
+                    cluster = som_hc,
+                    shape = "straight" )
+add_neuron_population(som_trj , shape = "round" )
+
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}

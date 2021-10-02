@@ -9,26 +9,23 @@
 #' @export
 #'
 #' @examples
-#' ###
-#' library(kohonen)
-#' data(wines)
-#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
-#' plot_clustered_map (som_wines,
-#' cluster_method = "hier",
-#' clustering_parameter = c( 5 , "ward.D"  ),
-#' shape = "straight")
-#' add_neuron_population(som_wines , shape = "round" )
-
+#' load("data/pdb_and_tarj_object.RData")
+#'
+#' ## neuron population
+#'
+#' som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
+#' som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
+#' plot_clustered_map (som_trj,
+#'                     cluster = som_hc,
+#'                     shape = "straight" )
+#' add_neuron_population(som_trj , shape = "round" )
+#'
 "add_neuron_population" <- function(som_obj , text = FALSE , shape = c("hex" , "round")) {
 
   if ( class(som_obj) != "kohonen") {
     stop("no kohonen object was given")
   }
-
-
-
-
-
+  # extract the variables needs in next step and scale them to have more even size
   neuron_population <- as.vector(table(som_obj$unit.classif))
   scaled_neuron_populaton <- minmax(neuron_population)
   shifted_neuron_population <-  1.3 + 2 * scaled_neuron_populaton
@@ -42,12 +39,13 @@
   } else {
     if ( shape == "round") {
       shapes <-  16
+      ## TODO daes work
     } else if (shape == "hex") {
       shapes = "⬢"
     } else if (( typeof(shape) != "charcter") && (length(shape) != 1)) {
       stop("an inappropiate shape has been chosen")
     } else { shapes = shape}
-
+## iterate  for each neuron and print 3 co-centered circle for aesthetic aspect.
     for ( i  in 1:dim(som_obj$grid$pts)[1]) {
       points( som_obj$grid$pts[ i , 1 ] ,
               som_obj$grid$pts[ i , 2 ] ,
@@ -79,40 +77,44 @@
 #' @param path the path of neuron want to show on the plot
 #' @param line_thickness the thickness of connecting lines same as \code{lwd} argument in \code{lines}
 #' @param point_size the size of points same as  arguments \code{cex} argument in \code{points}
+#' @param point_col color of center of points
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' library(kohonen)
-#' data(wines)
-#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
-#' plot_clustered_map (som_wines,
-#'  cluster_method = "hier",
-#'  clustering_parameter = c( 5 , "ward.D"  ),
-#'  shape = "straight" )
-#' add_evolution_trace(som_wines , path)
-"add_evolution_trace" <- function(som_obj , path , line_thickness = 3 , point_size = 2) {
+#' path <- c( 16 , 4 , 6, 29, 36 , 1)
+#' som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
+#' som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
+#' plot_clustered_map (som_trj,
+#' cluster = som_hc,
+#' shape = "straight" )
+#' add_evolution_trace(som_trj , path)
+"add_evolution_trace" <- function(som_obj , path , point_col = "red" ,  line_thickness = 3 , point_size = 2) {
 
   if ( class(som_obj) != "kohonen") {
     stop("no kohonen object was given")
   }
-
+  ## define empty variables
   X <- NULL
   Y <- NULL
   length_path <- length(path)
+  ## iterate for number of point minus one
   for (i in 1:(length(path) - 1)){
-
+    ## temperory save coordinate of neurons to draw a line between them.
     tempX <- c(som_obj$grid$pts[ path[i] , 1 ] , som_obj$grid$pts[ path[ i + 1 ] , 1 ])
     tempY <- c(som_obj$grid$pts[ path[i] , 2 ] , som_obj$grid$pts[ path[ i + 1 ] , 2 ])
     lines(tempX , tempY, lwd = line_thickness)
+    ## concatenate coordinates for draw points in next step
     X <- c( X , som_obj$grid$pts[ path[i] , 1 ])
     Y <- c( Y , som_obj$grid$pts[ path[i] , 2 ])
   }
+  ## add last point coordinates
   X <- c( X , som_obj$grid$pts[ path[ i + 1 ] , 1 ] )
   Y <- c( Y , som_obj$grid$pts[ path[ i + 1 ] , 2 ] )
+  ## print two  co-centered and filled circle for each stored coordinate
   points(X,Y, pch=16, cex=point_size)
-  points(X,Y, pch=16, col=COL(length(X)), cex = point_size - 0.7)
+  points(X,Y, pch=16, col= point_col, cex = point_size - 0.7)
 
 
 
@@ -139,14 +141,25 @@
 #' @export
 #'
 #' @examples
-#' library(kohonen)
-#' data(wines)
-#' som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
-#' plot_clustered_map (som_wines,
-#'  cluster_method = "hier",
-#'  clustering_parameter = c( 5 , "ward.D"  ),
-#'  shape = "straight" )
-#'  highlight_cluster(som.wines)
+#'  load("data/pdb_and_tarj_object.RData")
+#' set.seed(100)
+#' som_trj <- SOMMD::som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
+#' dummy_property_nuerons <-  rnorm(36 , mean = 8 , sd  = 4)
+#' som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
+#'
+#'
+#' plot_property(som_trj , property = dummy_property_nuerons ,shape = "straight",
+#'               palette_name =  colorRampPalette(c("blue", "white", "red")))
+#' highlight_a_cluster(som_trj,
+#'                     som_hc ,
+#'                     cluster_number = 3,
+#'                     label = "cluster 3" ,
+#'                     property_value = "66",
+#'                     property_color = NULL,
+#'                     label_color = "darkgreen",
+#'                     col = "green",
+#'                     lwd = 2,
+#'                     cex = 2)
 "highlight_a_cluster" <-  function(som_obj ,
                                    clusters ,
                                    cluster_number ,

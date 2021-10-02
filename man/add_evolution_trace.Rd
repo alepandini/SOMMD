@@ -4,12 +4,20 @@
 \alias{add_evolution_trace}
 \title{add_evolution_trace}
 \usage{
-add_evolution_trace(som_obj, path, line_thickness = 3, point_size = 2)
+add_evolution_trace(
+  som_obj,
+  path,
+  point_col = "red",
+  line_thickness = 3,
+  point_size = 2
+)
 }
 \arguments{
 \item{som_obj}{should be a \code{kohonen} object}
 
 \item{path}{the path of neuron want to show on the plot}
+
+\item{point_col}{color of center of points}
 
 \item{line_thickness}{the thickness of connecting lines same as \code{lwd} argument in \code{lines}}
 
@@ -22,14 +30,13 @@ add_evolution_trace(som_obj, path, line_thickness = 3, point_size = 2)
 add_evolution_trace
 }
 \examples{
-library(kohonen)
-data(wines)
-som_wines <- som(scale(wines), grid = somgrid( 6 , 6, "hexagonal"))
-plot_clustered_map (som_wines,
- cluster_method = "hier",
- clustering_parameter = c( 5 , "ward.D"  ),
- shape = "straight" )
-add_evolution_trace(som_wines , path)
+path <- c( 16 , 4 , 6, 29, 36 , 1)
+som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
+som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
+plot_clustered_map (som_trj,
+cluster = som_hc,
+shape = "straight" )
+add_evolution_trace(som_trj , path)
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}
