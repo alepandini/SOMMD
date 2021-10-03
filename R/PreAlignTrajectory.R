@@ -1,4 +1,4 @@
-#' Pre Align the Trajectory
+#' ReQ 3: Pre Align the Trajectory with pdbaln
 #'
 #'@description
 #'This is a wrap around \link[bio3d]{pdbaln}
