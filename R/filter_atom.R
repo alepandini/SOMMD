@@ -45,14 +45,15 @@
     atom3[i] <-  pdb_file$atom$elety[ceiling(i/3)]
   }
   ## filter coordinates of atoms needed
-  chosen_atoms <- ifelse(atom3 == "CA", T, F)
+  chosen_atoms <- ifelse(atom3 == atom, T, F)
   coordinate_of_chosen_atoms <-  pdb_file$xyz[,chosen_atoms]
   ## tailoring the output as requested
   ## if output needs to be  pdb file but only contain information about the chosen atoms
   if ( output_type == "pdb") {
     mini_pdb <- pdb_file
-    mini_pdb$atom <- pdb_file$atom[pdb_file$atom$elety == "CA" , ]
-    mini_pdb$calpha <- pdb_file$calpha[ pdb_file$atom$elety == "CA"]
+    mini_pdb$xyz <- coordinate_of_chosen_atoms
+    mini_pdb$atom <- pdb_file$atom[pdb_file$atom$elety == atom , ]
+    mini_pdb$calpha <- pdb_file$calpha[ pdb_file$atom$elety == atom ]
     return(mini_pdb)
     ## if the output needs to be just the coordinate of chosen atoms
   }else if(output_type == "xyz") {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PreAlignTrajectory.R
 \name{Pre_algn_pdbaln}
 \alias{Pre_algn_pdbaln}
-\title{Pre Align the Trajectory}
+\title{ReQ 3: Pre Align the Trajectory with pdbaln}
 \usage{
 Pre_algn_pdbaln(
   files,

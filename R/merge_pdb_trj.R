@@ -22,9 +22,9 @@
 #' @examples :
 Merge_pdb_trj <- function(pdb_file, trj_file){
 
-  if(dim(pdb_file$xyz)[2]==dim(trj_file$xyz)){
+  if(dim(pdb_file$xyz)[2]==dim(trj_file)[2]){
 
-output_merge <- rbind(pdb_file$xyz , trj_file$xyz)
+output_merge <- rbind(pdb_file$xyz , trj_file)
 pdb <- pdb_file
 
 pdb$xyz <- output_merge

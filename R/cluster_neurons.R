@@ -25,7 +25,7 @@ cluster_neuron <- function(som_obj,
                            min_cluster = 6,
                            max_cluster = 15 ,
                            kohonen_object = NULL) {
-
+  library(crayon)
   Color_palette <- c("#bf45e9", "#92ec67" ,"#4e77e9","#a65e1c" ,"#459f64", "#c73038", "#908fc9", "#ec66a6")
   maroon <- crayon::make_style("maroon")
 

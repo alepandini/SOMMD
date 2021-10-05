@@ -182,14 +182,14 @@
   } else if (  !(cluster_number %in% unique(clusters))){
     stop(gettextf(" there is no cluster with number '%d' in clusters vector", cluster_number))
   }
-  if (typeof(label) != "character" ) {
-    stop("anotation should be a charcter string")
+  if (typeof(label) != "character" && !(is.null(label)) ) {
+    stop("label should be a charcter string")
   }
   ## generate a binary clustering vector
   binary_clustering <- ifelse(clusters == cluster_number , TRUE , FALSE)
 
 
-  add.cluster.boundaries(som_trj, binary_clustering, lwd = lwd , col = col)
+  add.cluster.boundaries(som_obj, binary_clustering, lwd = lwd , col = col)
 
   if(!(is.null(label)) || !(is.null(property_value))) {
 
