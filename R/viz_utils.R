@@ -216,9 +216,9 @@
       ## find center one neurons
       neuron_center <- cluster_grid_pts [ diff_from_centre == max(diff_from_centre), ]
       ## check if more than on filtered use one of  them
-      if(dim(neuron_center)[1] != 1 ) {
-        neuron_center <- neuron_center[1,]
-      }
+      # if(dim(neuron_center)[1] != 1 ) {
+      #   neuron_center <- neuron_center[1]
+      # }
       ## print the property value
       text(x = neuron_center[1] , y = neuron_center[2], labels = property_value, col = property_color , ...)
     }

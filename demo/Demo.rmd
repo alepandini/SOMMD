@@ -147,7 +147,7 @@ add_neuron_population(som_pre_trj ,text = TRUE ,shape = "round")
 
 ```
 
-plot an external property of trajectories 
+plot an external property of trajectories **REQ-12**
 
 
 ```{r}
@@ -179,8 +179,8 @@ dummy_property_nuerons <-  rnorm(64 , mean = 8 , sd  = 4)
                      property_value = "66",
                      property_color = NULL,
                      label_color = "darkgreen",
-                     col = "green",
-                     lwd = 2,
+                     col = "yellow",
+                     lwd = 5,
                      cex = 1.2)
 
 ```
