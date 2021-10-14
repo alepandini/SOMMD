@@ -87,7 +87,7 @@ distance matrix **REQ-4**
 
 ```{r}
 
-dm_pdb <- dist_mat_frame(filtered_pdb2)
+dm_pdb <- rdm(filtered_pdb2)
 
 ```
 

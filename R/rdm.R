@@ -25,16 +25,19 @@
   ref$xyz <- pdb$xyz[1, ]
   ref_dm <- bio3d::dm(ref, inds = inds, grp = grp, verbose=verbose, ...)
   binary_dm <-  ref_dm < cut.off
-  size <- sum(binary_dm , na.rm = TRUE) * (dim(pdb$xyz)[1])
-  output_matrix <-  matrix(rep(0, size),
-                           ncol = sum(binary_dm, na.rm = TRUE),
-                           nrow = dim(pdb$xyz)[1])
-  output_matrix[1, ]<- tidyr::drop_na (dplyr::tibble(ref_dm[binary_dm]))
+  # size <- sum(binary_dm , na.rm = TRUE) * (dim(pdb$xyz)[1])
+  # output_matrix <-  matrix(rep(0, size),
+  #                          ncol = sum(binary_dm, na.rm = TRUE),
+  #                          nrow = dim(pdb$xyz)[1])
+
+  output_matrix [[1]] <-as.vector(as.matrix((tidyr::drop_na (dplyr::as_tibble(ref_dm[binary_dm])))),
+                                  mode = "double")
   ##if (dim(pdb$xyz)[1] > 1){
      for ( i in 2:dim(pdb$xyz)[1] ) {
        ref$xyz <- pdb$xyz[i, ]
        ref_dm <-  bio3d::dm(ref)
-       output_matrix[[i]] <- tidyr::drop_na (dplyr::as_tibble(ref_dm[binary_dm]))
+       output_matrix[[i]] <- as.vector(as.matrix((tidyr::drop_na (dplyr::as_tibble(ref_dm[binary_dm])))),
+                                       mode = "double")
 
     ## }
     }
