@@ -26,3 +26,6 @@ rdm(pdb, cut.off = 10, inds = NULL, grp = TRUE, verbose = TRUE, ...)
 this function only used calculated distance of between atoms which are
 closer than cut.off radius to each other in reference frame
 }
+\author{
+Hamid davoudkhani \email{h.davoudkhani@gmail.com}
+}

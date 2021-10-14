@@ -16,7 +16,7 @@
 #' @return
 #' @export
 #'
-#'
+#' @author Hamid davoudkhani \email{h.davoudkhani@@gmail.com}
 #'
 #'
 "rdm" <- function(pdb, cut.off = 10,  inds = NULL, grp = TRUE, verbose=TRUE, ...)
@@ -29,7 +29,7 @@
   # output_matrix <-  matrix(rep(0, size),
   #                          ncol = sum(binary_dm, na.rm = TRUE),
   #                          nrow = dim(pdb$xyz)[1])
-
+  output_matrix <- list()
   output_matrix [[1]] <-as.vector(as.matrix((tidyr::drop_na (dplyr::as_tibble(ref_dm[binary_dm])))),
                                   mode = "double")
   ##if (dim(pdb$xyz)[1] > 1){
