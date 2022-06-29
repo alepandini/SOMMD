@@ -18,7 +18,7 @@ native_contacts <- function(coord, distance, LIG=FALSE, atoms=NULL){
     #If the coord are a pdb file, convert it to a xyz matrix
     if(is.pdb(coord)){
         #get the coordinate from pdb and convert them from Angstrom to nm
-        coord <- t(matrix(pdb$xyz, nrow=3))/10
+        coord <- t(matrix(coord$xyz, nrow=3))/10
     }
     #If a trajectory is given as input, automatically use the first frame of the trj
     if(length(dim(coord)) > 2){
