@@ -1,4 +1,7 @@
 #' Function to read a set of xtc file, and concatenate them.
+
+### WARNING!!! Requires the library abind!!! ###
+
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
 #' @param FILES the xtc files to be read
@@ -9,6 +12,7 @@
 #' @examples
 #' TODO Not added yet
 
+require(abind)
 read_replicas <- function(FILES){
     coords <- NULL
     #A counter for the number of frames
