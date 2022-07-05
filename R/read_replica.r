@@ -1,6 +1,6 @@
 #' Function to read a set of xtc file, and concatenate them.
 
-### WARNING!!! Requires the library abind!!! ###
+### WARNING!!! Requires the library abind! ###
 
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
