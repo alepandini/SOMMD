@@ -31,7 +31,8 @@ RoxygenNote: 7.1.2
 Imports: 
     bio3d,
     kohonen,
-    crayon
+    crayon,
+    abind
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
