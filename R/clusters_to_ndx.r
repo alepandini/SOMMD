@@ -33,13 +33,14 @@ clusters_to_ndx <- function(SOM, filename, SOM.hc, cluster="all", append=FALSE){
         cluster <- sort(unique(SOM.hc))
     }
     for(i in cluster){
-        NEUR <- which(SOM.hc==1)
+        NEUR <- which(SOM.hc==i)
         SEQ <- NULL
-        for(i in NEUR){
-            SEQ <- c(SEQ, which(SOM$unit.classif==i))
+        for(j in NEUR){
+            SEQ <- c(SEQ, which(SOM$unit.classif==j))
         }
         if(length(SEQ>0)){
-            frames_to_ndx(filename=filename, group=paste("Neuron_", i, sep=''), frames=SEQ, append=TRUE)
+            SEQ <- sort(SEQ)
+            frames_to_ndx(filename=filename, group=paste("Cluster_", i, sep=''), frames=SEQ, append=TRUE)
         }
     }
 }
