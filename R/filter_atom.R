@@ -12,14 +12,7 @@
 #' @export
 #'
 #' @examples
-#' pdb1 <- read_pdb("../SOMMD/data/ref_1782.pdb")
-#' trj1 <- read_ncdf("../SOMMD/data/TEST_001.nc")
-#' merged_pdb <-  merge_pdb_trj(pdb1 , trj1)
-#' ## pdb outputs
-#' cb_pdb <-  filter_atoms(merged_pdb , atom = "CB", output_type = "pdb")
-#'
-#' ## coordinates output
-#' cb_coordinates <-  filter_atoms(merged_pdb , atom = "CB", output_type = "xyz")
+
 "filter_atoms" <- function(pdb_file , atom = "CA", output_type = "pdb") {
 
   ## Check the input files

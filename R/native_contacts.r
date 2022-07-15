@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' TODO Not added yet
+
 
 
 

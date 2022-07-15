@@ -15,19 +15,12 @@ read_dcd(trjfile, big = FALSE, verbose = TRUE, cell = FALSE)
 
 \item{cell}{logical, if TRUE return cell information only. Otherwise, return coordinates.}
 }
-\value{
-
-}
 \description{
 This is a wrap around \link[bio3d]{read.dcd} to standardized functions format
 commonly used within this package and ease access to  function reading dcd
 formatted file.
 
 the definition of argument duplicated from \link[bio3d]{read.dcd}:
-}
-\examples{
-(traj <- read_dcd("./data/REP_001.dcd"))
-
 }
 \references{
 \url{https://www.debian.org/doc/debian-policy/ch-controlfields.html}.

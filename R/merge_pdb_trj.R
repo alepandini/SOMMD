@@ -20,6 +20,7 @@
 #' @export
 #'
 #' @examples :
+
 Merge_pdb_trj <- function(pdb_file, trj_file){
 
   if(dim(pdb_file$xyz)[2]==dim(trj_file)[2]){

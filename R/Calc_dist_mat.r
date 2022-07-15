@@ -6,8 +6,6 @@
 #' @return MAT
 #' @export
 #'
-#' @examples
-#' TODO Not added yet
 
 #Function to compute distance matrix given a set of coordinate (matrix)
 Calc_Dist_Mat <- function(coord){

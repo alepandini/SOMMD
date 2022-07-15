@@ -23,20 +23,8 @@ add_evolution_trace(
 
 \item{point_size}{the size of points same as  arguments \code{cex} argument in \code{points}}
 }
-\value{
-
-}
 \description{
 add_evolution_trace
-}
-\examples{
-path <- c( 16 , 4 , 6, 29, 36 , 1)
-som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
-som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
-plot_clustered_map (som_trj,
-cluster = som_hc,
-shape = "straight" )
-add_evolution_trace(som_trj , path)
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}

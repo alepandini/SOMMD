@@ -10,7 +10,6 @@
 #' @export
 #'
 #' @examples
-#' TODO Not added yet
 
 
 frames_to_ndx <- function(filename, group, frames, append=FALSE){

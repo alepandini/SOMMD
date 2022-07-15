@@ -23,9 +23,6 @@ dist_mat_frame(pdb, inds = NULL, grp = TRUE, verbose = TRUE, ...)
 
 \item{...}{:arguments passed to and from functions.}
 }
-\value{
-
-}
 \description{
 Title :Calculating the distances between pairs of chosen set  atoms for each frame
 '@description
@@ -34,11 +31,6 @@ Construct a distance matrix for a given protein structure.Returns a numeric matr
 with all N by N distances, where N is the number of
 selected atoms. With multiple frames the output is provided in a three dimensional array.
 the definition of argument duplicated from \link[bio3d]{dm}:
-}
-\examples{
-pdb <- read.pdb( "4q21" )
-k <- dm(pdb,inds="calpha")
-
 }
 \references{
 : https://cran.r-project.org/web/packages/bio3d/bio3d.pdf

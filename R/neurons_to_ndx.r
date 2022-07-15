@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' TODO Not added yet
+#' #TODO Not added yet
 
 neurons_to_ndx <- function(SOM, filename, neuron="all", append=FALSE){
     #check whether SOM is a kohonen object

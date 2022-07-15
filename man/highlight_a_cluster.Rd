@@ -38,14 +38,11 @@ highlight_a_cluster(
 
 \item{...}{}
 }
-\value{
-
-}
 \description{
 Highlight a clusters and add note at center of cluster and a property value in a different center of clusters
 }
 \examples{
- load("data/pdb_and_tarj_object.RData")
+load(system.file("data/pdb_and_trj_object.data", package="SOMMD"))
 set.seed(100)
 som_trj <- SOMMD::som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
 dummy_property_nuerons <-  rnorm(36 , mean = 8 , sd  = 4)

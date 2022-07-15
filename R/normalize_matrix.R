@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-#' not provided here yet
+
 scaler <- function(mat, method, by = "feature") {
 
   output <- switch (by,

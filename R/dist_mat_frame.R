@@ -30,8 +30,6 @@
 #' @seealso \code{\link[SOMMD]{dm}
 #'
 #' @examples
-#' pdb <- read.pdb( "4q21" )
-#' k <- dm(pdb,inds="calpha")
 
 #'
 dist_mat_frame <- function(pdb, inds = NULL, grp = TRUE, verbose=TRUE, ...)

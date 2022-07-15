@@ -25,9 +25,6 @@ a normalized matrices with values between 0 and 1
 \description{
 Scaling the Distance or similar matrices by standardization or normalization
 }
-\examples{
-not provided here yet
-}
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}
 }

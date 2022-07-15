@@ -103,11 +103,6 @@ NetCDF provides for file portability across architectures, allows for backwards 
 \url{https://cirrus.ucsd.edu/~pierce/ncdf/ }
 \url{https://ambermd.org/FileFormats.php#netcdf}
 }
-\examples{
-not yet provided
-
-
-}
 \seealso{
 \code{\link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 }

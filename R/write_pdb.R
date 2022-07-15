@@ -61,7 +61,6 @@
 #'
 #' @seealso \code{\link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 #' @examples
-#' not yet provided
 #'
 #'
 write_pdb <- function(pdb = NULL, file = "R.pdb", xyz = pdb$xyz, type = NULL, resno = NULL,

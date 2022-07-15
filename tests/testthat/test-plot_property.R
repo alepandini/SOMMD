@@ -1,6 +1,6 @@
 test_that("plot som map which hue according to a given property", {
 
-  load("data/pdb_and_tarj_object.RData")
+  load(system.file("data/pdb_and_trj_object.data", package = "SOMMD")) 
 
   som_trj <- SOMMD::som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
   dummy_property_nuerons <-  rnorm(36 , mean = 8 , sd  = 4)

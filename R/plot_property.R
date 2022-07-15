@@ -18,16 +18,6 @@
 #' @seealso \link{plot_clustered_map} ,  \link{\code{add_evolution_trace}} , \link{\code{add_neuron_population}}
 #'
 #' @examples
-#'  load("data/pdb_and_tarj_object.RData")
-#'  som_trj <- SOMMD::som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
-#'  ##  property vector for each neurons
-#'  dummy_property_neurons <-  rnorm(36 , mean = 8 , sd  = 4)
-#'  plot_property(som_trj , property = dummy_property_nuerons )
-#'
-#'  ##  property vector for each instance
-#'  dummy_property_observation <-  rnorm(102 , mean = 8 , sd  = 4)
-#'  plot_property(som_trj , property = dummy_property_observation, FUN = median ,shape = "straight",
-#'  palette_name =  colorRampPalette(c("blue", "white", "red")))
 
 "plot_property" <- function(som_obj ,
                             property ,

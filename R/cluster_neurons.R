@@ -17,10 +17,7 @@
 #' @export
 #'
 #' @examples
-#' library(kohonen)
-#' data("wines")
-#' som_wines <- som(scale(wines), grid = somgrid(5, 5, "hexagonal"))
-#' (clusters_result <- cluster_neuron(som_wines, 3 , 7)
+
 cluster_neuron <- function(som_obj,
                            min_cluster = 6,
                            max_cluster = 15 ,
@@ -108,7 +105,7 @@ cluster_neuron <- function(som_obj,
            bgcol = Color_palette[as.vector(cluster_numbers)],
            col = rgb(0,0,0,0),
            shape ='straight')
-      add.cluster.boundaries(kohonen_object, cluster_numbers, lwd = 6)
+      kohonen::add.cluster.boundaries(kohonen_object, cluster_numbers, lwd = 6)
     }
       plot(silhoutte_obj)
       par(mfrow = c(1,1 ))
@@ -118,7 +115,7 @@ cluster_neuron <- function(som_obj,
     ## number of different clustering should be checked
     number_of_test <- (max_cluster - min_cluster + 1)
     ## the result test will print at the end
-    comparison_table <- tibble( "Number of clusters" = c(min_cluster:max_cluster),
+    comparison_table <- tibble::tibble( "Number of clusters" = c(min_cluster:max_cluster),
                                 "silhouette score \n average"= rep(0, number_of_test ) )
     # setting for generating multiple plots in one page
     opar <- par()
@@ -158,7 +155,7 @@ cluster_neuron <- function(som_obj,
              bgcol = Color_palette[as.vector(cluster_numbers)],
              col = rgb(0,0,0,0),
              shape ='straight')
-        add.cluster.boundaries(kohonen_object, cluster_numbers, lwd = 6)
+        kohonen::add.cluster.boundaries(kohonen_object, cluster_numbers, lwd = 6)
 
       }
       ## plot silhouette widths for each clusters

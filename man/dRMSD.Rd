@@ -13,14 +13,8 @@ dRMSD(VEC1, VEC2, N_atm)
 
 \item{N_atm}{the number of atom}
 }
-\value{
-
-}
 \description{
 distance root-mean-square deviation
-}
-\examples{
-not defined yet
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}

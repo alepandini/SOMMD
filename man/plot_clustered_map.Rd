@@ -28,15 +28,8 @@ and second method of clustering in \code{hier} or algorithm in \verb{kmeans meth
 
 \item{shape}{shape of neurons , \code{straight} plots neurons as hexagons  and \code{round} as cricles}
 }
-\value{
-
-}
 \description{
 Plot clusterd SOM map
-}
-\examples{
-
-
 }
 \author{
 Hamid Davoukhani \email{h.davoudkhani@gmail.com}

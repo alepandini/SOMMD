@@ -32,9 +32,6 @@ read_pdb(
 
 \item{verbose}{print details of the reading process.}
 }
-\value{
-
-}
 \description{
 This is a wrap around \link[bio3d]{read.pdb} to standardized functions format
 commonly used within this package and ease access to  function reading pdb

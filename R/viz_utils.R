@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' load("data/pdb_and_tarj_object.RData")
+#' load(system.file("data/pdb_and_trj_object.data", package="SOMMD"))
 #'
 #' ## neuron population
 #'
@@ -83,13 +83,7 @@
 #' @export
 #'
 #' @examples
-#' path <- c( 16 , 4 , 6, 29, 36 , 1)
-#' som_trj <- som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
-#' som_hc <- cutree(hclust(dist(som_trj$codes[[1]] ), method = "ward.D") , 5)
-#' plot_clustered_map (som_trj,
-#' cluster = som_hc,
-#' shape = "straight" )
-#' add_evolution_trace(som_trj , path)
+
 "add_evolution_trace" <- function(som_obj , path , point_col = "red" ,  line_thickness = 3 , point_size = 2) {
 
   if ( class(som_obj) != "kohonen") {
@@ -141,7 +135,7 @@
 #' @export
 #'
 #' @examples
-#'  load("data/pdb_and_tarj_object.RData")
+#' load(system.file("data/pdb_and_trj_object.data", package="SOMMD"))
 #' set.seed(100)
 #' som_trj <- SOMMD::som(trj1 , grid =  somgrid( 6 , 6, "hexagonal"))
 #' dummy_property_nuerons <-  rnorm(36 , mean = 8 , sd  = 4)
@@ -189,7 +183,7 @@
   binary_clustering <- ifelse(clusters == cluster_number , TRUE , FALSE)
 
 
-  add.cluster.boundaries(som_obj, binary_clustering, lwd = lwd , col = col)
+  kohonen::add.cluster.boundaries(som_obj, binary_clustering, lwd = lwd , col = col)
 
   if(!(is.null(label)) || !(is.null(property_value))) {
 

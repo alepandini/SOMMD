@@ -27,9 +27,6 @@ the information in the grid object will be used.}
 
 \item{grid}{an object of class \code{somgrid}.}
 }
-\value{
-
-}
 \description{
 wrapping the \code{\link[kohonen]{somgrid}}function to avoid any errors
 }

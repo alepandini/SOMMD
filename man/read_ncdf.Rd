@@ -35,18 +35,12 @@ read_ncdf(
 
 \item{at.sel}{an object of class ‘select’ indicating a subset of atomic coordinates to be read.}
 }
-\value{
-
-}
 \description{
 This is a wrap around \link[bio3d]{read.ncdf} to standardized functions format
 commonly used within this package and ease access to  function reading netCDF
 formatted file.
 
 the definition of argument duplicated from \link[bio3d]{read.ncdf}:
-}
-\examples{
-nctrj <- read_ncdf("./data/TEST_001.nc")
 }
 \references{
 Grant, B.J. et al. (2006) Bioinformatics 22, 2695–2696.

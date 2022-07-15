@@ -36,7 +36,7 @@
 #' @seealso \code{\link[SOMMD]{pdbaln}}
 #'
 #' @examples
-#' files <- get.pdb(c("4q21","5p21"), URLonly=TRUE)
+#' files <- bio3d::get.pdb(c("4q21","5p21"), URLonly=TRUE)
 #'
 #'
 #'

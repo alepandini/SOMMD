@@ -50,9 +50,6 @@ be based.}
 
 \item{...other}{parameters for read.pdb.}
 }
-\value{
-
-}
 \description{
 Coordinate superposition with the Kabsch algorithm.
 The function fit.xyz is a wrapper for the function rot.lsq, which performs the actual coordinate

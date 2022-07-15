@@ -9,9 +9,6 @@
 #' @return D the set of distances used to train the SOM is computed for all the frames.
 #' @export
 #'
-#' @examples
-#' TODO Not added yet
-
 
 calc_distances <- function(trj, stride=1, MOL2=FALSE, sele=FALSE, atoms=NULL){
     N_atm <- nrow(trj)

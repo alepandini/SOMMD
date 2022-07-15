@@ -1,5 +1,5 @@
 test_that("visualization utilities in viz_util", {
-  load("data/pdb_and_tarj_object.RData")
+  load(system.file("data/pdb_and_trj_object.data", package = "SOMMD")) 
 
   ## neuron population
 

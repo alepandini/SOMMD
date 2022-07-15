@@ -13,14 +13,11 @@ add_neuron_population(som_obj, text = FALSE, shape = c("hex", "round"))
 
 \item{shape}{a chosen shape size of which show the popluation of each neurons}
 }
-\value{
-
-}
 \description{
 add populaiton of each neuron to the som plots
 }
 \examples{
-load("data/pdb_and_tarj_object.RData")
+load(system.file("data/pdb_and_trj_object.data", package="SOMMD"))
 
 ## neuron population
 

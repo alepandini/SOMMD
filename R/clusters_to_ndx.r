@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' TODO Not added yet
+#' #TODO Not added yet
 
 clusters_to_ndx <- function(SOM, filename, SOM.hc, cluster="all", append=FALSE){
     #check whether SOM is a kohonen object

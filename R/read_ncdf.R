@@ -30,7 +30,8 @@
 #' @seealso \code{\link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 #'
 #' @examples
-#' nctrj <- read_ncdf("./data/TEST_001.nc")
+
+
 read_ncdf <- function(trjfile,
                       headonly = FALSE,
                       verbose = TRUE,

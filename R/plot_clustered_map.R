@@ -91,7 +91,7 @@
        bgcol = bgcols[as.vector(cluster)],
        col = rgb(0,0,0,0),
        shape =shape)
-  add.cluster.boundaries(som_obj, cluster, lwd = 6)
+  kohonen::add.cluster.boundaries(som_obj, cluster, lwd = 6)
 }
 
 

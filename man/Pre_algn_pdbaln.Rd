@@ -29,9 +29,6 @@ Pre_algn_pdbaln(
 
 \item{......}{extra arguments passed to seqaln function.}
 }
-\value{
-
-}
 \description{
 This is a wrap around \link[bio3d]{pdbaln}
 This Creates multiple sequences alignments from a list of PDB files returning aligned sequence and structure records
@@ -43,7 +40,7 @@ the definition of argument duplicated from \link[bio3d]{pdbaln}:
 @author Shaziya Ismail Mulla\email{shaziyaismail.m@gmail.com}
 }
 \examples{
-files <- get.pdb(c("4q21","5p21"), URLonly=TRUE)
+files <- bio3d::get.pdb(c("4q21","5p21"), URLonly=TRUE)
 
 
 

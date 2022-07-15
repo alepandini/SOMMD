@@ -9,9 +9,6 @@ Filter(cm, cutoff.sims = NULL)
 \arguments{
 \item{cutoff.sims}{}
 }
-\value{
-
-}
 \description{
 Title
 }

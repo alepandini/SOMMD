@@ -28,7 +28,6 @@
 #' @seealso \code{\link[SOMMD]{read_ncdf}, \link[SOMMD]{write_dcd},
 #' \link[SOMMD]{read_pdb}, \link[SOMMD]{write_ncdf}}
 #' @examples
-#' (traj <- read_dcd("./data/REP_001.dcd"))
 #'
 read_dcd <- function(trjfile,
                      big=FALSE,

@@ -29,12 +29,6 @@ a list consist of all clusters content such as neuron clusters number, silhouett
 evaluate the number of  different clusters with indexes such as silhouette,
 it also plot for each clusters
 }
-\examples{
-library(kohonen)
-data("wines")
-som_wines <- som(scale(wines), grid = somgrid(5, 5, "hexagonal"))
-(clusters_result <- cluster_neuron(som_wines, 3 , 7)
-}
 \author{
 Hamid davoudkhani \email{h.davoudkhani@gmail.com}
 }
