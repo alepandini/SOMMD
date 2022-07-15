@@ -23,7 +23,7 @@ read.gro <- function(file){
         atoms <- t(sapply(LINES[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37), c(5, 10, 15, 20, 28, 36, 44), USE.NAMES=FALSE))
         atoms <- cbind(atoms, matrix(NA, ncol=3, nrow=Natm))
     } else{
-        atoms <- t(lapply(LINES[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37, 45, 53, 61), c(5, 10, 15, 20, 28, 36, 44, 52, 60, 68), USE.NAMES=FALSE))
+        atoms <- t(sapply(LINES[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37, 45, 53, 61), c(5, 10, 15, 20, 28, 36, 44, 52, 60, 68), USE.NAMES=FALSE))
     }
     atoms <- as.data.frame(atoms)
     #
@@ -31,6 +31,7 @@ read.gro <- function(file){
     atoms[,c(2,3)] <- lapply(atoms[,c(2,3)], function(x) as.character(x))
     atoms[,c(1,4,5,6,7,8,9,10)] <- lapply(atoms[,c(1,4,5,6,7,8,9,10)], function(x) round(x, digits=3))
     colnames(atoms) <- c("resno", "resid", "elety", "eleno", "x", "y", "z", "Vx", "Vy", "Vz")
+    gro <- NULL
     gro$atom <- atoms
     gro$xyz  <- matrix(rbind(atoms$x, atoms$y, atoms$z), nrow=1)
     gro$box  <- BOX
