@@ -2,7 +2,7 @@
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
 #' @param trj contains the trajectory coordinates (array with three dimensions obtained by rioxdr)
-#' @param skip can skip frames (used to stride the trajectory)
+#' @param stride can stride frames (used to stride the trajectory)
 #' @param MOL2 contains the atom indexes of the second molecule in case only intermolecular distances should be computed
 #' @param sele contains the selection of distances coming from the native_contacts function
 #'
@@ -13,14 +13,14 @@
 #' TODO Not added yet
 
 
-calc_distances <- function(trj, skip=1, MOL2=FALSE, sele=FALSE, atoms=NULL){
+calc_distances <- function(trj, stride=1, MOL2=FALSE, sele=FALSE, atoms=NULL){
     N_atm <- nrow(trj)
     #If no atom selection is given, atoms will be a vector containing all the atoms
     if(is.null(atoms)){
         atoms <- c(1:N_atm)
     }
     #Compute distance matrix for all the frames
-    D <- apply(trj[atoms,,seq(1, dim(trj)[3], by=skip)], 3, Calc_Dist_Mat)
+    D <- apply(trj[atoms,,seq(1, dim(trj)[3], by=stride)], 3, Calc_Dist_Mat)
     if(is.logical(MOL2) == FALSE){
         #Check that the second molecule number are in the range 1:Natm
         if(length(which(MOL2 %in% c(1:N_atm) == FALSE)) > 0){
@@ -37,10 +37,10 @@ calc_distances <- function(trj, skip=1, MOL2=FALSE, sele=FALSE, atoms=NULL){
         D <- array(D, dim=c(dim(D)[1]*dim(D)[2], dim(D)[3]))
     }
     if(is.logical(sele) == FALSE){
-        return(D[sele,])
+        return(t(D[sele,]))
     } else{
         if(sele==FALSE){
-            return(D)
+            return(t(D))
         }
         if(sele==TRUE){
             print("sele should be a selection of distances obtained from native_contacts")
