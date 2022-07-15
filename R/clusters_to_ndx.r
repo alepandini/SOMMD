@@ -13,7 +13,7 @@
 #' @examples
 #' TODO Not added yet
 
-neurons_to_ndx <- function(SOM, filename, SOM.hc, cluster="all", append=FALSE){
+clusters_to_ndx <- function(SOM, filename, SOM.hc, cluster="all", append=FALSE){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")
