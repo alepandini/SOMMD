@@ -1,0 +1,3 @@
+SUBDIR_SOURCES=$(wildcard xdrfile/*.c)
+SOURCES=$(wildcard *.c) $(SUBDIR_SOURCES)
+OBJECTS=$(SOURCES:.c=.o) 
