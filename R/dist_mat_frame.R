@@ -1,3 +1,4 @@
+#' @author Shaziya Ismail Mulla\email{shaziyaismail.m@@gmail.com}
 #' Title :Calculating the distances between pairs of chosen set  atoms for each frame
 #' '@description
 #' This is a wrap around \link[bio3d]{dm}
@@ -7,7 +8,6 @@
 #' the definition of argument duplicated from \link[bio3d]{dm}:
 #'
 #'
-#' @author Shaziya Ismail Mulla\email{shaziyaismail.m@@gmail.com}
 #'
 #'
 #'

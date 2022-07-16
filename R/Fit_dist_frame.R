@@ -39,7 +39,7 @@
 #'              https://rdrr.io/cran/bio3d/man/pdbaln.html
 #'              https://search.r-project.org/CRAN/refmans/bio3d/html/pdbaln.html
 #'
-#' @seealso \code{\link[SOMMD]{fit.xyz}}}
+#' @seealso \code{\link[SOMMD]{fit.xyz}}
 #'
 #' @return
 #' @export

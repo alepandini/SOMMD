@@ -64,7 +64,7 @@ https://rdrr.io/cran/bio3d/man/pdbaln.html
 https://search.r-project.org/CRAN/refmans/bio3d/html/pdbaln.html
 }
 \seealso{
-\code{\link[SOMMD]{fit.xyz}}}
+\code{\link[SOMMD]{fit.xyz}}
 }
 \author{
 shaziya Ismail Mulla \email{shaziyaismail.m@gmail.com}
