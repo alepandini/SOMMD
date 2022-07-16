@@ -8,7 +8,7 @@
 int file_exists(const char * filename){
 
   /* create file handle */
-  FILE *file;
+  FILE *file = NULL;
 
   if (file == fopen(filename, "r")){
     fclose(file);
@@ -40,7 +40,6 @@ SEXP rio_read_xtc_natoms_(SEXP xtc_filename_)
 
   /* number of atom and status variables */
   int natms;
-  int status;
 
   /* duplicate string to non-const */
   int xtc_filename_length;
@@ -52,7 +51,7 @@ SEXP rio_read_xtc_natoms_(SEXP xtc_filename_)
   strcpy(xtc_filename_input, xtc_filename);
 
   /* read number of atoms from xtc file */
-  status = read_xtc_natoms(xtc_filename_input, &natms);
+  read_xtc_natoms(xtc_filename_input, &natms);
 
   /* return number of atom as R integer */
   return ScalarInteger(natms);
@@ -61,9 +60,6 @@ SEXP rio_read_xtc_natoms_(SEXP xtc_filename_)
 
 SEXP rio_read_xtc_nframes_(SEXP xtc_filename_)
 {
-
-  /* counter variables */
-  int i;
 
   /* number of atom and status variables */
   int natms;
@@ -125,7 +121,7 @@ SEXP rio_read_xtc_(SEXP xtc_filename_)
 {
 
   /* counter variables */
-  int i, j, k;
+  int i, j;
 
   /* step, time, precision variables */
   int step;
