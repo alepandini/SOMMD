@@ -1,7 +1,7 @@
 #' @export
 read.trj <- function(trjfile, topfile){
   trjfileExtension <- tools::file_ext(trjfile)
-  topfileExtension <- tools::file_ext(trjfile)
+  topfileExtension <- tools::file_ext(topfile)
 
   trj <- NULL
   trj$trjfile <- trjfile
@@ -14,5 +14,7 @@ read.trj <- function(trjfile, topfile){
   trj$end<- c(0)
   trj$call <- ""
 
-  return()
+  class(trj) <- "trj"
+
+  return(trj)
 }
