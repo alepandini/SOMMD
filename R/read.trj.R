@@ -57,5 +57,9 @@ read.trj <- function(trjfile, topfile){
 
   class(trj) <- "trj"
 
+  if(nrow(trj$coord) != nrow(trj$top)){
+    stop("Inconsistent number of atoms in topology and trajectory.")
+  }
+
   return(trj)
 }
