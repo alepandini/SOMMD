@@ -39,11 +39,15 @@ read.trj <- function(trjfile, topfile){
     dim(trj_dcd) <- c(nframes * ncoords, 1)
     dim(trj_dcd) <- c(3, natoms, nframes)
     trj_coord <- aperm(trj_dcd, c(2,1,3))
+    trj_start <- c(NA)
+    trj_end <- c(NA)
   }
 
   if(trjfileExtension == "xtc"){
     trj_xtc <- rio_read_xtc(trjfile)
     trj_coord <- trj_xtc
+    trj_start <- c(NA)
+    trj_end <- c(NA)
   }
 
   trj <- NULL
@@ -54,8 +58,8 @@ read.trj <- function(trjfile, topfile){
   trj$trjformat <- trjfileExtension
   trj$coord <- trj_coord
   trj$top <- top
-  trj$start <- c(0)
-  trj$end<- c(0)
+  trj$start <- trj_start
+  trj$end<- trj_end
   trj$call <- sys.call()
 
   class(trj) <- "trj"
