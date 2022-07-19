@@ -45,15 +45,15 @@ read.trj <- function(trjfile, topfile){
 
   trj <- NULL
 
+  trj$topfile <- topfile
+  trj$topformat <- topfileExtension
   trj$trjfile <- trjfile
   trj$trjformat <- trjfileExtension
-  trj$topformat <- topfileExtension
-  trj$topfile <- topfile
   trj$coord <- trj_coord
   trj$top <- top
   trj$start <- c(0)
   trj$end<- c(0)
-  trj$call <- ""
+  trj$call <- sys.call()
 
   class(trj) <- "trj"
 
