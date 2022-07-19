@@ -6,6 +6,9 @@ read.trj <- function(trjfile, topfile){
   topfileExtension <- tools::file_ext(topfile)
   trjfileExtension <- tools::file_ext(trjfile)
 
+  topfilepath <- tools::file_path_as_absolute(topfile)
+  trjfilepath <- tools::file_path_as_absolute(trjfile)
+
   if(!topfileExtension %in% supported_top_formats){
     stop("SOMMD currely does not support this topology format.")
   }
@@ -45,9 +48,9 @@ read.trj <- function(trjfile, topfile){
 
   trj <- NULL
 
-  trj$topfile <- topfile
+  trj$topfile <- topfilepath
   trj$topformat <- topfileExtension
-  trj$trjfile <- trjfile
+  trj$trjfile <- trjfilepath
   trj$trjformat <- trjfileExtension
   trj$coord <- trj_coord
   trj$top <- top
