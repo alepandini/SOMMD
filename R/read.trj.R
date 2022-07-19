@@ -1,12 +1,30 @@
 #' @export
 read.trj <- function(trjfile, topfile){
+  supported_top_formats <- c("pdb","gro")
   supported_trj_formats <- c("dcd","xtc")
 
-  trjfileExtension <- tools::file_ext(trjfile)
   topfileExtension <- tools::file_ext(topfile)
+  trjfileExtension <- tools::file_ext(trjfile)
+
+  if(!topfileExtension %in% supported_top_formats){
+    stop("SOMMD currely does not support this topology format.")
+  }
 
   if(!trjfileExtension %in% supported_trj_formats){
-    stop("SOMMD currely supports only .dcd, .xtc or .ncdf trajectory formats.")
+    stop("SOMMD currely does not support this trajectory format.")
+  }
+
+  if(topfileExtension == "pdb"){
+    top_pdb <- bio3d::read.pdb(topfile, verbose = F)
+    pdb_columns <- c("resno", "resid", "elety", "eleno", "chain")
+    top <- top_pdb$atom[,pdb_columns]
+  }
+
+  if(topfileExtension == "gro"){
+    top_gro <- read.gro(topfile)
+    top_gro$atom$chain <- NA
+    gro_columns <- c("resno", "resid", "elety", "eleno", "chain")
+    top <- top_gro$atom[,gro_columns]
   }
 
   if(trjfileExtension == "dcd"){
@@ -26,12 +44,13 @@ read.trj <- function(trjfile, topfile){
   }
 
   trj <- NULL
+
   trj$trjfile <- trjfile
   trj$trjformat <- trjfileExtension
   trj$topformat <- topfileExtension
   trj$topfile <- topfile
   trj$coord <- trj_coord
-  trj$top <- data.frame(0)
+  trj$top <- top
   trj$start <- c(0)
   trj$end<- c(0)
   trj$call <- ""
