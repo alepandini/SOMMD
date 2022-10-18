@@ -1,14 +1,12 @@
-#' Function to read a set of xtc file, and concatenate them.
+#' Function to concatenate two simulations.
 
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
-#' @param FILES the xtc files to be read
+#' @param trj1 the first trj file
 #'
-#' @return TRJ a list, with $coords being the coordinates of the simulation and $starts being the starting frame of each replica (usefull to have it for some analysis)
+#' @return trj with the simulations concatenated
 #' @export
 #'
-#' @examples
-#' #TODO Not added yet
 
 cat_trj <-  function(trj1, ...){
     traj_list <- list(...)
@@ -39,5 +37,6 @@ cat_trj <-  function(trj1, ...){
         trj$coord <- abind::abind(trj$coord, T$coord, along = 3)
         trj$call <- sys.call()
     }
+    return(trj)
 }
 
