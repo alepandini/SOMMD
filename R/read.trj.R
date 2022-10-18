@@ -46,8 +46,8 @@ read.trj <- function(trjfile, topfile){
   if(trjfileExtension == "xtc"){
     trj_xtc <- rio_read_xtc(trjfile)
     trj_coord <- trj_xtc
-    trj_start <- c(NA)
-    trj_end <- c(NA)
+    trj_start <- c(1)
+    trj_end <- c(nframes)
   }
 
   trj <- NULL

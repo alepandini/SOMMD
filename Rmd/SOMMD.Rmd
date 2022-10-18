@@ -10,6 +10,19 @@ Load SOMMD Package
 ```{r}
 devtools::load_all("..")
 ```
+Read simulation files from pdb and xtc with a for cycle:
+
+
+```{r}
+#Read the first replica
+trj <- read.trj(trjfile=, topfile="../data/Medium_Dataset/ref.pdb")
+#Append all other trj files
+for(trj_file in list.files("../data/Medium_Dataset/", pattern = "*.xtc")[-1]){
+  rep <- read.trj(trjfile=trj_file, topfile="../data/Medium_Dataset/ref.pdb")
+  trj <- cat_trj(trj, rep)
+}
+```
+
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
