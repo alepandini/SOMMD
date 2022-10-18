@@ -1,4 +1,4 @@
-#Write an ndx file containing frames belonging to each cluster 
+#' Write an ndx file containing frames belonging to each cluster 
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
 #' @param SOM a kohonen SOM object. 
