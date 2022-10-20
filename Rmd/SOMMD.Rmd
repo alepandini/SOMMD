@@ -29,6 +29,8 @@ for(trj_file in list.files("../data/Medium_Dataset/", pattern = "*.xtc")[-1]){
 At this point you have to choose a set of descriptors that will be used for the training of the SOM. SOMMD have a series of built-in function that facilitate the computation of some common descriptors. In the present case we want to study an unfolding process, and to describe the protein conformation during the unfolding the Cbeta pairwise distances are a valid choice [@Motta2021]. Among these distances, the most interesting ones are those between atoms forming a contact in the native (folded) conformation. These distances can be selected using the native_contacts function.
 
 ```{r}
+#Read reference pdb with native conformation
+pdb <- bio3d::read.pdb("../data/Medium_Dataset/ref.pdb")
 #Select only Cbeta atoms to perform the analysis
 sele_atoms <- which(trj$top$elety=="CB")
 #Choose only native contacts
