@@ -47,7 +47,7 @@ read.trj <- function(trjfile, topfile){
     trj_xtc <- rio_read_xtc(trjfile)
     trj_coord <- trj_xtc
     trj_start <- c(1)
-    trj_end <- c(nframes)
+    trj_end <- c(dim(trj_xtc)[3])
   }
 
   trj <- NULL

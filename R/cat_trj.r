@@ -13,7 +13,6 @@ cat_trj <-  function(trj1, ...){
     #Append all the simulations subsequently
     trj <- trj1
     N=1
-    print(traj_list)
     for(T in traj_list){
         N=N+1
         #Check that the two simulations have the same number of atoms
@@ -33,7 +32,7 @@ cat_trj <-  function(trj1, ...){
         }
         trj$trjfile <- c(trj$trjfile, T$trjfile)
         trj$start <- c(trj$start, tail(trj$end, 1)+1)
-        trj$end   <- c(trj$end, tail(trj$start,1)+dim(trj$coord)[3]) 
+        trj$end   <- c(trj$end, tail(trj$start,1)+(dim(T$coord)[3]-1)) 
         trj$coord <- abind::abind(trj$coord, T$coord, along = 3)
         trj$call <- sys.call()
     }

@@ -4,16 +4,27 @@
 \alias{native_contacts}
 \title{Function to select only distances between residues making contacts in reference file or a frame of the simulation}
 \usage{
-native_contacts(coord, distance, MOL2 = FALSE, atoms = NULL)
+native_contacts(
+  struct = NULL,
+  trj = NULL,
+  trj_frame = 1,
+  distance,
+  MOL2 = FALSE,
+  atoms = NULL
+)
 }
 \arguments{
-\item{coord}{matrix of N atomic coordinates (N rows, 3 columns) that will be used to determine the native_contacts}
-
 \item{distance}{the distance cut-off}
 
-\item{MOL2}{can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular disatnces)}
+\item{MOL2}{can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)}
 
 \item{atoms}{can be FALSE (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function}
+
+\item{structure:}{a pdb or gro object to compute the native_contacts}
+
+\item{trj:}{a trj object to compute the native_contacts}
+
+\item{trj_frame:}{The frame of the trj on which the native_contacts are computed}
 }
 \value{
 SELE the selection of distances

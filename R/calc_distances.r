@@ -2,7 +2,6 @@
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
 #' @param trj contains the trajectory coordinates (array with three dimensions obtained by rioxdr)
-#' @param stride can stride frames (used to stride the trajectory)
 #' @param MOL2 contains the atom indexes of the second molecule in case only intermolecular distances should be computed
 #' @param sele contains the selection of distances coming from the native_contacts function
 #'
@@ -10,14 +9,14 @@
 #' @export
 #'
 
-calc_distances <- function(trj, stride=1, MOL2=FALSE, sele=FALSE, atoms=NULL){
-    N_atm <- nrow(trj)
+calc_distances <- function(trj, MOL2=FALSE, sele=FALSE, atoms=NULL){
+    N_atm <- nrow(trj$coord)
     #If no atom selection is given, atoms will be a vector containing all the atoms
     if(is.null(atoms)){
         atoms <- c(1:N_atm)
     }
     #Compute distance matrix for all the frames
-    D <- apply(trj[atoms,,seq(1, dim(trj)[3], by=stride)], 3, Calc_Dist_Mat)
+    D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, Calc_Dist_Mat)
     if(is.logical(MOL2) == FALSE){
         #Check that the second molecule number are in the range 1:Natm
         if(length(which(MOL2 %in% c(1:N_atm) == FALSE)) > 0){

@@ -1,31 +1,168 @@
 ---
 title: "SOMMD Notebook"
-output: html_notebook
+output: html_notebook 1
+bibliography: references.bib
 ---
 
-This is A Notebook that explain how to use the SOMMD package to perform analysis of molecular dynamics simulations. 
+This is A Notebook that explain how to use the SOMMD package to perform analysis of molecular dynamics simulations.
 
-Load SOMMD Package
+Load kohonen and SOMMD packages
 
 ```{r}
+library(kohonen)
 devtools::load_all("..")
 ```
-Read simulation files from pdb and xtc with a for cycle:
 
+Read simulation files from pdb and xtc files. Since we have more replicas we will read all the simulations with a for cycle, and append the replicas with the cat_trj function.
 
 ```{r}
 #Read the first replica
-trj <- read.trj(trjfile=, topfile="../data/Medium_Dataset/ref.pdb")
+trj <- read.trj(trjfile="../data/Medium_Dataset/REP_001.xtc", topfile="../data/Medium_Dataset/ref.pdb")
 #Append all other trj files
 for(trj_file in list.files("../data/Medium_Dataset/", pattern = "*.xtc")[-1]){
-  rep <- read.trj(trjfile=trj_file, topfile="../data/Medium_Dataset/ref.pdb")
+  rep <- read.trj(trjfile=paste("../data/Medium_Dataset/", trj_file, sep=""), 
+                  topfile="../data/Medium_Dataset/ref.pdb")
   trj <- cat_trj(trj, rep)
 }
 ```
 
+At this point you have to choose a set of descriptors that will be used for the training of the SOM. SOMMD have a series of built-in function that facilitate the computation of some common descriptors. In the present case we want to study an unfolding process, and to describe the protein conformation during the unfolding the Cbeta pairwise distances are a valid choice [@Motta2021]. Among these distances, the most interesting ones are those between atoms forming a contact in the native (folded) conformation. These distances can be selected using the native_contacts function.
+
+```{r}
+#Select only Cbeta atoms to perform the analysis
+sele_atoms <- which(trj$top$elety=="CB")
+#Choose only native contacts
+sele_dists <- native_contacts(struct=pdb, distance=1.0, atoms=sele_atoms)
+#Compute distances for SOM training. 
+DIST <- calc_distances(trj, MOL2=FALSE, sele=sele_dists, atoms=sele_atoms)
+```
+
+At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non toroidal) 8x8 SOM with hexagonal neurons.
+
+```{r}
+SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal", 
+                                         neighbourhood.fct="gaussian", toroidal=FALSE), 
+                    dist.fcts="euclidean", rlen=500, mode='pbatch')
+```
+
+We can inspect the shape of the SOM looking at the U-Matrix
+
+```{r}
+plot(SOM, type = 'dist.neighbours', heatkey = TRUE, shape='straight', main="U-Matrix")
+```
+
+This plot is telling us regions of the map with high gradient of difference (yellow/white), and regions that contain neurons similar to each other (red).
+
+To further group neurons similar to each other into clusters an agglomerative clustering method can be applied to the neuron vectors. As all the hierarchical clustering methods, one should provide the number of clusters into which the neurons will be divided. To choose a reasonable number of clusters one can look at the silhouette profiles:
+
+```{r}
+par(mfrow=c(1,2))
+#Plot the silhouette score
+plot.silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+#Plot the silhouette profile for 8 number of clusters
+plot.silhouette.profile(SOM, Nclus=8, clust_method="complete")
+```
+
+From this plot one can choose a good value for the number of clusters and plot the resulting SOM. This should ideally be a maximum in the average silhouette score plot, but looking at the single silhouette profiles one can further inspect the quality of the clusters.
+
+```{r}
+#Divide the SOM in the selected number of clusters
+SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method="euclidean"), method="complete"), 8)
+#Choose a pleasing to the eye set of colors
+COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
+               "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
+               "#747474", "#f88587", "#a4db77")
+#Plot the SOM colored by clusters
+plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+
+```
+
+Many personalizations can be applied on the plotted SOM. For example one can decide to add the number of neurons:
+
+```{r}
+#Plot the SOM with neuron numbers
+plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+som.add.numbers(SOM, scale=0.5, col="black")
+som.add.clusters.legend(NCLUS=8, COL.SCALE=COL.SCALE)
+```
+
+To inspect the conformations associated to each neuron, a representative structure can be extracted from the SOM:
+
+```{r}
+#Get a vector of representative frames for each neuron
+NEUR_repres <- neur.representatives(SOM)
+cat("Frames representatives of neurons: ")
+cat(NEUR_repres)
+#Get representatives for each cluster
+CL_repres <- cluster.representatives(SOM, SOM.hc)
+cat("\n\nNeurons representatives of each cluster: ")
+cat(CL_repres$neurons)
+cat("\n\nFrames representatives of each cluster: ")
+cat(CL_repres$frames)
+
+```
+
+If NA values appear, they are associated to empty neurons/clusters
+
+To extract a conformation saving the pdb structure file simply use the trj2pdb function:
+
+```{r}
+#Estract the representative conformation of Neuron 8
+trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "../output/Neuron_8.pdb")
+
+#Estract the representative conformation of Cluster B
+trj2pdb(traj = trj, frame=CL_repres$frames["B"], filename = "../output/Cluster_B.pdb")
+```
+
+A property of the neurons can be represented using circles with the size proportional to the value of a property of the neuron. For example one can use neurons to represent the population of each neuron:
+
+```{r}
+#Plot the SOM with circles with size proportional to the neuron population 
+plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+POP <- NULL
+for(NEURON in 1:nrow(SOM$grid$pts)){
+    POP <- c(POP, length(which(SOM$unit.classif==NEURON)))
+}
+SOM.add.circles(SOM, POP, scale=0.9)
+```
+
+Instead of using circles to plot a property over the plot, you may use colors-scales. This is usually done to represent the average property of frames belonging to each neurons. In that case, simply compute the average property for each neuron and then color the map accordingly. Here we compute the distance between the Calpha atoms of the C- and N- terminal ends of the domain and plot this property:
+
+```{r}
+#Select the index of the first and last CA atoms
+Terminals <- c(head(which(trj$top$elety=="CA"),1), tail(which(trj$top$elety=="CA"),1))
+#Compute distances between these two atoms in every frame of the simulation
+Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
+#Compute average property value for each neuron
+Neur.avg.d <- average.neur.property(SOM, Term_dist)
+par(mfrow=c(1,2))
+
+#Plot the SOM with circles with size proportional to the neuron population 
+plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+SOM.add.circles(SOM, Neur.avg.d, scale=0.5)
+#Plot the SOM colored according to the average value of each neuron
+plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name=colorRampPalette(c("blue", "white", "red")), main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+```
+
+Any external property can be used (like the pulling force applied during steered MD) provided that every property value is associated to a frame.
+
+At this point one can trace the pathways sampled during each replica on the SOM. This can be done using the function trace_path. This function draw the pathway followed by a simulation on the SOM. In order to simplify the plot of pathways from different replicas, the trj object contains the information of start and end of each replica merged with cat_trj in trj\$start and trj\$end. Using this information one can plot the pathway of a specific replica:
+
+```{r}
+#Plot the SOM colored by clusters
+par(mfrow=c(2,2))
+for(rep in c(1,3,5,10)){
+  plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
+       shape='straight', main=paste("Replica ", rep, sep=""))
+  add.cluster.boundaries(SOM, SOM.hc, lwd=3)
+  trace_path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
+}
+
+```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

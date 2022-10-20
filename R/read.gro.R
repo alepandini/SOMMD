@@ -35,6 +35,7 @@ read.gro <- function(file){
     gro$atom <- atoms
     gro$xyz  <- matrix(rbind(atoms$x, atoms$y, atoms$z), nrow=1)
     gro$box  <- BOX
+    gro$call <- sys.call()
     class(gro) <- "gro"
     return(gro)
 }                    

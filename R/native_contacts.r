@@ -1,9 +1,11 @@
 #' Function to select only distances between residues making contacts in reference file or a frame of the simulation
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #'
-#' @param coord matrix of N atomic coordinates (N rows, 3 columns) that will be used to determine the native_contacts
+#' @param structure: a pdb or gro object to compute the native_contacts
+#' @param trj: a trj object to compute the native_contacts
+#' @param trj_frame: The frame of the trj on which the native_contacts are computed
 #' @param distance the distance cut-off
-#' @param MOL2 can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular disatnces)
+#' @param MOL2 can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)
 #' @param atoms can be FALSE (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function
 #'
 #' @return SELE the selection of distances
@@ -14,15 +16,26 @@
 
 
 
-native_contacts <- function(coord, distance, MOL2=FALSE, atoms=NULL){
-    #If the coord are a pdb file, convert it to a xyz matrix
-    if(is.pdb(coord)){
-        #get the coordinate from pdb and convert them from Angstrom to nm
-        coord <- t(matrix(coord$xyz, nrow=3))/10
+native_contacts <- function(struct=NULL, trj=NULL, trj_frame=1, distance, MOL2=FALSE, atoms=NULL){
+    # If nor a structure file (pdb or gro) nor a trj is given, print an error message
+    if(is.null(struct) & is.null(trj)){
+        stop("Please provide a structure (pdb or gro) or a trj as input")
     }
-    #If a trajectory is given as input, automatically use the first frame of the trj
-    if(length(dim(coord)) > 2){
-        coord <- coord[,,1]
+    # If both a structure file (pdb or gro) and a trj is given, print a warning message
+    if(is.null(struct)==FALSE & is.null(trj)==FALSE){
+        warning("Both a structure and a trj was provided, using coordinate from the structure file and ignoring trj.")
+    }
+    #Use the structure file
+    if(is.null(struct)==FALSE){
+        coord <- cbind(struct$atom$x, struct$atom$y, struct$atom$z)
+        #If it is a pdb file, convert Angstrom to nm
+        if("pdb" %in% class(pdb)){
+            coord <- coord/10
+        }
+    }
+    # Use the trj file
+    if(is.null(struct) & is.null(trj)==FALSE){
+        coord <- trj$coord[,,trj_frame]
     }
     #Total number of atoms
     N_atm <- nrow(coord)
