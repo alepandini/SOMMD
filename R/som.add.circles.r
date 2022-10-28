@@ -9,6 +9,10 @@
 #'
 
 SOM.add.circles <- function(SOM, property, scale=1){
+    #check whether SOM is a kohonen object
+    if(inherits(SOM, "kohonen")==FALSE){
+        stop("SOM must be a kohonen object")
+    }
     #Dimension of the SOM
     DIM <- max(SOM$grid$xdim, SOM$grid$ydim)
     MAGNIF <- (40/DIM)*scale

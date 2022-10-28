@@ -9,6 +9,10 @@
 #'
 
 som.add.numbers <- function(SOM, scale=1, col="black"){
+    #check whether SOM is a kohonen object
+    if(inherits(SOM, "kohonen")==FALSE){
+        stop("SOM must be a kohonen object")
+    }
     X <- NULL
     Y <- NULL
     for(i in c(1:nrow(SOM$grid$pts))){

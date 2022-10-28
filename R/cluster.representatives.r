@@ -37,21 +37,21 @@ cluster.representatives <- function(SOM, clusters){
 clust.centroid = function(i, dat, clusters) {
     ind = (clusters == i)
     if(sum(ind)>1){
-        POP <- NULL
-        for(NEURON in 1:nrow(SOM$grid$pts)){
-            POP <- c(POP, length(which(SOM$unit.classif==NEURON)))
+        pop <- NULL
+        for(neur in 1:nrow(SOM$grid$pts)){
+            pop <- c(pop, length(which(SOM$unit.classif==neur)))
         }
-         apply(dat[ind,], 2, weighted.mean, w=POP[ind])
+         apply(dat[ind,], 2, weighted.mean, w=pop[ind])
     } else {
         dat[ind,]
     }
 }
 
 #Function to select the neuron representative of cluster CL
-Select_representative <- function(CENTROID, SOM, clusters, CL){
-    FR <- which(clusters==CL)
-    DistCentroid <- apply(SOM$codes[[1]], 1, COMPUTE_DISTANCE, V2=CENTROID[,CL])
-    ReprNeuron <- which(DistCentroid==min(DistCentroid[FR]))
+Select_representative <- function(centroid, SOM, clusters, cl){
+    frame <- which(clusters==cl)
+    DistCentroid <- apply(SOM$codes[[1]], 1, COMPUTE_DISTANCE, V2=centroid[,cl])
+    ReprNeuron <- which(DistCentroid==min(DistCentroid[frame]))
     return(ReprNeuron)
 }
 

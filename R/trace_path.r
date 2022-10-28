@@ -13,6 +13,10 @@
 
 #Function to draw pathways over the SOM
 trace_path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw_stride=1, scale=1){
+    #check whether SOM is a kohonen object
+    if(inherits(SOM, "kohonen")==FALSE){
+        stop("SOM must be a kohonen object")
+    }
     X <- NULL
     Y <- NULL
     BWR <- colorRampPalette(c("blue", "white", "red"))

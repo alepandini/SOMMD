@@ -1,6 +1,11 @@
 ---
-title: "SOMMD Notebook"
-output: html_notebook 1
+title: "SOMMD Notebook 1"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+- \usepackage[table]{xcolor}
+- \usepackage{multirow}
 bibliography: references.bib
 ---
 
@@ -25,6 +30,8 @@ for(trj_file in list.files("../data/Medium_Dataset/", pattern = "*.xtc")[-1]){
   trj <- cat_trj(trj, rep)
 }
 ```
+
+## SOM Training
 
 At this point you have to choose a set of descriptors that will be used for the training of the SOM. SOMMD have a series of built-in function that facilitate the computation of some common descriptors. In the present case we want to study an unfolding process, and to describe the protein conformation during the unfolding the Cbeta pairwise distances are a valid choice [@Motta2021]. Among these distances, the most interesting ones are those between atoms forming a contact in the native (folded) conformation. These distances can be selected using the native_contacts function.
 
@@ -54,6 +61,8 @@ plot(SOM, type = 'dist.neighbours', heatkey = TRUE, shape='straight', main="U-Ma
 ```
 
 This plot is telling us regions of the map with high gradient of difference (yellow/white), and regions that contain neurons similar to each other (red).
+
+## Clustering of Neurons
 
 To further group neurons similar to each other into clusters an agglomerative clustering method can be applied to the neuron vectors. As all the hierarchical clustering methods, one should provide the number of clusters into which the neurons will be divided. To choose a reasonable number of clusters one can look at the silhouette profiles:
 
@@ -90,6 +99,8 @@ som.add.numbers(SOM, scale=0.5, col="black")
 som.add.clusters.legend(NCLUS=8, COL.SCALE=COL.SCALE)
 ```
 
+## Extraction of representative frames
+
 To inspect the conformations associated to each neuron, a representative structure can be extracted from the SOM:
 
 ```{r}
@@ -118,6 +129,8 @@ trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "../output/Neuron_8.pdb")
 trj2pdb(traj = trj, frame=CL_repres$frames["B"], filename = "../output/Cluster_B.pdb")
 ```
 
+## Representation of properties on SOM
+
 A property of the neurons can be represented using circles with the size proportional to the value of a property of the neuron. For example one can use neurons to represent the population of each neuron:
 
 ```{r}
@@ -142,29 +155,153 @@ Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
 Neur.avg.d <- average.neur.property(SOM, Term_dist)
 par(mfrow=c(1,2))
 
-#Plot the SOM with circles with size proportional to the neuron population 
+#Plot the SOM with circles with size proportional to the average distance values
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 SOM.add.circles(SOM, Neur.avg.d, scale=0.5)
-#Plot the SOM colored according to the average value of each neuron
-plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name=colorRampPalette(c("blue", "white", "red")), main="")
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name=colorRampPalette(c("blue", "yellow", "red")), main="")
 add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 ```
 
 Any external property can be used (like the pulling force applied during steered MD) provided that every property value is associated to a frame.
+
+## Trace Pathways
 
 At this point one can trace the pathways sampled during each replica on the SOM. This can be done using the function trace_path. This function draw the pathway followed by a simulation on the SOM. In order to simplify the plot of pathways from different replicas, the trj object contains the information of start and end of each replica merged with cat_trj in trj\$start and trj\$end. Using this information one can plot the pathway of a specific replica:
 
 ```{r}
 #Plot the SOM colored by clusters
 par(mfrow=c(2,2))
-for(rep in c(1,3,5,10)){
+for(rep in c(1,3,6,8)){
   plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Replica ", rep, sep=""))
   add.cluster.boundaries(SOM, SOM.hc, lwd=3)
   trace_path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
 }
+```
 
+The type of sampled pathways can be inspected using a pathway clustering method:
+
+```{r}
+path.clust <- cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
+plot(path.clust, xlab="")
+
+```
+
+This shows the similarity between pathways sampled in different replicas.
+
+## **Representing SOM as a graph network**
+
+Using the information from the transition matrix of the simulations it is also possible to build a graph network that represent all the possible pathways sampled.
+
+```{r}
+#Compute transition matrix
+Tr_mat <- Compute_Transition_Matrix(SOM$unit.classif, start=trj$start)
+#Convert the matrix to an igraph network
+d <- Matrix2Network(Tr_mat)
+d_nodiag <- Network_noDiagonal(d)
+net <- Network2Graph(d_nodiag, SOM, SOM.hc, COL.SCALE)
+```
+
+Using the igraph package several representation of the SOM can be obtained:
+
+```{r}
+library(igraph)
+#edge.start <- ends(net, es=E(net), names=F)[,1]
+#edge.col <- V(net)$color[edge.start]
+#Plot network with the SOM layout
+plot.network.SOM(net, SOM, vertex.size=1.2, edge.size=1, label=FALSE)
+```
+
+However, optimal disposition of vertex can be used. Several algorithm exist able to estimate optimal network vertices placement on the plane. Here we will use the force-directed layout algorithm by Fruchterman and Reingold.
+
+```{r}
+coords = layout_with_fr(net, coords=SOM$grid$pts)
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, edge.color='black', vertex.label="", layout=coords)
+
+```
+
+Note that since the layout algorithm is not deterministic, you will obtain a different vertex disposition every time you rerun the layout_with_fr() command. You may also try to run the command several time to search for a clear vertex disposition.
+
+You may also want to perform a kinetic-like clustering using a community detection method. Among those available in igraph, the walktrap method allows to treat biderectional graph. This function tries to find densely connected subgraphs, also called communities in a graph via random walks. The idea is that short random walks tend to stay in the same community.
+
+```{r}
+CL_walktrap <- cluster_walktrap(net)
+COL <- COL.SCALE[membership(CL_walktrap)]
+par(mfrow=c(1,2))
+plot(SOM, type = "mapping", bgcol=COL, col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=3)
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
+
+```
+
+Here neurons are diveded according to the transition probability instead of their geometric similarity.
+
+To map a property to a graph, simply set the color of each node according to a colorscale. Start computing a property
+
+```{r}
+#Select the index of the first and last CA atoms
+Terminals <- c(head(which(trj$top$elety=="CA"),1), tail(which(trj$top$elety=="CA"),1))
+#Compute distances between these two atoms in every frame of the simulation
+Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
+#Compute average property value for each neuron
+Neur.avg.d <- average.neur.property(SOM, Term_dist)
+```
+
+And then set the color of each neuron:
+
+```{r}
+#Set the color scale
+col.palette <- colorRampPalette(c("blue", "yellow", "red"))(200)
+#Convert the average property to the colors
+COL <- map2color(Neur.avg.d, col.palette)
+#Do the plot
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
+```
+
+## **Mapping of new data on an existing SOM**
+
+If you are interested in using a trained SOM to represent a new set of data (additional simulations not used during the training) you can use the map.data() function.
+
+```{r}
+#Read additional simulations
+trj2 <- read.trj(trjfile="../data/Additional_Dataset/REP_011.xtc", topfile="../data/Medium_Dataset/ref.pdb")
+#Append all other trj files
+for(trj_file in list.files("../data/Additional_Dataset/", pattern = "*.xtc")[-1]){
+  rep <- read.trj(trjfile=paste("../data/Additional_Dataset/", trj_file, sep=""), 
+                  topfile="../data/Medium_Dataset/ref.pdb")
+  trj2 <- cat_trj(trj2, rep)
+}
+#Compute distances (the same used for SOM training)
+DIST2 <- calc_distances(trj2, MOL2=FALSE, sele=sele_dists, atoms=sele_atoms)
+#Map new data on the existing SOM
+SOM_new <- map.data(SOM=SOM, X=DIST2)
+
+```
+
+At this point you can use the new SOM object (SOM_new) to generate plot for the new set of simulations:
+
+```{r}
+#Plot the SOM colored by clusters
+par(mfrow=c(2,2))
+for(rep in c(1,2,3,4)){
+  plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
+       shape='straight', main=paste("Additional Replica ", rep, sep=""))
+  add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
+  trace_path(SOM_new, start=trj2$start, end=trj2$end, N=rep, scale=0.5)
+}
+```
+
+```{r}
+#Plot the SOM with circles with size proportional to the neuron population 
+plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM_new, SOM.hc, lwd=5)
+POP <- NULL
+for(NEURON in 1:nrow(SOM_new$grid$pts)){
+    POP <- c(POP, length(which(SOM_new$unit.classif==NEURON)))
+}
+SOM.add.circles(SOM, POP, scale=0.9)
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
