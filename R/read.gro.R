@@ -1,29 +1,39 @@
+#' Read gro file
+#'
 #' Function to read gro files
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param file contains the name and the path to the gro file to be read
 #'
-#' @return gro the gro file.
+#' @return Returns a list of class "pdb" with the following components:
+#' @return \item{atom}{ a data frame containing all atomic coordinate with a row per atom and a column per record type.}
+#' @return \item{xyz}{ a numeric matrix of class "xyz" containing the atomic coordinate data.}
+#' @return \item{box}{ a vector of box size.}
+#' @return \item{call}{ the matched call.}
+#'
 #' @export
 #'
 #' @examples
-#' #TODO Not added yet
-
+#' gro <- read.gro("ref.gro")
 
 read.gro <- function(file){
     if (missing(file)) {
-        stop("read.gro: please specify a gro 'file' for reading")
+        stop("please specify a gro 'file' for reading")
+    }
+    if (file.exist(file)==FALSE) {
+        stop("file not found")
     }
     # Read the file with readLines
-    LINES <- readLines(file)
-    Natm <- as.integer(LINES[2])
-    BOX <- scan(text=LINES[length(LINES)], what="", quiet=TRUE)
+    lines <- readLines(file)
+    Natm <- as.integer(lines[2])
+    box <- scan(text=lines[length(lines)], what="", quiet=TRUE)
     #Check if the gro file contains also column for velocities
-    if(length(strsplit(LINES[3], split="")[[1]])<50){
-        atoms <- t(sapply(LINES[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37), c(5, 10, 15, 20, 28, 36, 44), USE.NAMES=FALSE))
+    if(length(strsplit(lines[3], split="")[[1]])<50){
+        atoms <- t(sapply(lines[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37), c(5, 10, 15, 20, 28, 36, 44), USE.NAMES=FALSE))
         atoms <- cbind(atoms, matrix(NA, ncol=3, nrow=Natm))
     } else{
-        atoms <- t(sapply(LINES[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37, 45, 53, 61), c(5, 10, 15, 20, 28, 36, 44, 52, 60, 68), USE.NAMES=FALSE))
+        atoms <- t(sapply(lines[3:(Natm+2)], substring, first=c(1, 6,  11, 16, 21, 29, 37, 45, 53, 61), c(5, 10, 15, 20, 28, 36, 44, 52, 60, 68), USE.NAMES=FALSE))
     }
     atoms <- as.data.frame(atoms)
     #
@@ -34,7 +44,7 @@ read.gro <- function(file){
     gro <- NULL
     gro$atom <- atoms
     gro$xyz  <- matrix(rbind(atoms$x, atoms$y, atoms$z), nrow=1)
-    gro$box  <- BOX
+    gro$box  <- box
     gro$call <- sys.call()
     class(gro) <- "gro"
     return(gro)

@@ -1,18 +1,23 @@
+#' Trace pathway
+#'
 #' Function trace pathway sampled on the SOM
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM: the SOM object 
 #' @param start: a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @param end: a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
 #' @param N: The portion of simulation that one one to plot (only frames between trj$start[N] and trj$end[N] will be plotted)
-#' @param draw_stride: used to plot the pathways with a stride (usefull for very complex pathways)
+#' @param draw.stride: used to plot the pathways with a stride (usefull for very complex pathways)
 #' @param scale: a number to scale up or down the size of the text
 #'
 #' @export
 #'
+#' @examples
+#' trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
 
 #Function to draw pathways over the SOM
-trace_path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw_stride=1, scale=1){
+trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.stride=1, scale=1){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")
@@ -21,9 +26,9 @@ trace_path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw_str
     Y <- NULL
     BWR <- colorRampPalette(c("blue", "white", "red"))
 #     trj_frames <- seq(head(start, 1), tail(end, 1))
-    trj_frames_stride <- seq(head(start, 1), tail(end, 1))
-    rep_frames <- which(trj_frames_stride >= start[N] & trj_frames_stride <= end[N])
-    for(i in rep_frames[seq(1, length(rep_frames), by=draw_stride)]){
+    trj.frames.stride <- seq(head(start, 1), tail(end, 1))
+    rep.frames <- which(trj.frames.stride >= start[N] & trj.frames.stride <= end[N])
+    for(i in rep.frames[seq(1, length(rep.frames), by=draw.stride)]){
         u <- SOM$unit.classif[i]
         X <- c(X, SOM$grid$pts[u,1])
         Y <- c(Y, SOM$grid$pts[u,2])

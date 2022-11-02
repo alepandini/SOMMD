@@ -1,15 +1,18 @@
-# Apply a stride to a trj object to reduce the number of frames
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#' Stride a trj
+#'
+#' Apply a stride to the frame of a trj object to reduce the number of frames
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param traj a trj object. 
-#' @param frame the frame to extract.
+#' @param stride the stride to apply to the trajectory
 #'
-#' @return a pdb object of the selected frame
+#' @return the trj object with a frame every \code{stride}
 #' @export
 #'
 #' @examples
-#' #TODO Not added yet
-
+#' # keep a frame every 10 frame
+#' traj <- stride.trj(traj, 10)
 
 stride.trj <- function(traj, stride){
     #Check that the trajectory is of class trj:

@@ -1,5 +1,8 @@
-#' Function to plot the silhouette profile for the Nclus cluster of the SOM neurons
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#' Add Neuron Numbering
+#'
+#' Add the neuron numbering scheme to the SOM plot
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM: the SOM object 
 #' @param scale: a number to scale up or down the size of the text
@@ -7,6 +10,8 @@
 #'
 #' @export
 #'
+#' @examples
+#' som.add.numbers(SOM, scale=0.5, col="black")
 
 som.add.numbers <- function(SOM, scale=1, col="black"){
     #check whether SOM is a kohonen object

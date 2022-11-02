@@ -1,13 +1,16 @@
-# Compute the neurons representatives
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#' Neuron representative
+#'
+#' Compute the representative frame of each neuron (the closest to the neuron codebook)
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM a kohonen SOM object. 
 #'
-#' @return representatives a vector of frames representatives of each neuron 
+#' @return a vector of frames representatives of each neuron 
 #' @export
 #'
 #' @examples
-#' #TODO Not added yet
+#' NEUR_repres <- neur.representatives(SOM)
 
 neur.representatives <- function(SOM){
     #check whether SOM is a kohonen object

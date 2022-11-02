@@ -2,11 +2,13 @@
 % Please edit documentation in R/som.add.circles.r
 \name{SOM.add.circles}
 \alias{SOM.add.circles}
-\title{Function to plot the silhouette profile for the Nclus cluster of the SOM neurons}
+\title{Add cicles to SOM}
 \usage{
-SOM.add.circles(SOM, property, scale = 1)
+SOM.add.circles(SOM, property, scale = 1, col.circles = "white")
 }
 \arguments{
+\item{col.circles}{the background color of the drawn circles}
+
 \item{SOM:}{the SOM object}
 
 \item{property:}{a vector containing the per-neuron property to plot}
@@ -14,8 +16,17 @@ SOM.add.circles(SOM, property, scale = 1)
 \item{scale:}{a number to scale up or down the size of the drawn circles}
 }
 \description{
-Function to plot the silhouette profile for the Nclus cluster of the SOM neurons
+Function to add circles to a SOM plot, with dimension proportional to a selected property
+}
+\examples{
+# Compute per neuron population
+population <- NULL
+for(NEURON in 1:nrow(SOM$grid$pts)){
+    population <- c(population, length(which(SOM$unit.classif==NEURON)))
+}
+# Add circles to the SOM plot
+SOM.add.circles(SOM, population, scale=0.9)
 }
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

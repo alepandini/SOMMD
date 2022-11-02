@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.gro.R
 \name{read.gro}
 \alias{read.gro}
-\title{Function to read gro files}
+\title{Read gro file}
 \usage{
 read.gro(file)
 }
@@ -10,14 +10,22 @@ read.gro(file)
 \item{file}{contains the name and the path to the gro file to be read}
 }
 \value{
-gro the gro file.
+Returns a list of class "pdb" with the following components:
+
+\item{atom}{ a data frame containing all atomic coordinate with a row per atom and a column per record type.}
+
+\item{xyz}{ a numeric matrix of class "xyz" containing the atomic coordinate data.}
+
+\item{box}{ a vector of box size.}
+
+\item{call}{ the matched call.}
 }
 \description{
 Function to read gro files
 }
 \examples{
-#TODO Not added yet
+gro <- read.gro("ref.gro")
 }
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

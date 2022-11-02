@@ -6,7 +6,6 @@ output:
 header-includes:
 - \usepackage[table]{xcolor}
 - \usepackage{multirow}
-bibliography: references.bib
 ---
 
 This is A Notebook that explain how to use the SOMMD package to perform analysis of molecular dynamics simulations.
@@ -27,7 +26,7 @@ trj <- read.trj(trjfile="../data/Medium_Dataset/REP_001.xtc", topfile="../data/M
 for(trj_file in list.files("../data/Medium_Dataset/", pattern = "*.xtc")[-1]){
   rep <- read.trj(trjfile=paste("../data/Medium_Dataset/", trj_file, sep=""), 
                   topfile="../data/Medium_Dataset/ref.pdb")
-  trj <- cat_trj(trj, rep)
+  trj <- cat.trj(trj, rep)
 }
 ```
 
@@ -39,11 +38,11 @@ At this point you have to choose a set of descriptors that will be used for the 
 #Read reference pdb with native conformation
 pdb <- bio3d::read.pdb("../data/Medium_Dataset/ref.pdb")
 #Select only Cbeta atoms to perform the analysis
-sele_atoms <- which(trj$top$elety=="CB")
+sele.atoms <- which(trj$top$elety=="CB")
 #Choose only native contacts
-sele_dists <- native_contacts(struct=pdb, distance=1.0, atoms=sele_atoms)
+sele.dists <- native.cont(struct=pdb, distance=1.0, atoms=sele.atoms)
 #Compute distances for SOM training. 
-DIST <- calc_distances(trj, MOL2=FALSE, sele=sele_dists, atoms=sele_atoms)
+DIST <- calc.distances(trj, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 ```
 
 At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non toroidal) 8x8 SOM with hexagonal neurons.
@@ -69,7 +68,7 @@ To further group neurons similar to each other into clusters an agglomerative cl
 ```{r}
 par(mfrow=c(1,2))
 #Plot the silhouette score
-plot.silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+plot.silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
 #Plot the silhouette profile for 8 number of clusters
 plot.silhouette.profile(SOM, Nclus=8, clust_method="complete")
 ```
@@ -96,7 +95,7 @@ Many personalizations can be applied on the plotted SOM. For example one can dec
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 som.add.numbers(SOM, scale=0.5, col="black")
-som.add.clusters.legend(NCLUS=8, COL.SCALE=COL.SCALE)
+som.add.clusters.legend(N.clus=8, color.scale=COL.SCALE)
 ```
 
 ## Extraction of representative frames
@@ -137,11 +136,8 @@ A property of the neurons can be represented using circles with the size proport
 #Plot the SOM with circles with size proportional to the neuron population 
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 add.cluster.boundaries(SOM, SOM.hc, lwd=5)
-POP <- NULL
-for(NEURON in 1:nrow(SOM$grid$pts)){
-    POP <- c(POP, length(which(SOM$unit.classif==NEURON)))
-}
-SOM.add.circles(SOM, POP, scale=0.9)
+population <- neur.population(SOM)
+SOM.add.circles(SOM, population, scale=0.9)
 ```
 
 Instead of using circles to plot a property over the plot, you may use colors-scales. This is usually done to represent the average property of frames belonging to each neurons. In that case, simply compute the average property for each neuron and then color the map accordingly. Here we compute the distance between the Calpha atoms of the C- and N- terminal ends of the domain and plot this property:
@@ -177,7 +173,7 @@ for(rep in c(1,3,6,8)){
   plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Replica ", rep, sep=""))
   add.cluster.boundaries(SOM, SOM.hc, lwd=3)
-  trace_path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
+  trace.path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
 }
 ```
 
@@ -197,10 +193,11 @@ Using the information from the transition matrix of the simulations it is also p
 
 ```{r}
 #Compute transition matrix
-Tr_mat <- Compute_Transition_Matrix(SOM$unit.classif, start=trj$start)
+Tr_mat <- comp.trans.mat(SOM$unit.classif, start=trj$start)
 #Convert the matrix to an igraph network
 d <- Matrix2Network(Tr_mat)
-d_nodiag <- Network_noDiagonal(d)
+#Remove the self transitions
+d_nodiag <- rm.net.diag(d)
 net <- Network2Graph(d_nodiag, SOM, SOM.hc, COL.SCALE)
 ```
 
@@ -211,14 +208,14 @@ library(igraph)
 #edge.start <- ends(net, es=E(net), names=F)[,1]
 #edge.col <- V(net)$color[edge.start]
 #Plot network with the SOM layout
-plot.network.SOM(net, SOM, vertex.size=1.2, edge.size=1, label=FALSE)
+plot(net, edge.arrow.size=E(net)$width/5, edge.curved=0.17, edge.color='black', vertex.label="", layout=SOM$grid$pts)
 ```
 
 However, optimal disposition of vertex can be used. Several algorithm exist able to estimate optimal network vertices placement on the plane. Here we will use the force-directed layout algorithm by Fruchterman and Reingold.
 
 ```{r}
 coords = layout_with_fr(net, coords=SOM$grid$pts)
-plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, edge.color='black', vertex.label="", layout=coords)
+plot(net, edge.arrow.size=E(net)$width/5, edge.curved=0.17, edge.color='black', vertex.label="", layout=coords)
 
 ```
 
@@ -271,10 +268,10 @@ trj2 <- read.trj(trjfile="../data/Additional_Dataset/REP_011.xtc", topfile="../d
 for(trj_file in list.files("../data/Additional_Dataset/", pattern = "*.xtc")[-1]){
   rep <- read.trj(trjfile=paste("../data/Additional_Dataset/", trj_file, sep=""), 
                   topfile="../data/Medium_Dataset/ref.pdb")
-  trj2 <- cat_trj(trj2, rep)
+  trj2 <- cat.trj(trj2, rep)
 }
 #Compute distances (the same used for SOM training)
-DIST2 <- calc_distances(trj2, MOL2=FALSE, sele=sele_dists, atoms=sele_atoms)
+DIST2 <- calc.distances(trj2, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 #Map new data on the existing SOM
 SOM_new <- map.data(SOM=SOM, X=DIST2)
 
@@ -289,7 +286,7 @@ for(rep in c(1,2,3,4)){
   plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Additional Replica ", rep, sep=""))
   add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
-  trace_path(SOM_new, start=trj2$start, end=trj2$end, N=rep, scale=0.5)
+  trace.path(SOM_new, start=trj2$start, end=trj2$end, N=rep, scale=0.5)
 }
 ```
 
@@ -297,11 +294,6 @@ for(rep in c(1,2,3,4)){
 #Plot the SOM with circles with size proportional to the neuron population 
 plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 add.cluster.boundaries(SOM_new, SOM.hc, lwd=5)
-POP <- NULL
-for(NEURON in 1:nrow(SOM_new$grid$pts)){
-    POP <- c(POP, length(which(SOM_new$unit.classif==NEURON)))
-}
-SOM.add.circles(SOM, POP, scale=0.9)
+population <- neur.population(SOM_new)
+SOM.add.circles(SOM, population, scale=0.9)
 ```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.

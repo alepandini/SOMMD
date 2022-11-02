@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.silhouette.profile.r
 \name{plot.silhouette.profile}
 \alias{plot.silhouette.profile}
-\title{Function to plot the silhouette profile for the Nclus cluster of the SOM neurons}
+\title{Silhouette profile}
 \usage{
 \method{plot}{silhouette.profile}(SOM, Nclus, dist_clust = "euclidean", clust_method = "complete")
 }
@@ -21,6 +21,9 @@ D the set of distances used to train the SOM is computed for all the frames.
 \description{
 Function to plot the silhouette profile for the Nclus cluster of the SOM neurons
 }
+\examples{
+plot.silhouette.profile(SOM, Nclus=8, clust_method="complete")
+}
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

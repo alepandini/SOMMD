@@ -2,7 +2,7 @@
 % Please edit documentation in R/som.add.numbers.r
 \name{som.add.numbers}
 \alias{som.add.numbers}
-\title{Function to plot the silhouette profile for the Nclus cluster of the SOM neurons}
+\title{Add Neuron Numbering}
 \usage{
 som.add.numbers(SOM, scale = 1, col = "black")
 }
@@ -14,8 +14,11 @@ som.add.numbers(SOM, scale = 1, col = "black")
 \item{col:}{the color of the text}
 }
 \description{
-Function to plot the silhouette profile for the Nclus cluster of the SOM neurons
+Add the neuron numbering scheme to the SOM plot
+}
+\examples{
+som.add.numbers(SOM, scale=0.5, col="black")
 }
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

@@ -1,5 +1,8 @@
-# Extract a trj frame to a pdb object
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#' Extract frame to pdb 
+#'
+#' Extract a trj frame to a pdb object
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param traj a trj object. 
 #' @param frame the frame to extract.
@@ -8,7 +11,11 @@
 #' @export
 #'
 #' @examples
-#' #TODO Not added yet
+#' trj2pdb(traj = trj, frame=1000, filename = "Frame_1000.pdb")
+#'
+#' #Estract the representative conformation of Neuron 8
+#' NEUR_repres <- neur.representatives(SOM)
+#' trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "../output/Neuron_8.pdb")
 
 
 trj2pdb <- function(traj, frame, filename){

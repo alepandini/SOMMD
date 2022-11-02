@@ -2,13 +2,13 @@
 % Please edit documentation in R/plot.silhouette.score.r
 \name{plot.silhouette.score}
 \alias{plot.silhouette.score}
-\title{Function to plot the silhouette score for the clustering of SOM neurons}
+\title{Plot silhouette score}
 \usage{
 \method{plot}{silhouette.score}(
   SOM,
   dist_clust = "euclidean",
   clust_method = "complete",
-  intervall = seq(2, 30)
+  interval = seq(2, 30)
 )
 }
 \arguments{
@@ -18,7 +18,7 @@
 
 \item{clust_method}{the method for the clustering (passed to the hclust function}
 
-\item{intervall}{the cluster number on which the silhouette score will be computed}
+\item{interval}{the cluster number on which the silhouette score will be computed}
 }
 \value{
 D the set of distances used to train the SOM is computed for all the frames.
@@ -26,6 +26,9 @@ D the set of distances used to train the SOM is computed for all the frames.
 \description{
 Function to plot the silhouette score for the clustering of SOM neurons
 }
+\examples{
+plot.silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+}
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

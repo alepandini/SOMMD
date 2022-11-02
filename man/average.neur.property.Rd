@@ -2,7 +2,7 @@
 % Please edit documentation in R/average.neur.property.r
 \name{average.neur.property}
 \alias{average.neur.property}
-\title{Function to plot the silhouette score for the clustering of SOM neurons}
+\title{Compute average property}
 \usage{
 average.neur.property(SOM, P)
 }
@@ -12,11 +12,18 @@ average.neur.property(SOM, P)
 \item{P:}{the property for each frame of the simulation}
 }
 \value{
-D the set of distances used to train the SOM is computed for all the frames.
+avg.neur.p the per-neuron average of the property.
 }
 \description{
-Function to plot the silhouette score for the clustering of SOM neurons
+Function to compute the average value of a property for each neuron.
+}
+\examples{
+#Compute distances between these two atoms in every frame of the simulation
+Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
+#Compute average property value for each neuron
+average.neur.property(SOM, Term_dist)
+
 }
 \author{
-Stefano Motta\email{stefano.motta@unimib.it}
+Stefano Motta \email{stefano.motta@unimib.it}
 }

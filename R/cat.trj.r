@@ -1,14 +1,23 @@
+#' Concatenate simulations
+#'
 #' Function to concatenate two simulations.
-
-#' @author Stefano Motta\email{stefano.motta@unimib.it}
+#'
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param trj1 the first trj file
 #'
 #' @return trj with the simulations concatenated
 #' @export
 #'
+#' @examples
+#' # Read the three simulations
+#' trj1 <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
+#' trj2 <- read.trj(trjfile="rep_002.xtc", topfile="ref.pdb")
+#' trj3 <- read.trj(trjfile="rep_003.xtc", topfile="ref.pdb")
+#' # Concatenate the simulations
+#'   trj <- cat.trj(trj1, trj2, trj3)
 
-cat_trj <-  function(trj1, ...){
+cat.trj <-  function(trj1, ...){
     traj_list <- list(...)
     #Append all the simulations subsequently
     trj <- trj1
