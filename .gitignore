@@ -6,3 +6,8 @@
 .httr-oauth
 .DS_Store
 output/*
+Rmd/*.html
+Rmd/*.bib
+Rmd/*.log
+Rmd/*.tex
+Rmd/*.pdf
