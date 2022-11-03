@@ -9,3 +9,5 @@ output
 # Markdown output
 .html
 .bib
+.log
+.tex
