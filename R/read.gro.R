@@ -21,7 +21,7 @@ read.gro <- function(file){
     if (missing(file)) {
         stop("please specify a gro 'file' for reading")
     }
-    if (file.exist(file)==FALSE) {
+    if (file.exists(file)==FALSE) {
         stop("file not found")
     }
     # Read the file with readLines
@@ -43,6 +43,8 @@ read.gro <- function(file){
     colnames(atoms) <- c("resno", "resid", "elety", "eleno", "x", "y", "z", "Vx", "Vy", "Vz")
     gro <- NULL
     gro$atom <- atoms
+    gro$atom$resid <- sapply(gro$atom$resid, trimws)
+    gro$atom$elety <- sapply(gro$atom$elety, trimws)
     gro$xyz  <- matrix(rbind(atoms$x, atoms$y, atoms$z), nrow=1)
     gro$box  <- box
     gro$call <- sys.call()

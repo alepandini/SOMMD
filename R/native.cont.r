@@ -37,7 +37,7 @@ native.cont <- function(struct=NULL, trj=NULL, trj.frame=1, distance, mol.2=FALS
     if(is.null(struct)==FALSE){
         coord <- cbind(struct$atom$x, struct$atom$y, struct$atom$z)
         #If it is a pdb file, convert Angstrom to nm
-        if("pdb" %in% class(pdb)){
+        if("pdb" %in% class(struct)){
             coord <- coord/10
         }
     }

@@ -5,7 +5,10 @@
 #' @param mol.2 contains the atom indexes of the second molecule in case only intermolecular distances should be computed
 #' @param sele contains the selection of distances coming from the native_contacts function
 #' @param atoms contains a list of atoms indexes on which the distances will be computed
+#' @param cap If a number is given, distances greater than this value are set at the cap value
+#'
 #' @return D the set of distances used to train the SOM is computed for all the frames.
+#'
 #' @export
 #'
 #' @examples
@@ -20,7 +23,7 @@
 #' # Compute distances for SOM training. 
 #' DIST <- calc.distances(trj, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
 
-calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL){
+calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
     #Check that the trajectory is of class trj:
     if(class(trj)!="trj"){
         stop("The trajectory should be an object with class trj")
@@ -52,7 +55,11 @@ calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL){
             stop("sele should be a selection of distances obtained from native_contacts or FALSE")
         }
     }
-    
+    if(is.null(cap) == FALSE){
+        if(is.numeric(cap) == FALSE){
+            stop("cap must be a number or NULL")
+        }
+    }
     #Compute distance matrix for all the frames
     D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dist.mat)
     if(mol.2 != FALSE){
@@ -66,10 +73,14 @@ calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL){
         D <- array(D, dim=c(dim(D)[1]*dim(D)[2], dim(D)[3]))
     }
     if(is.logical(sele) == FALSE){
-        return(t(D[sele,]))
+        D <- t(D[sele,])
     } else{
         if(sele==FALSE){
-            return(t(D))
+            D <- t(D)
         }
     }
+    if(is.null(cap) == FALSE){
+        D[which(D>cap)] <- cap
+    }
+    return(D)
 }
