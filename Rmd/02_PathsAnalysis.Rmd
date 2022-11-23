@@ -1,0 +1,188 @@
+---
+title: "Analisys of Pathways"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+- \usepackage[table]{xcolor}
+- \usepackage{multirow}
+---
+
+# 1.SOM Training
+
+## 1.1 Introduction
+
+This is A Notebook that explain how to use the SOMMD package to perform analysis of pathways sampled during molecular dynamics simulations. Detailed instructions on how to perform SOM training and cluster analysis can be found in the Clustering of MD trajectory notebook. Here we will perform analysis of pathways sampled during Steered MD simulations of a protein domain unfolding. Steered MD is a type of enhanced sampling MD method that apply a force, to pull the system in a particular direction. In the present case, the direction of pulling is the distance between the C-terminal and N-terminal ends of the protein. The system object of the study is the PAS-B domain of ARNT. For more information regarding the system, and the interpretation of the analysis, please refer to the following paper: [`S Motta et al., J. Chem. Theory Comput. 2021, 17, 4, 2080–2089 doi.org/10.1021/acs.jctc.0c01308`]{.underline}
+
+## 1.2 Compute Features
+
+At first we read the simulation files (the gro and the trajectory files).
+
+```{r}
+library(kohonen)
+devtools::load_all("..")
+
+#Read the xtc files in the folder
+folder <- system.file("data/02_ARNT_dataset/", package="SOMMD")
+xtcfiles <- list.files(folder, pattern = "*.xtc")
+pdbfile <- system.file("data/02_ARNT_dataset/ref.pdb", package="SOMMD")
+
+#Read the first replica
+trj <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=pdbfile)
+#Append all other trj files
+for(trj_file in xtcfiles[-1]){
+  rep <- read.trj(trjfile=paste(folder, "/", trj_file, sep=''),
+                  topfile=pdbfile)
+  trj <- cat.trj(trj, rep)
+}
+```
+
+Note that after reading the first replica, here we used a for loop to read all the other xtc files present in the dataset folder, and concatenate all them together.
+
+At this point you have to choose a set of descriptors that will be used for the training of the SOM. SOMMD have a series of built-in function that facilitate the computation of some common descriptors. In the present case we want to study an unfolding process, and to describe the protein conformation during the unfolding the C𝛃 pairwise distances are a valid choice. Among these distances, the most interesting ones are those between atoms forming a contact in the native (folded) conformation. These distances can be selected using the [`native_contacts`]{style="color:magenta"} function.
+
+```{r}
+#Read reference pdb with native conformation
+pdb <- bio3d::read.pdb("../data/02_ARNT_dataset/ref.pdb")
+#Select only Cbeta atoms to perform the analysis
+sele.atoms <- which(trj$top$elety=="CB")
+#Choose only native contacts
+sele.dists <- native.cont(struct=pdb, distance=1.0, atoms=sele.atoms)
+#Compute distances for SOM training. 
+DIST <- calc.distances(trj, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
+```
+
+## 1.3 SOM Training
+
+At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 8x8 SOM with hexagonal neurons.
+
+```{r}
+SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal", 
+                                         neighbourhood.fct="gaussian", toroidal=FALSE), 
+                    dist.fcts="euclidean", rlen=1000, mode='pbatch')
+```
+
+Now we will choose the best number of cluster based on the silhouette profile, and choose a maximum in the average silhouette score plot.
+
+```{r}
+plot.silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+```
+
+```{r}
+Nclus <- 10
+#Divide the SOM in the selected number of clusters
+SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method="euclidean"), method="complete"), 10)
+#Choose a pleasing to the eye set of colors
+COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
+               "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
+               "#747474", "#f88587", "#a4db77")
+#Plot the SOM colored by clusters
+plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+
+```
+
+## 1.4 Representation of properties on SOM
+
+To inspect the characteristics of the SOM, we will compute the distance between the C⍺ atoms of the C- and N- terminal ends of the domain and plot this property on the SOM.
+
+```{r}
+#Select the index of the first and last CA atoms
+Terminals <- c(head(which(trj$top$elety=="CA"),1), tail(which(trj$top$elety=="CA"),1))
+#Compute distances between these two atoms in every frame of the simulation
+Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
+#Compute average property value for each neuron
+Neur.avg.d <- average.neur.property(SOM, Term_dist)
+
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name=colorRampPalette(c("blue", "yellow", "red")), main="")
+add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+```
+
+From this plot it is simple to identify the corner in which the protein is folded (low distance values) and where it is unfolded (high distance values).
+
+# 2.Analysis of Pathways
+
+## 2.1 Trace Pathways
+
+At this point one can trace the pathways sampled during each replica on the SOM. This can be done using the function [`trace_path`]{style="color:magenta"}. This function draw the pathway followed by a simulation on the SOM. In order to simplify the plot of pathways from different replicas, the trj object contains the information of start and end of each replica merged with [`cat_trj`]{style="color:magenta"} in `trj$start` and `trj$end`. Using this information one can plot the pathway of a specific replica:
+
+```{r}
+#Plot the SOM colored by clusters
+par(mfrow=c(2,2))
+for(rep in c(1,3,9,11)){
+  plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
+       shape='straight', main=paste("Replica ", rep, sep=""))
+  add.cluster.boundaries(SOM, SOM.hc, lwd=3)
+  #Add the path tracing
+  trace.path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
+}
+```
+
+## 2.2 Clustering of Pathways
+
+The type of sampled pathways can be inspected using a pathway clustering method:
+
+```{r}
+path.clust <- cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
+plot(path.clust, xlab="")
+
+```
+
+This shows the similarity between pathways sampled in different replicas. Note that here we used the option: `time.dep="dependent"`, that compare the frames at the same time in the simulations. Given that in constant pulling speed Steered MD simulations proceed at the same speed, this is a valid option. If the simulations evolve at different speeds (for example in constant pulling force Steered MD). a `time.dep="independent"` algorithm would be more appropriate.
+
+## 2.3 Adding new data
+
+If you are interested in using a trained SOM to represent a new set of data you can use the `map.data`{style="color:magenta"} function. This function returns a the original trained SOM, with the new data mapped (assigned to the closest neuron). In the present case, we will analyze data from additional steered MD simulations run at lower pulling speeds. These simulations are stored in a different folder of the package.
+
+We read in in the `trj2` object the new set of simulations, as done before, and compute the distances that are used as descriptors.
+
+```{r}
+#Read additional simulations
+
+folder <- system.file("data/02_ARNT_lowspeed_dataset/", package="SOMMD")
+xtcfiles <- list.files(folder, pattern = "*.xtc")
+
+#Read the first replica
+trj2 <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=pdbfile)
+#Append all other trj files
+for(trj_file in xtcfiles[-1]){
+  rep <- read.trj(trjfile=paste(folder, "/", trj_file, sep=''),
+                  topfile=pdbfile)
+  trj2 <- cat.trj(trj, rep)
+}
+#Compute distances (the same used for SOM training)
+DIST2 <- calc.distances(trj2, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
+```
+
+At this point the new set of simulations can be mapped on the SOM trained with the set of simulations at higher pulling speed.
+
+```{r}
+#Map new data on the existing SOM
+SOM_new <- map.data(SOM=SOM, X=DIST2)
+```
+
+The returned SOM object contains the new mapped data and can be used to generate plot for the new set of simulations. To evaluate if the new data are consistent with the old data, we can compare the distributions of distances of the new data from the SOM neuron vectors. These distances are telling us how similar is each frame to the closest vector. Low values means that the frame is well representated by a SOM neuron, while high values means that the frame is not well represented by the SOM neurons.
+
+```{r}
+#Map new data on the existing SOM
+boxplot(SOM$distances, xlim=c(0.5,2.5), ylim=c(0,80), pch=16, ylab="Distance")
+boxplot(SOM_new$distances, at=2, add=TRUE, pch=16)
+axis(1, at=c(1,2), labels=c("High Speed", "Low Speed"))
+```
+
+As can be seen the distances from the SOM vectors in the two cases are similar. Slightly higher values were obtained for the data mapped on SOM, but this is expected as the SOM is optimized to represent the first set of data.
+
+The mapped SOM object can be used to produce any kind of SOM plot. Here we trace the pathways of the low speed set of simulations
+
+```{r}
+par(mfrow=c(2,3))
+for(rep in c(1:5)){
+  plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
+       shape='straight', main=paste("Low Speed Replica ", rep, sep=""))
+  add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
+  trace.path(SOM_new, start=trj2$start, end=trj2$end, N=rep, scale=0.5)
+}
+```
+
+As can be seen the pathways sampled are similar to ones sampled at higher pulling speed.
