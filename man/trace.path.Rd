@@ -10,7 +10,8 @@ trace.path(
   end = length(SOM$unit.classif),
   N = 1,
   draw.stride = 1,
-  scale = 1
+  pts.scale = 1,
+  lwd.scale = 1
 )
 }
 \arguments{
@@ -20,11 +21,13 @@ trace.path(
 
 \item{end:}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
 
-\item{N:}{The portion of simulation that one one to plot (only frames between trj$start\link{N} and trj$end\link{N} will be plotted)}
+\item{N:}{The portion of simulation that one want to plot (only frames between start\link{N} and end\link{N} will be plotted)}
 
 \item{draw.stride:}{used to plot the pathways with a stride (usefull for very complex pathways)}
 
-\item{scale:}{a number to scale up or down the size of the text}
+\item{pts.scale:}{a number to scale up or down the size of the circles}
+
+\item{lwd.scale:}{a number to scale up or down the size of the lines}
 }
 \description{
 Function trace pathway sampled on the SOM

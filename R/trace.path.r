@@ -7,9 +7,10 @@
 #' @param SOM: the SOM object 
 #' @param start: a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @param end: a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
-#' @param N: The portion of simulation that one one to plot (only frames between trj$start[N] and trj$end[N] will be plotted)
+#' @param N: The portion of simulation that one want to plot (only frames between start[N] and end[N] will be plotted)
 #' @param draw.stride: used to plot the pathways with a stride (usefull for very complex pathways)
-#' @param scale: a number to scale up or down the size of the text
+#' @param pts.scale: a number to scale up or down the size of the circles
+#' @param lwd.scale: a number to scale up or down the size of the lines
 #'
 #' @export
 #'
@@ -17,7 +18,7 @@
 #' trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
 
 #Function to draw pathways over the SOM
-trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.stride=1, scale=1){
+trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.stride=1, pts.scale=1, lwd.scale=1){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")
@@ -33,7 +34,7 @@ trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.str
         X <- c(X, SOM$grid$pts[u,1])
         Y <- c(Y, SOM$grid$pts[u,2])
     }
-    points(X,Y, pch=16, cex=(25*scale)/SOM$grid$xdim, xpd=T)
-    points(X,Y, pch=16, col=BWR(length(X)), cex=(18*scale)/SOM$grid$xdim, xpd=T)
-    lines(X,Y, pch=16, lwd=5*scale, xpd=T)
+    points(X,Y, pch=16, cex=(25*pts.scale)/SOM$grid$xdim, xpd=T)
+    points(X,Y, pch=16, col=BWR(length(X)), cex=(18*pts.scale)/SOM$grid$xdim, xpd=T)
+    lines(X,Y, pch=16, lwd=5*lwd.scale, xpd=T)
 }

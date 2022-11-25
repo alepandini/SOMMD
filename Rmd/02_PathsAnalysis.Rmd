@@ -1,5 +1,5 @@
 ---
-title: "Analisys of Pathways"
+title: "Analisys of Pathways in protein unfolding simulations"
 output:
   pdf_document: default
   html_notebook: default
@@ -115,7 +115,7 @@ for(rep in c(1,3,9,11)){
        shape='straight', main=paste("Replica ", rep, sep=""))
   add.cluster.boundaries(SOM, SOM.hc, lwd=3)
   #Add the path tracing
-  trace.path(SOM, start=trj$start, end=trj$end, N=rep, scale=0.5)
+  trace.path(SOM, start=trj$start, end=trj$end, N=rep, pts.scale=0.5, lwd.scale=0.4)
 }
 ```
 
@@ -166,12 +166,12 @@ The returned SOM object contains the new mapped data and can be used to generate
 
 ```{r}
 #Map new data on the existing SOM
-boxplot(SOM$distances, xlim=c(0.5,2.5), ylim=c(0,80), pch=16, ylab="Distance")
+boxplot(SOM$distances, xlim=c(0.5,2.5), ylim=c(0,50), pch=16, ylab="Distance")
 boxplot(SOM_new$distances, at=2, add=TRUE, pch=16)
 axis(1, at=c(1,2), labels=c("High Speed", "Low Speed"))
 ```
 
-As can be seen the distances from the SOM vectors in the two cases are similar. Slightly higher values were obtained for the data mapped on SOM, but this is expected as the SOM is optimized to represent the first set of data.
+As can be seen the distances from the SOM vectors in the two cases are similar. Slightly higher values may be obtained for the data mapped on SOM, but this is expected as the SOM is optimized to represent the first set of data.
 
 The mapped SOM object can be used to produce any kind of SOM plot. Here we trace the pathways of the low speed set of simulations
 
@@ -181,7 +181,7 @@ for(rep in c(1:5)){
   plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Low Speed Replica ", rep, sep=""))
   add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
-  trace.path(SOM_new, start=trj2$start, end=trj2$end, N=rep, scale=0.5)
+  trace.path(SOM_new, start=trj2$start, end=trj2$end, N=rep, pts.scale=0.5, lwd.scale=0.5)
 }
 ```
 

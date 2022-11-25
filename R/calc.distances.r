@@ -44,10 +44,11 @@ calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
         if(max(mol.2) > N_atm){
             stop(paste("Atoms of the second molecule:\n", mol.2, "\nare not in the range 1-", N_atm, "\n", sep=''))
         }
-    }
-    # Check that mol.2 is not equal to TRUE
-    if(mol.2 == TRUE){
-        stop("mol.2 should be a vector of atom indexes or FALSE")
+    } else{
+        # Check that mol.2 is not equal to TRUE
+        if(mol.2 == TRUE){
+            stop("mol.2 should be a vector of atom indexes or FALSE")
+        }
     }
     # Check that sele is not equal to TRUE
     if(is.logical(sele) == TRUE){
@@ -60,27 +61,17 @@ calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
             stop("cap must be a number or NULL")
         }
     }
-    #Compute distance matrix for all the frames
-    D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dist.mat)
-    if(mol.2 != FALSE){
-        #Consider only atoms that are within the atom selection (atoms)
-        #Convert the 2D matrix of distances in 3D matrix
-        dist.mat <- array(D, dim=c(c(1:length(atoms)),c(1:length(atoms)),ncol(D)))
+    
+    if(is.logical(mol.2) == FALSE){
         mol.2_id <- which(atoms %in% mol.2)
         mol.1 <- which(c(1:N_atm) %in% mol.2 ==FALSE)
-        mol.1.id <- which(atoms %in% mol.1)
-        D <- dist.mat[mol.1.id, mol.2_id,]
-        D <- array(D, dim=c(dim(D)[1]*dim(D)[2], dim(D)[3]))
-    }
-    if(is.logical(sele) == FALSE){
-        D <- t(D[sele,])
+        mol.1_id <- which(atoms %in% mol.1)
+        D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dists, mol.1_id=mol.1_id, mol.2_id=mol.2_id, sele=sele)
     } else{
-        if(sele==FALSE){
-            D <- t(D)
-        }
+        D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dists, sele=sele)
     }
     if(is.null(cap) == FALSE){
         D[which(D>cap)] <- cap
     }
-    return(D)
+    return(t(D))
 }

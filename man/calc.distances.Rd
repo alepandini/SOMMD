@@ -4,7 +4,7 @@
 \alias{calc.distances}
 \title{Function to compute distances to be used to train the SOM}
 \usage{
-calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL)
+calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL, cap = NULL)
 }
 \arguments{
 \item{trj}{contains the trajectory coordinates (array with three dimensions obtained by rioxdr)}
@@ -14,6 +14,8 @@ calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL)
 \item{sele}{contains the selection of distances coming from the native_contacts function}
 
 \item{atoms}{contains a list of atoms indexes on which the distances will be computed}
+
+\item{cap}{If a number is given, distances greater than this value are set at the cap value}
 }
 \value{
 D the set of distances used to train the SOM is computed for all the frames.

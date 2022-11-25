@@ -7,7 +7,7 @@
 #'
 #' @return trans
 #' @export
-comp.trans.mat <- function(classif, start){
+comp.trans.mat <- function(classif, start=1){
 #   Check that the classif is numeric  
     if(is.numeric(classif)==FALSE){
         stop("classif must be a numeric vector")
@@ -166,8 +166,12 @@ map2color <- function(x, pal, limits=NULL, na.col="grey"){
     if( is.numeric(x) == FALSE){
         stop("x must be a numeric vector")
     }
-    na.vals <- which(is.na(Neur.avg.d)==TRUE)
-    x2 <- x[-na.vals]
+    na.vals <- which(is.na(x)==TRUE)
+    if(length(na.vals)>0){
+        x2 <- x[-na.vals]
+    } else{
+        x2 <- x
+    }
     if(is.null(limits)) limits=range(x2)
     COL <- pal[findInterval(x,seq(limits[1],limits[2],length.out=length(pal)+1), all.inside=TRUE)]
     COL[na.vals] <- na.col

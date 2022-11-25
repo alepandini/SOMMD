@@ -4,10 +4,16 @@
 \alias{neur.population}
 \title{Get Neuron Population}
 \usage{
-neur.population(SOM)
+neur.population(SOM, start = 1, end = length(SOM$unit.classif), N = 1)
 }
 \arguments{
 \item{SOM}{the SOM object}
+
+\item{start:}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
+
+\item{end:}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
+
+\item{N:}{The portion of simulation that one one to plot (only frames between trj$start\link{N} and trj$end\link{N} will be plotted)}
 }
 \description{
 Function to compute the per-neuron population

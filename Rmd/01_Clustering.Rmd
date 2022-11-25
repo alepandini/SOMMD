@@ -207,7 +207,7 @@ Colors-scales can be used to represent the average property of frames belonging 
 
 ```{r}
 
-RMSD_file <- xtcfile <- system.file("data/01_FOXP1_dataset/RMSD_WT-1-PROD.dat", package="SOMMD")
+RMSD_file <- system.file("data/01_FOXP1_dataset/RMSD_WT-1-PROD.dat", package="SOMMD")
 RMSD <- read.table(RMSD_file)
 Neur.avg.RMSD <- average.neur.property(SOM, RMSD[,1])
 par(mfrow=c(1,2))

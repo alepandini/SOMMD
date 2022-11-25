@@ -4,7 +4,7 @@
 \alias{comp.trans.mat}
 \title{Compute transition matrix}
 \usage{
-comp.trans.mat(classif, start)
+comp.trans.mat(classif, start = 1)
 }
 \arguments{
 \item{classif}{a vector of neuron assigment (usually passed by SOM$unit.classif}

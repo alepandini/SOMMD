@@ -1,0 +1,250 @@
+---
+title: "Transition network analysis in ligand-protein metadynamic simulation"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+- \usepackage[table]{xcolor}
+- \usepackage{multirow}
+---
+
+# 1. SOM Training
+
+## 1.1 Introduction
+
+This is A Notebook that explain how to use the SOMMD package to perform analysis of pathways sampled during molecular dynamics simulations and build a network graph that represent the transitions between pairs of neurons. Detailed instructions on how to perform SOM training and path tracing can be found in previous notebook. Here we build a network that represent pathways sampled during a metadynamic simulation of a protein-ligand binding. Metadynamic is a type of enhanced sampling MD method in which a gaussian-shaped potential is added to bias the system at the current position of some collective variables (CVs), at regular time intervals. This allows the system to escape from any local minimum and to visit new regions in the CVs space. In the present case, the CVs used to perfom MetaD are the position along a predefined path *S(x)* and the distance from the reference path *Z(x)*. The system object of the study is a 1.8 µs Metadynamic simulation that explore the binding of the THS-020 ligand to the PAS-B domain of HIF-2⍺. For more information regarding the system, and the interpretation of the analysis, please refer to the following papers: `[L.` `Callea et al., J. Chem. Theory Comput. 2021, 17, 7, 3841–3851 doi.org/10.1021/acs.jctc.1c00114]`, `[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`.
+
+## 1.2 Train SOM with native interactions
+
+At first we read the simulation files (the gro and the trajectory files).
+
+```{r}
+library(kohonen)
+devtools::load_all("..")
+
+#Read the xtc file 
+xtcfile <- system.file("data/03_HIF_dataset/HIF_MetaD.xtc", package="SOMMD")
+grofile <- system.file("data/03_HIF_dataset/ref.gro", package="SOMMD")
+trj <- read.trj(trjfile=xtcfile, topfile=grofile)
+```
+
+At this point you have to choose a set of descriptors that will be used for the training of the SOM. In the present case we want to study a ligand binding process, and to describe the position of the ligand within the binding site, a set of intermolecular distances between the ligand and the protein atoms is usually a good descriptor. At first, let's try with a simple selection: the set of distances of ligand and protein heavy atoms forming a contact (distance \< 6 Å) in the reference file.
+
+```{r}
+#Read reference pdb with native conformation
+gro <- read.gro(grofile)
+#Select protein and ligand atoms
+protein.sele <- which(gro$atom$resid!="020")
+ligand.sele <- which(gro$atom$resid=="020")
+#Select heavy atoms
+heavy.atoms <- which(startsWith(gro$atom$elety, "H")==FALSE)
+#Choose only native contacts
+sele.dists <- native.cont(struct=gro, distance=0.6, mol.2=ligand.sele, atoms=heavy.atoms)
+#Compute distances for SOM training. 
+DIST <- calc.distances(trj, mol.2=ligand.sele, sele=sele.dists, atoms=heavy.atoms)
+
+print(dim(DIST))
+```
+
+From this calculation we have obtained a large matrix of 629 distances for the 9175 frames of the simulation. At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 10x10 SOM with hexagonal neurons.
+
+```{r}
+SOM_nat <- kohonen::som(DIST, grid = somgrid(10, 10, "hexagonal", 
+                                         neighbourhood.fct="gaussian", toroidal=FALSE), 
+                    dist.fcts="euclidean", rlen=1000, mode='pbatch')
+```
+
+Now we will choose the best number of cluster based on the silhouette profile, and choose a maximum in the average silhouette score plot.
+
+```{r}
+plot.silhouette.score(SOM_nat, clust_method="complete", interval=seq(2,30))
+```
+
+```{r}
+Nclus <- 10
+#Divide the SOM in the selected number of clusters
+SOM.hc <- cutree(hclust(dist(SOM_nat$codes[[1]], method="euclidean"), method="complete"), 10)
+#Choose a pleasing to the eye set of colors
+COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
+               "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
+               "#747474", "#f88587", "#a4db77")
+#Plot the SOM colored by clusters
+plot(SOM_nat, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM_nat, SOM.hc, lwd=5)
+
+
+
+
+```
+
+```{r}
+#Plot the value of S(x) and Z(x) over the SOM.
+Sx_file <- system.file("data/03_HIF_dataset/Sx.dat", package="SOMMD")
+Sx <- read.table(Sx_file)
+Neur.avg.Sx <- average.neur.property(SOM_nat, Sx[,1])
+
+Zx_file <- system.file("data/03_HIF_dataset/Zx.dat", package="SOMMD")
+Zx <- read.table(Zx_file)
+Neur.avg.Zx <- average.neur.property(SOM_nat, Zx[,1])
+
+par(mfrow=c(1,2))
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM_nat, type = "property", property=Neur.avg.Sx, shape='straight', palette.name=colorRampPalette(c("blue", "green", "red")), main="S(x)")
+add.cluster.boundaries(SOM_nat, SOM.hc, lwd=5)
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM_nat, type = "property", property=Neur.avg.Zx, shape='straight', palette.name=colorRampPalette(c("blue", "green", "red")), main="Z(x)")
+add.cluster.boundaries(SOM_nat, SOM.hc, lwd=5)
+```
+
+## 1.3 Train SOM using a selection of atoms and a distance cap
+
+Now let's try to change approach, and use a selection of atoms that we retain to be relevant for the binding process. Selected atoms should describe both the binding site and the mouth at the entrance of the binding site. Ideally, both atoms from backbone and from large or polar/charged sidechains should be included when the side chain dynamics and interactions are relevant for binding. Similarly, selected ligand atoms should well describe the core molecular structure and all the relevant lateral groups. Here we will use the set of atoms used in the reference work: `[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`. Note that the option cap=1.2 will be used in the `calc.distances`{style="color:magenta"} function to set the value of all the distances greater than 12 Å to 12 Å. This remove part of the noise, as all the unbound state appear similar to the SOM, that will be dedicated to the description of conformations where the ligand is in contact with the protein.
+
+```{r}
+#atoms selection
+sele.atoms <- c(127, 157, 167, 214, 223, 253, 263, 624, 668, 688, 699, 793, 798, 807, 816, 838, 852, 865, 871, 880, 905, 910, 919, 924, 1011, 1025, 1046, 1052, 1059, 1076, 1087, 1121, 1130, 1315, 1323, 1569, 1603, 1608, 1630, 1635, 1781, 1792, 1793, 1794, 1795)
+
+#Select ligand atoms
+ligand.sele <- which(gro$atom$resid=="020")
+
+#Compute distances for SOM training. 
+DIST <- calc.distances(trj, mol.2=ligand.sele, atoms=sele.atoms, cap=1.2)
+
+print(dim(DIST))
+```
+
+Here the atom selection `sele.atoms` contains the atom indexes of the protein and ligand atoms retained relevant for the process we want to study. These are 40 atoms for the protein and 5 atoms for the ligand. Then, the `calc.distances`{style="color:magenta"} function compute all the intermolecular distances between every pair of protein and ligand atoms. This return a set of 40x5=200 distances. At this point the computed distances can be used to train the SOM as done before.
+
+```{r}
+SOM_sel <- kohonen::som(DIST, grid = somgrid(10, 10, "hexagonal", 
+                                         neighbourhood.fct="gaussian", toroidal=FALSE), 
+                    dist.fcts="euclidean", rlen=1000, mode='pbatch')
+```
+
+Select an optimal number of clusters
+
+```{r}
+plot.silhouette.score(SOM_sel, clust_method="complete", interval=seq(2,30))
+```
+
+```{r}
+Nclus <- 12
+#Divide the SOM in the selected number of clusters
+SOM.hc <- cutree(hclust(dist(SOM_sel$codes[[1]], method="euclidean"), method="complete"), 10)
+#Choose a pleasing to the eye set of colors
+COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
+               "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
+               "#747474", "#f88587", "#a4db77")
+#Plot the SOM colored by clusters
+plot(SOM_sel, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM_sel, SOM.hc, lwd=5)
+
+```
+
+```{r}
+#Plot the value of S(x) and Z(x) over the SOM.
+Sx_file <- system.file("data/03_HIF_dataset/Sx.dat", package="SOMMD")
+Sx <- read.table(Sx_file)
+Neur.avg.Sx <- average.neur.property(SOM_sel, Sx[,1])
+
+Zx_file <- system.file("data/03_HIF_dataset/Zx.dat", package="SOMMD")
+Zx <- read.table(Zx_file)
+Neur.avg.Zx <- average.neur.property(SOM_sel, Zx[,1])
+
+par(mfrow=c(1,2))
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM_sel, type = "property", property=Neur.avg.Sx, shape='straight', palette.name=colorRampPalette(c("blue", "green", "red")), main="S(x)")
+add.cluster.boundaries(SOM_sel, SOM.hc, lwd=5)
+#Plot the SOM colored according to the average property value of each neuron
+plot(SOM_sel, type = "property", property=Neur.avg.Zx, shape='straight', palette.name=colorRampPalette(c("blue", "green", "red")), main="Z(x)")
+add.cluster.boundaries(SOM_sel, SOM.hc, lwd=5)
+```
+
+We can appreciate two advantages from this second SOM:
+
+1.  The space on the map dedicated to the completly unbound state (S(x) \> 8) is dramatically reduced to few neurons in one corner. This is due to the capping value imposed during the distance calculation.
+
+2.  The bound states (S(x) \< 4) occupy a whole side of the map, instead of a corner. This means that we are able to better describe the different bound conformation. This is also due to the fact that we are not concentrating our efforts in describing the native conformation, but the set chosen distances are good for all the sampled bound states. The reduction of distances using the native.cont function that we used in the previous section, is indeed good if we want to focus on the persistence/breaking of the native interactions, but this is achieved only at the cost of reducing the ability to describe new interactions not present in the native conformation.
+
+## 1.4 Trace Pathways
+
+At this point one can trace the pathways sampled during each replica on the SOM.
+
+```{r}
+#Plot the SOM colored by clusters
+plot(SOM_sel, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
+       shape='straight', main="")
+add.cluster.boundaries(SOM_sel, SOM.hc, lwd=3)
+trace.path(SOM_sel, pts.scale=1, lwd.scale=0.5)
+
+```
+
+However, the result is very confusing, as the simulation continuously evolves back and forth along the reaction path.
+
+## **1.5 Representing SOM as a graph network**
+
+Using the information from the transition matrix of the simulations it is possible to build a graph network that represent all the possible pathways sampled.
+
+```{r}
+#Compute transition matrix
+Tr_mat <- comp.trans.mat(SOM_sel$unit.classif, start = 1)
+#Convert the matrix to an igraph network
+d <- Matrix2Network(Tr_mat)
+#Remove the self transitions
+d_nodiag <- rm.net.diag(d)
+net <- Network2Graph(d_nodiag, SOM_sel, SOM.hc, COL.SCALE)
+```
+
+Note that in the `comp.trans.mat`{style="color:magenta"} function, the `start` argument specify the starting point of the replicas. In case of a study case with multiple replicas, the transition between the last frame of the replica N and the first frame of the replica N+1 must be removed from the counting of transitions. In that case you can simply use the trj\$start vector that contains the starting frames of all the replicas concatenated with the `cat.trj`{style="color:magenta"} function. In the present case we are working with a single simulation, so the starting point is simply 1 (the first frame).
+
+Using the igraph package several representation of the SOM can be obtained:
+
+```{r}
+library(igraph)
+#edge.start <- ends(net, es=E(net), names=F)[,1]
+#edge.col <- V(net)$color[edge.start]
+#Plot network with the SOM layout
+plot(net, edge.arrow.size=E(net)$width/5, edge.curved=0.17, edge.color='black', vertex.label="", layout=SOM_sel$grid$pts)
+```
+
+However, optimal disposition of vertex can be used. Several algorithm exist able to estimate optimal network vertices placement on the plane. Here we will use the force-directed layout algorithm by Fruchterman and Reingold.
+
+```{r}
+coords = layout_with_fr(net, coords=SOM_sel$grid$pts)
+#coords = layout_with_fr(net)
+plot(net, edge.arrow.size=E(net)$width/5, edge.curved=0.17, edge.color='black', vertex.label="", layout=coords)
+
+```
+
+Note that since the layout algorithm is not deterministic, you will obtain a different vertex disposition every time you rerun the layout_with_fr() command. You may also try to run the command several time to search for a clear vertex disposition.
+
+You may also want to perform a kinetic-like clustering using a community detection method. Among those available in igraph, the walktrap method allows to treat biderectional graph. This function tries to find densely connected subgraphs, also called communities in a graph via random walks. The idea is that short random walks tend to stay in the same community.
+
+```{r}
+CL_walktrap <- cluster_walktrap(net)
+COL <- COL.SCALE[membership(CL_walktrap)]
+par(mfrow=c(1,2))
+plot(SOM_sel, type = "mapping", bgcol=COL, col=rgb(0,0,0,0), shape='straight', main="")
+add.cluster.boundaries(SOM_sel, SOM.hc, lwd=3)
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
+
+```
+
+Here neurons are divided according to the transition probability instead of their geometric similarity. To map a property to a graph, simply set the color of each node according to a colorscale. You should easily identify two pathways that connect the unbound state with the two different bound states.
+
+```{r}
+#Set the color scale
+col.palette <- colorRampPalette(c("blue", "green", "red"))(200)
+#Convert the average property to the colors
+
+par(mfrow=c(1,2))
+#Do the plot for Sx
+COL <- map2color(Neur.avg.Sx, col.palette)
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
+
+#Do the plot for Zx
+COL <- map2color(Neur.avg.Zx, col.palette)
+plot(net, edge.arrow.size=E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
+```
+
+From these plots it is possible to appreciate the two distinct paths that lead to the native bound state (low *S(x)* and *Z(x)* values) and the alternative bound state (low *S(x)* and high *Z(x)* values).
