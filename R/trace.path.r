@@ -26,14 +26,17 @@ trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.str
     X <- NULL
     Y <- NULL
     BWR <- colorRampPalette(c("blue", "white", "red"))
-#     trj_frames <- seq(head(start, 1), tail(end, 1))
     trj.frames.stride <- seq(head(start, 1), tail(end, 1))
+    #For the selected replica (N)
     rep.frames <- which(trj.frames.stride >= start[N] & trj.frames.stride <= end[N])
+    #For every frame
     for(i in rep.frames[seq(1, length(rep.frames), by=draw.stride)]){
+        #Compute the neuron position and store their coordinates in X and Y
         u <- SOM$unit.classif[i]
         X <- c(X, SOM$grid$pts[u,1])
         Y <- c(Y, SOM$grid$pts[u,2])
     }
+    #draw the X and Y coordinates and the paths
     points(X,Y, pch=16, cex=(25*pts.scale)/SOM$grid$xdim, xpd=T)
     points(X,Y, pch=16, col=BWR(length(X)), cex=(18*pts.scale)/SOM$grid$xdim, xpd=T)
     lines(X,Y, pch=16, lwd=5*lwd.scale, xpd=T)

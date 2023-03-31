@@ -43,22 +43,26 @@ cluster.pathways <- function(SOM, start, end, time.dep="independent", method="co
     if(time.dep != "dependent" & time.dep != "independent"){
         stop("time.dep must be one between dependent or independent")
     }
-
+    # Store paths in a matrix with every replica in columns
     paths <- matrix(NA, nrow=max(end-start)+1, ncol=length(start))
     for(i in 1:length(start)){
         paths[1:((end[i]-start[i])+1), i] <- SOM$unit.classif[start[i]:end[i]]
     }   
+    #mat is a matrix of distances
     mat <- matrix(0, ncol=length(start), nrow=length(start))
+    #Check if replicas are of same length in case of time dependent clustering
     if(time.dep=="dependent"){
         if(sum(((end-start)-max(end-start))==0) != length(start)){
             warning("You are trying to use time dependent clustering on replicas of multiple length")
         }
     }
+    #Compute paths distances
     for(i in 1:length(start)){
         for(j in 1:length(start)){
             mat[i,j] <- dist.paths(na.omit(paths[,i]), na.omit(paths[,j]), SOM$grid$pts, time.dep=time.dep)
         }
     }
+    #Cluster the distance matrix
     path.clust <- hclust(as.dist(mat), method=method)
     return(path.clust)
 }
@@ -81,20 +85,25 @@ dist.paths <- function(A, B, SOM.grid, time.dep='independent'){
     }
     if(time.dep=="independent"){
         #A and B are two vectors of the same length containing the path through neurons while SOM.grid is the SOM$grid$pts
+        #Compute at every step of A the distance from the closest B neuron
         D1 <- NULL
         for(i in 1:length(A)){
             D1 <- c(D1, min(as.matrix(dist(rbind(SOM.grid[A[i],], SOM.grid[unique(B),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
         }
+        #Compute at every step of B the distance from the closest A neuron
         D2 <- NULL
         for(i in 1:length(B)){
             D2 <- c(D2, min(as.matrix(dist(rbind(SOM.grid[B[i],], SOM.grid[unique(A),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
         }
+        #The distance between the two paths would be the average of the two distances
         D1 <- sum(D1)/length(A)
         D2 <- sum(D2)/length(B)
         return(max(D1,D2))
     } else{
+        #Time dependent distance
         #A and B are two vectors of the same length containing the path through neurons while SOM.grid is the SOM$grid$pts
         D <- NULL
+        #Compute the distance between the paths at evert step
         for(i in 1:length(A)){
             D <- c(D, dist(rbind(SOM.grid[A[i],], SOM.grid[B[i],]), method="euclidean"))
         }

@@ -25,6 +25,7 @@ average.neur.property <- function(SOM, P){
         stop(paste("SOM input frames were ", length(SOM$unit.classif), " while length of the property is ", length(P), sep=''))
     }
     avg.neur.p <- NULL
+    #For every neuron, compute the average value of the proporty for the frames of that neuron
     for(i in 1:nrow(SOM$grid$pts)){
         avg.neur.p <- c(avg.neur.p, mean(P[which(SOM$unit.classif==i)]))
     }

@@ -34,12 +34,13 @@ calc.dists <- function(coord, mol.1_id=FALSE, mol.2_id=FALSE, sele=FALSE){
             stop("sele should be a selection of distances obtained from native_contacts or FALSE")
         }
     }
-
+    #Compute distance matrix for all the atoms
     D <- as.matrix(dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
-
+    #Retain only intermolecular distances
     if(is.logical(mol.2_id) == FALSE){
         D <- D[mol.1_id, mol.2_id]
     }
+    #Retain only distances within the selection passed with sele
     if(is.logical(sele) == FALSE){
         D <- c(D[sele])
     } else{

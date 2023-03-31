@@ -55,6 +55,7 @@ read.trj <- function(trjfile, topfile){
   }
 
   if(trjfileExtension == "dcd"){
+    #read the trj using the bio3d read.dcd function
     trj_dcd <- bio3d::read.dcd(trjfile, verbose = F)
     nframes <- dim(trj_dcd)[1]
     ncoords <- dim(trj_dcd)[2]
@@ -68,6 +69,7 @@ read.trj <- function(trjfile, topfile){
   }
 
   if(trjfileExtension == "xtc"){
+    #Read using built in function in C
     trj_xtc <- rio_read_xtc(trjfile)
     trj_coord <- trj_xtc
     trj_start <- c(1)
@@ -75,7 +77,7 @@ read.trj <- function(trjfile, topfile){
   }
 
   trj <- NULL
-
+  #Add some property to the object
   trj$topfile <- topfilepath
   trj$topformat <- topfileExtension
   trj$trjfile <- trjfilepath
@@ -85,7 +87,7 @@ read.trj <- function(trjfile, topfile){
   trj$start <- trj_start
   trj$end<- trj_end
   trj$call <- sys.call()
-
+  #Create the class of the object
   class(trj) <- "trj"
 
   if(nrow(trj$coord) != nrow(trj$top)){

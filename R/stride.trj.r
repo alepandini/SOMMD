@@ -34,10 +34,12 @@ stride.trj <- function(traj, stride){
     WARN1 <- FALSE
     WARN2 <- FALSE
     for(i in 1:length(traj$start)){
+        #Check if parts of the simulations have at least 1 frame each
         RF <- which(SEQ >= traj$start[i] & SEQ <= traj$end[i])
         if(length(RF)==0){
             WARN1 <- TRUE
         }
+        #Check if parts of the simulations have more than 1 frame each
         if(length(RF)==1){
             WARN2 <- TRUE
         }

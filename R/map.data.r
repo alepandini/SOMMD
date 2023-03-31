@@ -30,11 +30,13 @@ map.data <- function(SOM, X, add=FALSE)    {
         stop("add must be set to the value of TRUE or FALSE")
     }
     SOM_new <- SOM
+    # The new SOM will contain only new data
     if(add==FALSE){
         SOM_new$data[[1]] <- X
         MAP <- kohonen::map(x=SOM, newdata=X)
         SOM_new$unit.classif <- MAP$unit.classif
         SOM_new$distances <- MAP$distances
+    # The new SOM will contain both the old and the new data
     } else{
         SOM_new$data[[1]] <- rbind(SOM$data[[1]], X)
         MAP <- kohonen::map(x=SOM, newdata=X)

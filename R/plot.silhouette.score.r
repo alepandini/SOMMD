@@ -25,11 +25,14 @@ plot.silhouette.score <- function(SOM, dist_clust="euclidean", clust_method="com
         stop("The upper limit of interval cannot exceed the number of SOM neurons")
     }
     SIL <- NULL
+    #For the selected interval of number of clusters
     for(i in interval){
+            #Compute the silhouette profile using the cluster library
             SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method=dist_clust), method=clust_method), i)
             sil = cluster::silhouette(SOM.hc, dist(SOM$codes[[1]]))
         SIL <- c(SIL, mean(sil[,3]))
     }
+    #Do the plot
     plot(interval, SIL, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
     for(i in seq(0, max(interval), by=2)){
         abline(v=i, col="grey", lwd=0.5)

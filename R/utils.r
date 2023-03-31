@@ -22,6 +22,7 @@ compute.distance <- function(V1, V2){
 #' @noRd
 TwoLetters <- function(letters=LETTERS){
     LET <- NULL
+    #Create a combination of two letters 
     for(i in letters){
         for(j in letters){
         LET <- c(LET, paste(i, j, sep=''))

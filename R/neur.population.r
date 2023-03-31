@@ -24,6 +24,7 @@ neur.population <- function(SOM, start=1, end=length(SOM$unit.classif), N=1){
         stop("The value of N exceed the number of replicas indicated by the start vector")
     }
     population <- NULL
+    #Compute population for each neuron
     for(neuron in 1:nrow(SOM$grid$pts)){
         population <- c(population, length(which(SOM$unit.classif[start[N]:end[N]]==neuron)))
     }

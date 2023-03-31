@@ -26,6 +26,7 @@ cluster.representatives <- function(SOM, clusters){
     #Compute cluster centroid
     centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
     repr.neur <- NULL
+    #Compute the conformation closer to the centroid and store them in cl_repr
     for(i in 1:ncol(centroid)){
         repr.neur <- c(repr.neur, select_representative(centroid, SOM, clusters, i))
     }

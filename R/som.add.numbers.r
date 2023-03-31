@@ -20,6 +20,7 @@ som.add.numbers <- function(SOM, scale=1, col="black"){
     }
     X <- NULL
     Y <- NULL
+    #Add the neuron number to the SOM plot
     for(i in c(1:nrow(SOM$grid$pts))){
         X <- SOM$grid$pts[i,1]
         Y <- SOM$grid$pts[i,2]

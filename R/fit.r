@@ -56,9 +56,11 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
             stop("ref.inds contain atom indeces that exceed the number of atoms of ref")
         }
     }
+    #Coordinates of the reference
     fixed <- c(t(ref[ref.inds]))
-    
+    #Coordinate of the simulation
     mobile <- trj2xyz(trj)
+    #Use the bio3d function to align
     fit_output <- bio3d::fit.xyz(fixed=ref, mobile=mobile,
                                  fixed.inds = ref.inds,
                                  mobile.inds = trj.inds)
@@ -68,6 +70,7 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
     fit_output[,] <- t(fit_output[,])
     dim(fit_output) <- c(nframes * ncoords, 1)
     dim(fit_output) <- c(3, natoms, nframes)
+    #Create the trj object with aligned coords
     trj$coord <- aperm(fit_output, c(2,1,3))
     return(trj)
 }
