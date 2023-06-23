@@ -120,9 +120,16 @@ To further group neurons similar to each other into clusters an agglomerative cl
 ```{r}
 par(mfrow=c(1,2))
 #Plot the silhouette score
-plot.silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+sil.score <- silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+plot(sil.score, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
+for(i in seq(0, max(sil.score[,1]), by=2)){
+    abline(v=i, col="grey", lwd=0.5)
+}
+
 #Plot the silhouette profile for 8 number of clusters
-plot.silhouette.profile(SOM, Nclus=8, clust_method="complete")
+sil.prof <- silhouette.profile(SOM, Nclus=8, clust_method="complete")
+plot(sil.prof, main="", do.clus.stat = FALSE, do.n.k = FALSE)
+abline(v=mean(sil.prof[,3]), col='red', lty=3, lwd=2)
 ```
 
 From this plot one can choose a good value for the number of clusters and plot the resulting SOM. This should ideally be a maximum in the average silhouette score plot, but looking at the single silhouette profiles (the figure on the right) one can further inspect the quality of the clusters.
@@ -273,7 +280,12 @@ SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal",
 Choose the best number of clusters
 
 ```{r}
-plot.silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+sil.score <- silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+plot(sil.score, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
+for(i in seq(0, max(sil.score[,1]), by=2)){
+    abline(v=i, col="grey", lwd=0.5)
+}
+
 ```
 
 ```{r}

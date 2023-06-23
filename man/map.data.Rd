@@ -4,7 +4,7 @@
 \alias{map.data}
 \title{Map data to SOM}
 \usage{
-map.data(SOM, X, add = FALSE)
+\method{map}{data}(SOM, X, add = FALSE)
 }
 \arguments{
 \item{SOM}{a trained SOM}

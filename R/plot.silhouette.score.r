@@ -1,6 +1,6 @@
-#' Plot silhouette score
+#' Silhouette score
 #'
-#' Function to plot the silhouette score for the clustering of SOM neurons
+#' Function to compute the silhouette score for the clustering of SOM neurons
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM the SOM object to cluster
@@ -12,10 +12,10 @@
 #' @export
 #'
 #' @examples
-#' plot.silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+#' silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
 
-#Function to compute and plot the silhouette profiles
-plot.silhouette.score <- function(SOM, dist_clust="euclidean", clust_method="complete", interval=seq(2,30)){
+#Function to compute the silhouette profiles
+silhouette.score <- function(SOM, dist_clust="euclidean", clust_method="complete", interval=seq(2,30)){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")
@@ -27,14 +27,21 @@ plot.silhouette.score <- function(SOM, dist_clust="euclidean", clust_method="com
     SIL <- NULL
     #For the selected interval of number of clusters
     for(i in interval){
-            #Compute the silhouette profile using the cluster library
-            SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method=dist_clust), method=clust_method), i)
-            sil = cluster::silhouette(SOM.hc, dist(SOM$codes[[1]]))
+            #Compute the silhouette profile
+        sil = silhouette.profile(SOM, Nclus=i, dist_clust=dist_clust, clust_method=clust_method)
         SIL <- c(SIL, mean(sil[,3]))
     }
-    #Do the plot
-    plot(interval, SIL, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
-    for(i in seq(0, max(interval), by=2)){
-        abline(v=i, col="grey", lwd=0.5)
-    }
+    sil.score <- cbind(interval, SIL)
+    return(sil.score)
 }
+
+
+#     plot(sil, main="", do.clus.stat = FALSE, do.n.k = FALSE)
+#     abline(v=mean(sil[,3]), col='red', lty=3, lwd=2)
+
+
+    #Do the plot
+#     plot(interval, SIL, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
+#     for(i in seq(0, max(interval), by=2)){
+#         abline(v=i, col="grey", lwd=0.5)
+#     }

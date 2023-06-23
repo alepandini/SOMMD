@@ -17,7 +17,7 @@ comp.trans.mat <- function(classif, start=1){
         stop("start must be a numeric vector")
     }
 #   Check all start values are within the length of classif
-    if(sum((start-length(SOM$unit.classif))>0) != 0){
+    if(sum((start-length(classif))>0) != 0){
         stop("some start values exceed the length of classif")
     }
     #Remove transitions across the replicas

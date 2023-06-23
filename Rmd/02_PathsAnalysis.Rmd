@@ -65,7 +65,12 @@ SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal",
 Now we will choose the best number of cluster based on the silhouette profile, and choose a maximum in the average silhouette score plot.
 
 ```{r}
-plot.silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+sil.score <- silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
+plot(sil.score, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Average silhouettes')
+for(i in seq(0, max(sil.score[,1]), by=2)){
+    abline(v=i, col="grey", lwd=0.5)
+}
+
 ```
 
 ```{r}
