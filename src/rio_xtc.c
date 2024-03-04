@@ -18,7 +18,7 @@ int file_exists(const char * filename){
   return 0;
 }
 
-XDRFILE *rio_xdrfile_open(SEXP xtc_filename_){
+XDRFILE *rio_xdrfile_open(SEXP xtc_filename_, const char *open_mode){
 
   /* duplicate string to non-const */
   int xtc_filename_length;
@@ -30,7 +30,7 @@ XDRFILE *rio_xdrfile_open(SEXP xtc_filename_){
   strcpy(xtc_filename_input, xtc_filename);
 
   /* open xtc file handle */
-  XDRFILE* xtc_file = xdrfile_open(xtc_filename_input, "r");
+  XDRFILE* xtc_file = xdrfile_open(xtc_filename_input, open_mode);
 
   return xtc_file;
 }
@@ -92,7 +92,7 @@ SEXP rio_read_xtc_nframes_(SEXP xtc_filename_)
   rvec *coord_vec = malloc(natms * sizeof(rvec));
 
   /* open xtc file handle */
-  XDRFILE *xtc_file = rio_xdrfile_open(xtc_filename_);
+  XDRFILE *xtc_file = rio_xdrfile_open(xtc_filename_, "r");
 
   /* read first frame from xtc file */
   status = read_xtc(xtc_file, natms, &step, &time, box, coord_vec, &prec);
@@ -150,7 +150,7 @@ SEXP rio_read_xtc_(SEXP xtc_filename_)
   nframes = asInteger(rio_read_xtc_nframes_(xtc_filename_));
 
   /* open xtc file handle */
-  XDRFILE *xtc_file = rio_xdrfile_open(xtc_filename_);
+  XDRFILE *xtc_file = rio_xdrfile_open(xtc_filename_, "r");
 
   /* allocate and protect memory for coordinate matrix */
   SEXP coord = PROTECT(allocVector(REALSXP, natms*cartesian_dim*nframes));
@@ -194,4 +194,43 @@ SEXP rio_read_xtc_(SEXP xtc_filename_)
 
   /* return coordinate matrix */
   return coord;
+}
+
+SEXP rio_write_xtc_(SEXP xtc_filename_)
+{
+  /* open xtc file handle */
+  XDRFILE *xtc_file = rio_xdrfile_open(xtc_filename_, "w");
+
+  /* dummy values */
+  int natoms = 3;
+  int step = 1;
+  float time = 1.000;
+  float prec = 3.0;
+  matrix box = {
+      {0.0f, 0.0f, 0.0f},
+      {0.0f, 0.0f, 0.0f},
+      {0.0f, 0.0f, 0.0f}
+    };
+  float rvec[3][3] = {
+      {1.0f, 0.0f, 0.0f},
+      {0.0f, 1.0f, 0.0f},
+      {0.0f, 0.0f, 1.0f}
+    };
+
+  /* status variable */
+  int status;
+
+  status = write_xtc(xtc_file,
+                       natoms, step, time,
+                       box, rvec, prec);
+
+  /* close xtc file handle */
+  xdrfile_close(xtc_file);
+
+  /* status variable */
+  SEXP return_status = PROTECT(allocVector(INTSXP, 1));
+  INTEGER(return_status)[0] = status;
+  UNPROTECT(1);
+
+  return return_status;
 }

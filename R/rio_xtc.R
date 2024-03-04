@@ -33,3 +33,9 @@ rio_read_xtc2xyz <- function(xtc_filename){
   reshaped_xyz_array <- rio_coord_reshape(xyz_3D_array)
   return(bio3d::as.xyz(reshaped_xyz_array))
 }
+
+#' @export
+rio_write_xtc <- function(xtc_filename){
+  status <- .Call("rio_write_xtc_", xtc_filename)
+  return(status)
+}
