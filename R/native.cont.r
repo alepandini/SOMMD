@@ -3,7 +3,7 @@
 #' Function to select only distances between residues making contacts in reference file or a frame of the simulation
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param structure: a pdb or gro object to compute the native.cont
+#' @param structure: a struct object read with read.struct() to compute the native.cont
 #' @param trj: a trj object to compute the native.cont
 #' @param trj.frame: The frame of the trj on which the native.cont are computed
 #' @param distance the distance cut-off
@@ -15,31 +15,27 @@
 #'
 #' @examples
 #' #Read reference pdb with native conformation
-#' pdb <- bio3d::read.pdb("../data/Medium_Dataset/ref.pdb")
+#' struct <- read.struct("../data/Medium_Dataset/ref.pdb")
 #'
 #' #Select only Cbeta atoms to perform the analysis
-#' sele_atoms <- which(trj$top$elety=="CB")
+#' sele_atoms <- which(struct$atom$elety=="CB")
 #'
 #' #Choose only native contacts
-#' sele_dists <- native.cont(struct=pdb, distance=1.0, atoms=sele_atoms)
+#' sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
 #'   
       
 native.cont <- function(struct=NULL, trj=NULL, trj.frame=1, distance, mol.2=FALSE, atoms=NULL){
-    # If nor a structure file (pdb or gro) nor a trj is given, print an error message
+    # If nor a struct object nor a trj is given, print an error message
     if(is.null(struct) & is.null(trj)){
-        stop("Please provide a structure (pdb or gro) or a trj as input")
+        stop("Please provide a struct or a trj as input")
     }
-    # If both a structure file (pdb or gro) and a trj is given, print a warning message
+    # If both a struct and a trj is given, print a warning message
     if(is.null(struct)==FALSE & is.null(trj)==FALSE){
-        warning("Both a structure and a trj was provided, using coordinate from the structure file and ignoring trj.")
+        warning("Both a struct and a trj was provided, using coordinate from the struct file and ignoring trj.")
     }
     #Use the structure file
     if(is.null(struct)==FALSE){
         coord <- cbind(struct$atom$x, struct$atom$y, struct$atom$z)
-        #If it is a pdb file, convert Angstrom to nm
-        if("pdb" %in% class(struct)){
-            coord <- coord/10
-        }
     }
     # Use the trj file
     if(is.null(struct) & is.null(trj)==FALSE){

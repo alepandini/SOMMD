@@ -7,7 +7,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param trj an object with class trj
-#' @param ref a pdb or gro object to be used as reference
+#' @param ref a struct object read with read.struct() to be used as reference
 #' @param trj.inds a vector of indices that selects the trj atoms upon which fitting should be based. If not specified all atoms will be used.
 #' @param ref.inds a vector of indices that selects the ref atoms upon which fitting should be based. If not specified all atoms will be used.
 #'
@@ -31,8 +31,8 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
         ref <- trj$coord[,,1]
         ref.inds <- trj.inds
     } else{
-        if(class(ref) != "pdb" & class(ref) != "gro"){
-            stop("ref must be an object with class pdb or gro")
+        if(class(ref) != "struct"){
+            stop("ref must be an object with class struct")
         }
         ref <- cbind(ref$atom$x, ref$atom$y, ref$atom$z)
     }

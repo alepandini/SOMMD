@@ -12,8 +12,6 @@
 #' @return \item{box}{ a vector of box size.}
 #' @return \item{call}{ the matched call.}
 #'
-#' @export
-#'
 #' @examples
 #' gro <- read.gro("ref.gro")
 
@@ -48,7 +46,7 @@ read.gro <- function(file){
     gro$atom$resid <- sapply(gro$atom$resid, trimws)
     gro$atom$elety <- sapply(gro$atom$elety, trimws)
     gro$xyz  <- matrix(rbind(atoms$x, atoms$y, atoms$z), nrow=1)
-    gro$box  <- box
+    gro$box  <- as.numeric(box)
     gro$call <- sys.call()
     class(gro) <- "gro"
     return(gro)
