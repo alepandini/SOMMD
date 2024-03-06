@@ -1,4 +1,4 @@
 print.struct <- function(struct) {
-  ## Print a summary of basic struct object features
-  y <- summary.pdb(struct)
+  # Print a summary of basic struct object features
+  y <- summary.struct(struct)
 }

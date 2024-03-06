@@ -41,18 +41,9 @@ read.trj <- function(trjfile, topfile){
     stop("SOMMD currely does not support this trajectory format.")
   }
 
-  if(topfileExtension == "pdb"){
-    top_pdb <- bio3d::read.pdb(topfile, verbose = F)
-    pdb_columns <- c("resno", "resid", "elety", "eleno", "chain")
-    top <- top_pdb$atom[,pdb_columns]
-  }
-
-  if(topfileExtension == "gro"){
-    top_gro <- read.gro(topfile)
-    top_gro$atom$chain <- NA
-    gro_columns <- c("resno", "resid", "elety", "eleno", "chain")
-    top <- top_gro$atom[,gro_columns]
-  }
+  top_struct <- read.struct(topfile)
+  struct_columns <- c("resno", "resid", "elety", "eleno", "chain")
+  top <- top_struct$atom[,struct_columns]
 
   if(trjfileExtension == "dcd"){
     #read the trj using the bio3d read.dcd function
