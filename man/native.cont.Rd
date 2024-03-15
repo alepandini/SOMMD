@@ -20,7 +20,7 @@ native.cont(
 
 \item{atoms}{can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function}
 
-\item{structure:}{a pdb or gro object to compute the native.cont}
+\item{structure:}{a struct object read with read.struct() to compute the native.cont}
 
 \item{trj:}{a trj object to compute the native.cont}
 
@@ -34,13 +34,13 @@ Function to select only distances between residues making contacts in reference 
 }
 \examples{
 #Read reference pdb with native conformation
-pdb <- bio3d::read.pdb("../data/Medium_Dataset/ref.pdb")
+struct <- read.struct("../data/Medium_Dataset/ref.pdb")
 
 #Select only Cbeta atoms to perform the analysis
-sele_atoms <- which(trj$top$elety=="CB")
+sele_atoms <- which(struct$atom$elety=="CB")
 
 #Choose only native contacts
-sele_dists <- native.cont(struct=pdb, distance=1.0, atoms=sele_atoms)
+sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
   
 }
 \author{

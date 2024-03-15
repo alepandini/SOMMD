@@ -1,3 +1,11 @@
+#' Summarizing a trajectory object
+#'
+#' ‘summary’ method for class ‘"trj"’.
+#' @author Stefano Motta \email{stefano.motta@unimib.it}
+#'
+#' @export
+#'
+
 summary.trj <- function(object) {
   if( class(object)!="trj" ) {
     stop("Input should be a struct trj, as obtained from 'read.trj()'")

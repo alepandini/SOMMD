@@ -9,7 +9,7 @@ fit(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL)
 \arguments{
 \item{trj}{an object with class trj}
 
-\item{ref}{a pdb or gro object to be used as reference}
+\item{ref}{a struct object read with read.struct() to be used as reference}
 
 \item{trj.inds}{a vector of indices that selects the trj atoms upon which fitting should be based. If not specified all atoms will be used.}
 

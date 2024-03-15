@@ -1,6 +1,6 @@
-#' Map data to SOM
+#' map data to existing SOM
 #'
-#' Assign new data to a trained SOM
+#' Assign new data to a pre-trained SOM
 #'
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
@@ -15,9 +15,9 @@
 #' # Compute distances on new simulations (the same used for SOM training)
 #' DIST2 <- calc_distances(trj2, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
 #' # Map new data on the existing SOM
-#' SOM_new <- map.data(SOM=SOM, X=DIST2)
+#' SOM_new <- remap.data(SOM=SOM, X=DIST2)
 
-map.data <- function(SOM, X, add=FALSE)    {
+remap.data <- function(SOM, X, add=FALSE)    {
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")
