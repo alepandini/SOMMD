@@ -35,7 +35,10 @@ rio_read_xtc2xyz <- function(xtc_filename){
 }
 
 #' @export
-rio_write_xtc <- function(xtc_filename){
-  status <- .Call("rio_write_xtc_", xtc_filename)
+rio_write_xtc <- function(xtc_filename, trj){
+  coords <- trj$coord
+  natoms <- dim(coords)[1]
+  nframes <- dim(coords)[3]
+  status <- .Call("rio_write_xtc_", xtc_filename, coords, natoms, nframes)
   return(status)
 }
