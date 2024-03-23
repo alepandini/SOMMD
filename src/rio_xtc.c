@@ -213,7 +213,7 @@ SEXP rio_write_xtc_(SEXP xtc_filename_, SEXP coords_, SEXP natoms_, SEXP nframes
 
   /* dummy values */
   int step = 1;
-  float time = 1.000;
+  float time = 0.000;
   float prec = 1000.0;
   matrix box = {
       {0.000f, 0.000f, 0.000f},
@@ -230,7 +230,7 @@ SEXP rio_write_xtc_(SEXP xtc_filename_, SEXP coords_, SEXP natoms_, SEXP nframes
     /* copy frame coordinate array */
     for(int j =0; j < nxyz; j++){
       for(int i =0; i < natoms; i++){
-        frame_rvec[i][j] =  (float)coords[i + (j * natoms * nframes) + (k * natoms)];
+        frame_rvec[i][j] =  (float)coords[i + (j * natoms) + (k * natoms * nxyz)];
       }
     }
 
@@ -238,6 +238,10 @@ SEXP rio_write_xtc_(SEXP xtc_filename_, SEXP coords_, SEXP natoms_, SEXP nframes
     status = write_xtc(xtc_file,
                          natoms, step, time,
                          box, frame_rvec, prec);
+
+    /* increase step */
+    step += 1;
+
   }
 
   /* close xtc file handle */
