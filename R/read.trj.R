@@ -67,6 +67,9 @@ read.trj <- function(trjfile, topfile){
     trj_end <- c(dim(trj_xtc)[3])
   }
 
+  #Create dummy indices starting from 0
+  frameidx <- c(0:(dim(trj_coord)[3] - 1))
+
   trj <- NULL
   #Add some property to the object
   trj$topfile <- topfilepath
@@ -74,6 +77,7 @@ read.trj <- function(trjfile, topfile){
   trj$trjfile <- trjfilepath
   trj$trjformat <- trjfileExtension
   trj$coord <- trj_coord
+  trj$frameidx <- frameidx
   trj$top <- top
   trj$start <- trj_start
   trj$end<- trj_end
