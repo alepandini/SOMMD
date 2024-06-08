@@ -1,5 +1,5 @@
 Package: SOMMD
-Title: What the Package Does (One Line, Title Case)
+Title: Self Organising Maps for the analysis of Molecular Dynamics data
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Alessandro",
@@ -7,23 +7,13 @@ Authors@R: c(
            role = c("aut", "cre"),
            email = "alessandro.pandini@gmail.com",
            comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X")),
-    person(given = "Shaziya",
-           family = "Mulla",
-           role = c("aut"),
-           email = "Shaziyaismail.m@gmail.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-7642-3136")),
-    person(given = "Hamid",
-           family = "Davoudkhani",
-           role = c("aut"),
-           email = "h.davoudkhani@icloud.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-5369-0266")), 
     person(given = "Stefano",
            family = "Motta",
            role = c("aut"),
            email = "stefano.motta@unimib.it",
            comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
 Description: What the package does (one paragraph).
-License: GPL (>= 3)
+License: GPL (>= 3) | BSD 2-clause License + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -33,7 +23,8 @@ Imports:
     kohonen,
     crayon,
     abind,
-    cluster
+    cluster,
+    igraph
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
