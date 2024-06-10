@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-#' trj <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb"))
+#' trj <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
 
 read.trj <- function(trjfile, topfile){
   supported_top_formats <- c("pdb","gro")
