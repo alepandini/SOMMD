@@ -1,24 +1,39 @@
 #' @useDynLib SOMMD, .registration=TRUE
-#' @export
+NULL
 
+#' Read xtc trajectory file
+#' Function to read a xtc trajectory file
+#' @author Alessandro Pandini
+#' @param xtc_filename contains the name and the path to the xtc file
+#' @return Returns number of atoms in the structure
+#' @export
 rio_read_xtc_natoms <- function(xtc_filename){
   natms <- .Call("rio_read_xtc_natoms_", xtc_filename)
   return(natms)
 }
 
+#' Read xtc trajectory file
+#' Function to read an xtc trajectory file
+#' @author Alessandro Pandini
+#' @param xtc_filename contains the name and the path to the xtc file
+#' @return Returns number of frames in the trajectory 
 #' @export
 rio_read_xtc_nframes <- function(xtc_filename){
   nframes <- .Call("rio_read_xtc_nframes_", xtc_filename)
   return(nframes)
 }
 
+#' Read xtc trajectory file
+#' Function to read an xtc trajectory file
+#' @author Alessandro Pandini
+#' @param xtc_filename contains the name and the path to the xtc file
+#' @return Returns 3D array of cartesian coordinates
 #' @export
 rio_read_xtc <- function(xtc_filename){
   xyz_3D_array <- .Call("rio_read_xtc_", xtc_filename)
   return(xyz_3D_array)
 }
 
-#' @export
 rio_coord_reshape <- function(xyz_3D_array){
   array_dim <- dim(xyz_3D_array)
   perm_xyz_array <- aperm(xyz_3D_array, c(2,1,3))
@@ -27,6 +42,11 @@ rio_coord_reshape <- function(xyz_3D_array){
   return(reshaped_xyz_array)
 }
 
+#' Read xtc trajectory file
+#' Function to read an xtc trajectory file
+#' @author Alessandro Pandini
+#' @param xtc_filename contains the name and the path to the xtc file
+#' @return Returns bio3d xyz array of cartesian coordinates
 #' @export
 rio_read_xtc2xyz <- function(xtc_filename){
   xyz_3D_array <- rio_read_xtc(xtc_filename)
@@ -34,6 +54,12 @@ rio_read_xtc2xyz <- function(xtc_filename){
   return(bio3d::as.xyz(reshaped_xyz_array))
 }
 
+#' Write xtc trajectory file
+#' Function to write an xtc trajectory file
+#' @author Alessandro Pandini
+#' @param xtc_filename contains the name and the path to the xtc file to write
+#' @param trj trajectory object to save
+#' @return Returns status of write execution
 #' @export
 rio_write_xtc <- function(xtc_filename, trj){
   coords <- trj$coord
