@@ -24,6 +24,6 @@ som.add.clusters.legend <- function(N.clus, color.scale){
     }
     #Add the legend to the plot
     MyBorders = rep("black", N.clus)
-    legend("right", legend=LEG_LAB[1:N.clus], fill=color.scale[1:N.clus], ncol=1, xpd=TRUE, cex=CX, bty="n", border=MyBorders) #or pch=22
+    graphics::legend("right", legend=LEG_LAB[1:N.clus], fill=color.scale[1:N.clus], ncol=1, xpd=TRUE, cex=CX, bty="n", border=MyBorders) #or pch=22
 }
 

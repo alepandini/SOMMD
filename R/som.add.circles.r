@@ -34,6 +34,6 @@ SOM.add.circles <- function(SOM, property, scale=1, col.circles="white"){
     #Rescale the property
     property <- property/max(property[is.na(property)==FALSE])
     #Add points
-    points(SOM$grid$pts[,1], SOM$grid$pts[,2], pch=16, cex=property*MAGNIF*1.2, col="black", xpd=TRUE)
-    points(SOM$grid$pts[,1], SOM$grid$pts[,2], pch=16, cex=property*MAGNIF, col=col.circles, xpd=TRUE)
+    graphics::points(SOM$grid$pts[,1], SOM$grid$pts[,2], pch=16, cex=property*MAGNIF*1.2, col="black", xpd=TRUE)
+    graphics::points(SOM$grid$pts[,1], SOM$grid$pts[,2], pch=16, cex=property*MAGNIF, col=col.circles, xpd=TRUE)
 }

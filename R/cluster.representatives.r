@@ -63,7 +63,7 @@ clust.centroid = function(i, dat, clusters) {
         for(neur in 1:nrow(SOM$grid$pts)){
             pop <- c(pop, length(which(SOM$unit.classif==neur)))
         }
-         return(apply(dat[ind,], 2, weighted.mean, w=pop[ind]))
+         return(apply(dat[ind,], 2, stats::weighted.mean, w=pop[ind]))
     } else {
         return(dat[ind,])
     }

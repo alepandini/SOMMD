@@ -24,6 +24,6 @@ som.add.numbers <- function(SOM, scale=1, col="black"){
     for(i in c(1:nrow(SOM$grid$pts))){
         X <- SOM$grid$pts[i,1]
         Y <- SOM$grid$pts[i,2]
-        text(x=X, y=Y, labels=i, cex=((scale*13)/SOM$grid$xdim), xpd=TRUE, col=col)
+        graphics::text(x=X, y=Y, labels=i, cex=((scale*13)/SOM$grid$xdim), xpd=TRUE, col=col)
     }
 }

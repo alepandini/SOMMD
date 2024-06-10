@@ -59,11 +59,11 @@ cluster.pathways <- function(SOM, start, end, time.dep="independent", method="co
     #Compute paths distances
     for(i in 1:length(start)){
         for(j in 1:length(start)){
-            mat[i,j] <- dist.paths(na.omit(paths[,i]), na.omit(paths[,j]), SOM$grid$pts, time.dep=time.dep)
+            mat[i,j] <- dist.paths(stats::na.omit(paths[,i]), stats::na.omit(paths[,j]), SOM$grid$pts, time.dep=time.dep)
         }
     }
     #Cluster the distance matrix
-    path.clust <- hclust(as.dist(mat), method=method)
+    path.clust <- stats::hclust(stats::as.dist(mat), method=method)
     return(path.clust)
 }
 
@@ -88,12 +88,12 @@ dist.paths <- function(A, B, SOM.grid, time.dep='independent'){
         #Compute at every step of A the distance from the closest B neuron
         D1 <- NULL
         for(i in 1:length(A)){
-            D1 <- c(D1, min(as.matrix(dist(rbind(SOM.grid[A[i],], SOM.grid[unique(B),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
+            D1 <- c(D1, min(as.matrix(stats::dist(rbind(SOM.grid[A[i],], SOM.grid[unique(B),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
         }
         #Compute at every step of B the distance from the closest A neuron
         D2 <- NULL
         for(i in 1:length(B)){
-            D2 <- c(D2, min(as.matrix(dist(rbind(SOM.grid[B[i],], SOM.grid[unique(A),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
+            D2 <- c(D2, min(as.matrix(stats::dist(rbind(SOM.grid[B[i],], SOM.grid[unique(A),]), method="euclidean", upper=TRUE, diag=TRUE))[1,-1]))
         }
         #The distance between the two paths would be the average of the two distances
         D1 <- sum(D1)/length(A)
@@ -105,7 +105,7 @@ dist.paths <- function(A, B, SOM.grid, time.dep='independent'){
         D <- NULL
         #Compute the distance between the paths at evert step
         for(i in 1:length(A)){
-            D <- c(D, dist(rbind(SOM.grid[A[i],], SOM.grid[B[i],]), method="euclidean"))
+            D <- c(D, stats::dist(rbind(SOM.grid[A[i],], SOM.grid[B[i],]), method="euclidean"))
         }
         return(sum(D)/length(A))
     }

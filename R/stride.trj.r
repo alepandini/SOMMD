@@ -43,8 +43,8 @@ stride.trj <- function(traj, stride){
         if(length(RF)==1){
             WARN2 <- TRUE
         }
-        stride_traj$start[i] <- head(RF, 1)
-        stride_traj$end[i] <- tail(RF, 1) 
+        stride_traj$start[i] <- utils::head(RF, 1)
+        stride_traj$end[i] <- utils::tail(RF, 1) 
     }
     if(WARN1){
         warning("Using this stride some of your simulation parts remain with no frame")

@@ -10,6 +10,6 @@
 #'
 
 calc.dist.mat <- function(coord){
-    mat <- as.matrix(dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
+    mat <- as.matrix(stats::dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
     return(mat)
 }

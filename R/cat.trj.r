@@ -40,8 +40,8 @@ cat.trj <-  function(trj1, ...){
             warning("Simulations you are merging use different top file format. Be sure that the trj files you are merging are consistent.")
         }
         trj$trjfile <- c(trj$trjfile, T$trjfile)
-        trj$start <- c(trj$start, tail(trj$end, 1)+1)
-        trj$end   <- c(trj$end, tail(trj$start,1)+(dim(T$coord)[3]-1)) 
+        trj$start <- c(trj$start, utils::tail(trj$end, 1)+1)
+        trj$end   <- c(trj$end, utils::tail(trj$start,1)+(dim(T$coord)[3]-1)) 
         trj$coord <- abind::abind(trj$coord, T$coord, along = 3)
         trj$call <- sys.call()
     }

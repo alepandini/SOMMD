@@ -25,8 +25,8 @@ silhouette.profile <- function(SOM, Nclus, dist_clust="euclidean", clust_method=
         stop("The number of cluster cannot exceed the number of SOM neurons")
     }
     #Do clustering
-    SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method=dist_clust), method=clust_method), Nclus)
+    SOM.hc <- stats::cutree(stats::hclust(stats::dist(SOM$codes[[1]], method=dist_clust), method=clust_method), Nclus)
     #Perform silhouette profile trhough "cluster" library
-    sil = cluster::silhouette(SOM.hc, dist(SOM$codes[[1]]))
+    sil = cluster::silhouette(SOM.hc, stats::dist(SOM$codes[[1]]))
     return(sil)
 }

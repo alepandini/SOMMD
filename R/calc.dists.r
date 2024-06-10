@@ -35,7 +35,7 @@ calc.dists <- function(coord, mol.1_id=FALSE, mol.2_id=FALSE, sele=FALSE){
         }
     }
     #Compute distance matrix for all the atoms
-    D <- as.matrix(dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
+    D <- as.matrix(stats::dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
     #Retain only intermolecular distances
     if(is.logical(mol.2_id) == FALSE){
         D <- D[mol.1_id, mol.2_id]

@@ -8,7 +8,7 @@
 #' @return the euclidean distance between the two vectors
 #' @noRd
 compute.distance <- function(V1, V2){
-    return(as.numeric(dist(rbind(V1, V2))))
+    return(as.numeric(stats::dist(rbind(V1, V2))))
 }
 
 #' List two letters

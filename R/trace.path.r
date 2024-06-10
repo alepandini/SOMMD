@@ -25,8 +25,8 @@ trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.str
     }
     X <- NULL
     Y <- NULL
-    BWR <- colorRampPalette(c("blue", "white", "red"))
-    trj.frames.stride <- seq(head(start, 1), tail(end, 1))
+    BWR <- grDevices::colorRampPalette(c("blue", "white", "red"))
+    trj.frames.stride <- seq(utils::head(start, 1), utils::tail(end, 1))
     #For the selected replica (N)
     rep.frames <- which(trj.frames.stride >= start[N] & trj.frames.stride <= end[N])
     #For every frame
@@ -37,7 +37,7 @@ trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.str
         Y <- c(Y, SOM$grid$pts[u,2])
     }
     #draw the X and Y coordinates and the paths
-    points(X,Y, pch=16, cex=(25*pts.scale)/SOM$grid$xdim, xpd=T)
-    points(X,Y, pch=16, col=BWR(length(X)), cex=(18*pts.scale)/SOM$grid$xdim, xpd=T)
-    lines(X,Y, pch=16, lwd=5*lwd.scale, xpd=T)
+    graphics::points(X,Y, pch=16, cex=(25*pts.scale)/SOM$grid$xdim, xpd=T)
+    graphics::points(X,Y, pch=16, col=BWR(length(X)), cex=(18*pts.scale)/SOM$grid$xdim, xpd=T)
+    graphics::lines(X,Y, pch=16, lwd=5*lwd.scale, xpd=T)
 }
