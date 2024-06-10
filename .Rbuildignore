@@ -1,5 +1,9 @@
 ^SOMMD\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
-^LICENSE$
 cran-comments.md
+^\.git$
+^\.gitignore$
+^\.DS_Store$
+^src/xdrfile/xdrfile\.o$
+^src/xdrfile/xdrfile_trr\.o$
+^src/xdrfile/xdrfile_xtc\.o$

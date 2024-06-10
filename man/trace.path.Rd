@@ -21,7 +21,7 @@ trace.path(
 
 \item{end:}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
 
-\item{N:}{The portion of simulation that one want to plot (only frames between start\link{N} and end\link{N} will be plotted)}
+\item{N:}{The portion of simulation that one want to plot}
 
 \item{draw.stride:}{used to plot the pathways with a stride (usefull for very complex pathways)}
 
