@@ -25,7 +25,7 @@
 
 calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
     #Check that the trajectory is of class trj:
-    if(class(trj)!="trj"){
+    if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
     }
     N_atm <- nrow(trj$coord)

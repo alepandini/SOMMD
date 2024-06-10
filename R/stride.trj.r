@@ -16,7 +16,7 @@
 
 stride.trj <- function(traj, stride){
     #Check that the trajectory is of class trj:
-    if(class(traj)!="trj"){
+    if(!methods::is(traj,"trj")){
         stop("The trajectory should be an object with class trj")
     }
     #Check that stride is a number

@@ -7,7 +7,7 @@
 #'
 
 summary.struct <- function(object) {
-  if( class(object)!="struct" ) {
+  if(!methods::is(object,"struct")){
     stop("Input should be a struct object, as obtained from 'read.struct()'")
   }
   nxyz <- length(object$xyz[1,])

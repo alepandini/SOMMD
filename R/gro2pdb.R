@@ -15,7 +15,7 @@ struct2pdb <- function(struct){
     if (missing(struct)) {
         stop("please specify a struct object to convert")
     }
-    if(class(struct)!="struct"){
+    if(!methods::is(struct,"struct")){
         stop("struct should be an object with class struct")
     }
     #Create empty object

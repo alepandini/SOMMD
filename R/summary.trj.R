@@ -7,7 +7,7 @@
 #'
 
 summary.trj <- function(object) {
-  if( class(object)!="trj" ) {
+  if(!methods::is(object,"trj")){
     stop("Input should be a struct trj, as obtained from 'read.trj()'")
   }
   ntotal <- nrow(object$top)

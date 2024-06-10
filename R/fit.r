@@ -21,7 +21,7 @@
 #' trj.fit <- fit(trj, trj.inds=ca.inds)
 
 fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
-    if(class(trj)!="trj"){
+    if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
     }
     if(is.null(ref) & is.null(ref.inds) == FALSE){
@@ -31,7 +31,7 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
         ref <- trj$coord[,,1]
         ref.inds <- trj.inds
     } else{
-        if(class(ref) != "struct"){
+        if(!methods::is(ref,"struct")){
             stop("ref must be an object with class struct")
         }
         ref <- cbind(ref$atom$x, ref$atom$y, ref$atom$z)
@@ -91,7 +91,7 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
 #' trj2xyz(trj)
 
 trj2xyz <- function(trj, inds=NULL){
-    if(class(trj)!="trj"){
+    if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
     }
     if(is.null(inds)){
