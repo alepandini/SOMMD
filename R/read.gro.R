@@ -50,6 +50,4 @@ read.gro <- function(file){
     gro$call <- sys.call()
     class(gro) <- "gro"
     return(gro)
-}                    
-                    
-                    
+}           
