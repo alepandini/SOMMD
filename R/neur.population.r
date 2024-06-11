@@ -5,9 +5,9 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM the SOM object
-#' @param start: a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
-#' @param end: a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
-#' @param N: The portion of simulation that one want to plot
+#' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
+#' @param end a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
+#' @param N The portion of simulation that one want to plot
 #'
 #' @export
 #'

@@ -4,13 +4,13 @@
 #'
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param SOM: the SOM object 
-#' @param start: a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
-#' @param end: a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
-#' @param N: The portion of simulation that one want to plot
-#' @param draw.stride: used to plot the pathways with a stride (usefull for very complex pathways)
-#' @param pts.scale: a number to scale up or down the size of the circles
-#' @param lwd.scale: a number to scale up or down the size of the lines
+#' @param SOM the SOM object 
+#' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
+#' @param end a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
+#' @param N The portion of simulation that one want to plot
+#' @param draw.stride used to plot the pathways with a stride (usefull for very complex pathways)
+#' @param pts.scale a number to scale up or down the size of the circles
+#' @param lwd.scale a number to scale up or down the size of the lines
 #'
 #' @export
 #'

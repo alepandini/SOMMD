@@ -4,9 +4,9 @@
 #'
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param SOM: the SOM object 
-#' @param scale: a number to scale up or down the size of the text
-#' @param col: the color of the text
+#' @param SOM the SOM object 
+#' @param scale a number to scale up or down the size of the text
+#' @param col the color of the text
 #'
 #' @export
 #'

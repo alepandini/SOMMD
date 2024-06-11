@@ -3,9 +3,9 @@
 #' Function to select only distances between residues making contacts in reference file or a frame of the simulation
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param structure: a struct object read with read.struct() to compute the native.cont
-#' @param trj: a trj object to compute the native.cont
-#' @param trj.frame: The frame of the trj on which the native.cont are computed
+#' @param structure a struct object read with read.struct() to compute the native.cont
+#' @param trj a trj object to compute the native.cont
+#' @param trj.frame The frame of the trj on which the native.cont are computed
 #' @param distance the distance cut-off
 #' @param mol.2 can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)
 #' @param atoms can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function

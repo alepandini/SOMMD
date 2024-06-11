@@ -3,8 +3,8 @@
 #' Function to compute the average value of a property for each neuron.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param SOM: the SOM object to cluster
-#' @param P: the property for each frame of the simulation
+#' @param SOM the SOM object to cluster
+#' @param P the property for each frame of the simulation
 #'
 #' @return avg.neur.p the per-neuron average of the property.
 #' @export

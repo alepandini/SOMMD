@@ -4,9 +4,9 @@
 #'
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param SOM: the SOM object 
-#' @param property: a vector containing the per-neuron property to plot
-#' @param scale: a number to scale up or down the size of the drawn circles
+#' @param SOM the SOM object 
+#' @param property a vector containing the per-neuron property to plot
+#' @param scale a number to scale up or down the size of the drawn circles
 #' @param col.circles the background color of the drawn circles 
 #'
 #' @export

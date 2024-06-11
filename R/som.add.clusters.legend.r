@@ -4,8 +4,8 @@
 #'
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param N.clus: the number of clusters to which put the legent
-#' @param color.scale: the color scale used for the image
+#' @param N.clus the number of clusters to which put the legent
+#' @param color.scale the color scale used for the image
 #'
 #' @export
 #' 
