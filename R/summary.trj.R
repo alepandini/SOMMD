@@ -4,11 +4,12 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param object trajectory object
+#' @param ... additional arguments to be passed to further methods
 #'
 #' @export
 #'
 
-summary.trj <- function(object) {
+summary.trj <- function(object, ...) {
   if(!methods::is(object,"trj")){
     stop("Input should be a struct trj, as obtained from 'read.trj()'")
   }
@@ -25,28 +26,28 @@ summary.trj <- function(object) {
   nucl.res <- c("A",   "U",  "G",  "C", "T",  "I", "DA", "DU", "DG", "DC",  "DT", "DI")
   all.inds <- c(1: nrow(object$top))
   prot.inds <- which( object$top$resid %in% prot.res )
-  nucl.inds <- which( object$top$resid %in% nucl.res )  
+  nucl.inds <- which( object$top$resid %in% nucl.res )
   other.inds <-  all.inds[! (all.inds %in% c(prot.inds, nucl.inds)) ]
   nres.prot <- length( which( object$top$resid[new_residue_lines] %in% prot.res ))
   nres.nucl <- length( which( object$top$resid[new_residue_lines] %in% nucl.res ))
   nres.other <- nres-(nres.prot + nres.nucl)
   chains <- unique(object$top[,"chain"])
   chains[which(is.na(chains))] <- "' '"
-  
+
   if(length(other.inds) == 0){
     s.hetres <- ""
   } else{
     s.hetres <- paste("\n     Non-protein/nucleic resid values: [ ", unique(object$top$resid[other.inds])," ]")
   }
-  
+
   cat("\n Call:  ", paste(deparse(object$call), sep = "\n", collapse = "\n"),
         "\n", sep = "")
 
-  s <- paste0("\n     Total Atoms#: ", ntotal, ",  Total Frames#: ", nFrames, 
+  s <- paste0("\n     Total Atoms#: ", ntotal, ",  Total Frames#: ", nFrames,
               "\n     Replicas#: ", length(object$start),
               "\n     Replicas starting at: ", object$start,
               "\n     Replicas ending at: ", object$end,
-  
+
               "\n\n     Protein Atoms#: ", length(prot.inds),
               "  (residues#: ", nres.prot,")",
               "\n     Nucleic acid Atoms#: ", length(nucl.inds),
@@ -57,7 +58,7 @@ summary.trj <- function(object) {
   			  "\n     Chains#: ", length(chains),
   			  "  (values: ", paste(chains, collapse=" "),")",
               "\n\n")
-              
+
   cat(s)
 
   i <- paste( attributes(object)$names, collapse=", ")

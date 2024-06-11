@@ -3,7 +3,8 @@
 #' @export
 #'
 
-print.struct <- function(struct) {
+print.struct <- function(x, ...) {
   # Print a summary of basic struct object features
+  struct <- x
   y <- summary.struct(struct)
 }

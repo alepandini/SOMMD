@@ -3,7 +3,8 @@
 #' @export
 #'
 
-print.trj <- function(trj) {
+print.trj <- function(x, ...) {
   # Print a summary of basic trj object features
+  trj <- x
   y <- summary.trj(trj)
 }

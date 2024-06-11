@@ -4,10 +4,12 @@
 \alias{summary.trj}
 \title{Summarizing a trajectory object}
 \usage{
-\method{summary}{trj}(object)
+\method{summary}{trj}(object, ...)
 }
 \arguments{
 \item{object}{trajectory object}
+
+\item{...}{additional arguments to be passed to further methods}
 }
 \description{
 ‘summary’ method for class ‘"trj"’.

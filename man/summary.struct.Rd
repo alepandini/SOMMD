@@ -4,10 +4,12 @@
 \alias{summary.struct}
 \title{Summarizing a structure object}
 \usage{
-\method{summary}{struct}(object)
+\method{summary}{struct}(object, ...)
 }
 \arguments{
 \item{object}{struct object}
+
+\item{...}{additional arguments to be passed to further methods}
 }
 \description{
 ‘summary’ method for class ‘"struct"’.
