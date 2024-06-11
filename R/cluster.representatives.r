@@ -1,12 +1,12 @@
 #' Cluster Representatives
-#' 
+#'
 #' Compute the cluster representatives
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param SOM a kohonen SOM object. 
+#' @param SOM a kohonen SOM object.
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust.
 #'
-#' @return representatives a vector of frames representatives of each neuron 
+#' @return representatives a vector of frames representatives of each neuron
 #' @export
 #'
 #' @examples
@@ -20,7 +20,7 @@ cluster.representatives <- function(SOM, clusters){
         stop("SOM must be a kohonen object")
     }
     #check whether the number of elements in clusters vector is equal to neuron numbers
-    if(length(SOM.hc) != nrow(SOM$grid$pts)){
+    if(length(clusters) != nrow(SOM$grid$pts)){
         stop("Number of cluster elements is different from number of neurons")
     }
     #Compute cluster centroid
@@ -46,7 +46,7 @@ cluster.representatives <- function(SOM, clusters){
 #' Function to compute the weighted mean (by population) of the vectors belonging to each clusters
 #' @param i the selected cluster
 #' @param dat the codebook vector of each cluster
-#' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust  
+#' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust
 #'
 #' @return the centroid of a selection of neurons
 #' @noRd
@@ -60,8 +60,8 @@ clust.centroid = function(i, dat, clusters) {
     ind = (clusters == i)
     if(sum(ind)>1){
         pop <- NULL
-        for(neur in 1:nrow(SOM$grid$pts)){
-            pop <- c(pop, length(which(SOM$unit.classif==neur)))
+        for(neur in 1:length(clusters)){
+            pop <- c(pop, length(which(dat==neur)))
         }
          return(apply(dat[ind,], 2, stats::weighted.mean, w=pop[ind]))
     } else {
