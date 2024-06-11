@@ -3,6 +3,8 @@
 #' ‘summary’ method for class ‘"struct"’.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
+#' @param object struct object
+#'
 #' @export
 #'
 

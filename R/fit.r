@@ -83,6 +83,7 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param trj an object with class trj
+#' @param inds indices for the output coordinates
 #'
 #' @return a xyz matrix with frames on rows and coordinates as columns
 #' @export

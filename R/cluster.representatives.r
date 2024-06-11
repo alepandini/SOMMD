@@ -4,7 +4,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
 #' @param SOM a kohonen SOM object. 
-#' @param cluster a vector of clusters assignment for each neuron, as returned for example by hclust.
+#' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust.
 #'
 #' @return representatives a vector of frames representatives of each neuron 
 #' @export

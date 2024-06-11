@@ -6,6 +6,7 @@
 #'
 #' @param traj a trj object. 
 #' @param frame the frame to extract.
+#' @param filename for the output pdb file
 #'
 #' @return a pdb object of the selected frame
 #' @export

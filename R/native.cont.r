@@ -3,7 +3,7 @@
 #' Function to select only distances between residues making contacts in reference file or a frame of the simulation
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
-#' @param structure a struct object read with read.struct() to compute the native.cont
+#' @param struct a struct object read with read.struct() to compute the native.cont
 #' @param trj a trj object to compute the native.cont
 #' @param trj.frame The frame of the trj on which the native.cont are computed
 #' @param distance the distance cut-off

@@ -3,6 +3,8 @@
 #' ‘summary’ method for class ‘"trj"’.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #'
+#' @param object trajectory object
+#'
 #' @export
 #'
 
