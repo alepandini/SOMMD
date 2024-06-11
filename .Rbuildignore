@@ -4,6 +4,7 @@ cran-comments.md
 ^\.git$
 ^\.gitignore$
 ^\.DS_Store$
+^src/init\.o$
 ^src/xdrfile/xdrfile\.o$
 ^src/xdrfile/xdrfile_trr\.o$
 ^src/xdrfile/xdrfile_xtc\.o$
