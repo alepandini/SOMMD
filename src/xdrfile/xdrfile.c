@@ -32,6 +32,10 @@
 #include <config.h>
 #endif
 
+#include <R.h>
+#include <Rinternals.h>
+#include <R_ext/Print.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -197,15 +201,15 @@ xdrfile_open(const char *path, const char *mode)
 	/* make sure XDR files are opened in binary mode... */
 	if(*mode=='w' || *mode=='W')
     {
-		sprintf(newmode,"wb+");
+		snprintf(newmode,sizeof(newmode),"wb+");
 		xdrmode=XDR_ENCODE;
 	} else if(*mode == 'a' || *mode == 'A')
     {
-		sprintf(newmode,"ab+");
+		snprintf(newmode, sizeof(newmode), "ab+");
 		xdrmode = XDR_ENCODE;
 	} else if(*mode == 'r' || *mode == 'R')
     {
-		sprintf(newmode,"rb");
+		snprintf(newmode, sizeof(newmode), "rb");
 		xdrmode = XDR_DECODE;
 	} else /* cannot determine mode */
 		return NULL;
@@ -627,9 +631,8 @@ encodeints(int buf[], int num_of_ints, int num_of_bits,
     {
 		if (nums[i] >= sizes[i])
         {
-			fprintf(stderr,"major breakdown in encodeints - num %u doesn't "
+			Rf_error("major breakdown in encodeints - num %u doesn't "
 					"match size %u\n", nums[i], sizes[i]);
-			abort();
 		}
 		/* use one step multiply */
 		tmp = nums[i];
@@ -800,7 +803,7 @@ xdrfile_decompress_coord_float(float     *ptr,
 		return -1; /* return if we could not read size */
 	if (*size < lsize)
     {
-		fprintf(stderr, "Requested to decompress %d coords, file contains %d\n",
+		Rf_error("Requested to decompress %d coords, file contains %d\n",
 				*size, lsize);
 		return -1;
 	}
@@ -810,14 +813,14 @@ xdrfile_decompress_coord_float(float     *ptr,
     {
 		if((xfp->buf1=(int *)malloc(sizeof(int)*size3))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for decompressing coordinates.\n");
+			Rf_error("Cannot allocate memory for decompressing coordinates.\n");
 			return -1;
 		}
 		xfp->buf1size=size3;
 		xfp->buf2size=size3*1.2;
 		if((xfp->buf2=(int *)malloc(sizeof(int)*xfp->buf2size))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for decompressing coordinates.\n");
+			Rf_error("Cannot allocate memory for decompressing coordinates.\n");
 			return -1;
 		}
 	}
@@ -1002,14 +1005,14 @@ xdrfile_compress_coord_float(float   *ptr,
     {
 		if((xfp->buf1=(int *)malloc(sizeof(int)*size3))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for compressing coordinates.\n");
+			Rf_error("Cannot allocate memory for compressing coordinates.\n");
 			return -1;
 		}
 		xfp->buf1size=size3;
 		xfp->buf2size=size3*1.2;
 		if((xfp->buf2=(int *)malloc(sizeof(int)*xfp->buf2size))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for compressing coordinates.\n");
+			Rf_error("Cannot allocate memory for compressing coordinates.\n");
 			return -1;
 		}
 	}
@@ -1047,7 +1050,7 @@ xdrfile_compress_coord_float(float   *ptr,
 		if (fabs(lf) > INT_MAX-2)
         {
 			/* scaling would cause overflow */
-			fprintf(stderr,"Internal overflow compressing coordinates.\n");
+			Rf_error("Internal overflow compressing coordinates.\n");
 		}
 		lint1 = lf;
 		if (lint1 < minint[0]) minint[0] = lint1;
@@ -1061,7 +1064,7 @@ xdrfile_compress_coord_float(float   *ptr,
 		if (fabs(lf) > INT_MAX-2)
         {
 			/* scaling would cause overflow */
-			fprintf(stderr,"Internal overflow compressing coordinates.\n");
+			Rf_error("Internal overflow compressing coordinates.\n");
 		}
 		lint2 = lf;
 		if (lint2 < minint[1]) minint[1] = lint2;
@@ -1093,7 +1096,7 @@ xdrfile_compress_coord_float(float   *ptr,
 		/* turning value in unsigned by subtracting minint
 		 * would cause overflow
 		 */
-		fprintf(stderr,"Internal overflow compressing coordinates.\n");
+		Rf_error("Internal overflow compressing coordinates.\n");
 	}
 	sizeint[0] = maxint[0] - minint[0]+1;
 	sizeint[1] = maxint[1] - minint[1]+1;
@@ -1286,7 +1289,7 @@ xdrfile_decompress_coord_double(double     *ptr,
 		return -1; /* return if we could not read size */
 	if (*size < lsize)
     {
-		fprintf(stderr, "Requested to decompress %d coords, file contains %d\n",
+		Rf_error("Requested to decompress %d coords, file contains %d\n",
 				*size, lsize);
 		return -1;
 	}
@@ -1296,14 +1299,14 @@ xdrfile_decompress_coord_double(double     *ptr,
     {
 		if((xfp->buf1=(int *)malloc(sizeof(int)*size3))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for decompression coordinates.\n");
+			Rf_error("Cannot allocate memory for decompression coordinates.\n");
 			return -1;
 		}
 		xfp->buf1size=size3;
 		xfp->buf2size=size3*1.2;
 		if((xfp->buf2=(int *)malloc(sizeof(int)*xfp->buf2size))==NULL)
         {
-			fprintf(stderr,"Cannot allocate memory for decompressing coordinates.\n");
+			Rf_error("Cannot allocate memory for decompressing coordinates.\n");
 			return -1;
 		}
 	}
@@ -1481,13 +1484,13 @@ xdrfile_compress_coord_double(double   *ptr,
 	size3=3*size;
 	if(size3>xfp->buf1size) {
 		if((xfp->buf1=(int *)malloc(sizeof(int)*size3))==NULL) {
-			fprintf(stderr,"Cannot allocate memory for compressing coordinates.\n");
+			Rf_error("Cannot allocate memory for compressing coordinates.\n");
 			return -1;
 		}
 		xfp->buf1size=size3;
 		xfp->buf2size=size3*1.2;
 		if((xfp->buf2=(int *)malloc(sizeof(int)*xfp->buf2size))==NULL) {
-			fprintf(stderr,"Cannot allocate memory for compressing coordinates.\n");
+			Rf_error("Cannot allocate memory for compressing coordinates.\n");
 			return -1;
 		}
 	}
@@ -1525,7 +1528,7 @@ xdrfile_compress_coord_double(double   *ptr,
 			lf = (float)*lfp * float_prec - 0.5;
 		if (fabs(lf) > INT_MAX-2) {
 			/* scaling would cause overflow */
-			fprintf(stderr,"Internal overflow compressing coordinates.\n");
+			Rf_error("Internal overflow compressing coordinates.\n");
 		}
 		lint1 = lf;
 		if (lint1 < minint[0]) minint[0] = lint1;
@@ -1538,7 +1541,7 @@ xdrfile_compress_coord_double(double   *ptr,
 			lf = (float)*lfp * float_prec - 0.5;
 		if (fabs(lf) > INT_MAX-2) {
 			/* scaling would cause overflow */
-			fprintf(stderr,"Internal overflow compressing coordinates.\n");
+			Rf_error("Internal overflow compressing coordinates.\n");
 		}
 		lint2 = lf;
 		if (lint2 < minint[1]) minint[1] = lint2;
@@ -1570,7 +1573,7 @@ xdrfile_compress_coord_double(double   *ptr,
 		/* turning value in unsigned by subtracting minint
 		 * would cause overflow
 		 */
-		fprintf(stderr,"Internal overflow compressing coordinates.\n");
+		Rf_error("Internal overflow compressing coordinates.\n");
 	}
 	sizeint[0] = maxint[0] - minint[0]+1;
 	sizeint[1] = maxint[1] - minint[1]+1;
@@ -2350,7 +2353,7 @@ xdr_string (XDR *xdrs, char **cpp, unsigned int maxsize)
 				*cpp = sp = (char *) malloc (nodesize);
 			if (sp == NULL)
 				{
-					(void) fputs ("xdr_string: out of memory\n", stderr);
+					Rf_error("xdr_string: out of memory\n");
 					return 0;
 				}
 			sp[size] = 0;
@@ -2439,10 +2442,9 @@ xdr_double(XDR *xdrs, double *dp)
     else if(ix==0xb8 || ix==0x3c)
 		LSW=0;  /* Small endian word order */
     else { /* Catch strange errors */
-		fprintf(stderr,"Cannot detect floating-point word order.\n"
+		Rf_error("Cannot detect floating-point word order.\n"
 				"Do you have a non-IEEE system?\n"
 				"Use system XDR libraries or fix xdr_double().\n");
-		abort();
     }
 #endif /* end of dynamic detection of fp word order */
 
