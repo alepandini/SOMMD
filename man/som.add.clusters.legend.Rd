@@ -7,9 +7,9 @@
 som.add.clusters.legend(N.clus, color.scale)
 }
 \arguments{
-\item{N.clus:}{the number of clusters to which put the legent}
+\item{N.clus}{the number of clusters to which put the legent}
 
-\item{color.scale:}{the color scale used for the image}
+\item{color.scale}{the color scale used for the image}
 }
 \description{
 Function to apply a legend of clusters to a SOM map image

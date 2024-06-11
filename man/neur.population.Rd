@@ -9,11 +9,11 @@ neur.population(SOM, start = 1, end = length(SOM$unit.classif), N = 1)
 \arguments{
 \item{SOM}{the SOM object}
 
-\item{start:}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
+\item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
 
-\item{end:}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
+\item{end}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
 
-\item{N:}{The portion of simulation that one want to plot}
+\item{N}{The portion of simulation that one want to plot}
 }
 \description{
 Function to compute the per-neuron population

@@ -7,13 +7,13 @@
 SOM.add.circles(SOM, property, scale = 1, col.circles = "white")
 }
 \arguments{
+\item{SOM}{the SOM object}
+
+\item{property}{a vector containing the per-neuron property to plot}
+
+\item{scale}{a number to scale up or down the size of the drawn circles}
+
 \item{col.circles}{the background color of the drawn circles}
-
-\item{SOM:}{the SOM object}
-
-\item{property:}{a vector containing the per-neuron property to plot}
-
-\item{scale:}{a number to scale up or down the size of the drawn circles}
 }
 \description{
 Function to add circles to a SOM plot, with dimension proportional to a selected property

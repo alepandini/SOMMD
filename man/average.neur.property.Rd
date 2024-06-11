@@ -7,9 +7,9 @@
 average.neur.property(SOM, P)
 }
 \arguments{
-\item{SOM:}{the SOM object to cluster}
+\item{SOM}{the SOM object to cluster}
 
-\item{P:}{the property for each frame of the simulation}
+\item{P}{the property for each frame of the simulation}
 }
 \value{
 avg.neur.p the per-neuron average of the property.

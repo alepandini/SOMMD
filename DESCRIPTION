@@ -23,6 +23,7 @@ Imports:
     kohonen,
     abind,
     cluster,
+    methods,
     igraph
 Suggests: 
     testthat (>= 3.0.0)

@@ -15,19 +15,19 @@ trace.path(
 )
 }
 \arguments{
-\item{SOM:}{the SOM object}
+\item{SOM}{the SOM object}
 
-\item{start:}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
+\item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
 
-\item{end:}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
+\item{end}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
 
-\item{N:}{The portion of simulation that one want to plot}
+\item{N}{The portion of simulation that one want to plot}
 
-\item{draw.stride:}{used to plot the pathways with a stride (usefull for very complex pathways)}
+\item{draw.stride}{used to plot the pathways with a stride (usefull for very complex pathways)}
 
-\item{pts.scale:}{a number to scale up or down the size of the circles}
+\item{pts.scale}{a number to scale up or down the size of the circles}
 
-\item{lwd.scale:}{a number to scale up or down the size of the lines}
+\item{lwd.scale}{a number to scale up or down the size of the lines}
 }
 \description{
 Function trace pathway sampled on the SOM

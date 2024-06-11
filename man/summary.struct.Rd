@@ -6,6 +6,9 @@
 \usage{
 \method{summary}{struct}(object)
 }
+\arguments{
+\item{object}{struct object}
+}
 \description{
 ‘summary’ method for class ‘"struct"’.
 }

@@ -8,6 +8,8 @@ trj2xyz(trj, inds = NULL)
 }
 \arguments{
 \item{trj}{an object with class trj}
+
+\item{inds}{indices for the output coordinates}
 }
 \value{
 a xyz matrix with frames on rows and coordinates as columns

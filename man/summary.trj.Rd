@@ -6,6 +6,9 @@
 \usage{
 \method{summary}{trj}(object)
 }
+\arguments{
+\item{object}{trajectory object}
+}
 \description{
 ‘summary’ method for class ‘"trj"’.
 }

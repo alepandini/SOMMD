@@ -8,6 +8,8 @@ cat.trj(trj1, ...)
 }
 \arguments{
 \item{trj1}{the first trj file}
+
+\item{...}{additional trj files}
 }
 \value{
 trj with the simulations concatenated

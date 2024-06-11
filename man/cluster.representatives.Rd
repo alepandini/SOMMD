@@ -9,7 +9,7 @@ cluster.representatives(SOM, clusters)
 \arguments{
 \item{SOM}{a kohonen SOM object.}
 
-\item{cluster}{a vector of clusters assignment for each neuron, as returned for example by hclust.}
+\item{clusters}{a vector of clusters assignment for each neuron, as returned for example by hclust.}
 }
 \value{
 representatives a vector of frames representatives of each neuron

@@ -14,17 +14,17 @@ native.cont(
 )
 }
 \arguments{
+\item{struct}{a struct object read with read.struct() to compute the native.cont}
+
+\item{trj}{a trj object to compute the native.cont}
+
+\item{trj.frame}{The frame of the trj on which the native.cont are computed}
+
 \item{distance}{the distance cut-off}
 
 \item{mol.2}{can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)}
 
 \item{atoms}{can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function}
-
-\item{structure:}{a struct object read with read.struct() to compute the native.cont}
-
-\item{trj:}{a trj object to compute the native.cont}
-
-\item{trj.frame:}{The frame of the trj on which the native.cont are computed}
 }
 \value{
 sele.dist the selection of distances

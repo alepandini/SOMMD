@@ -7,11 +7,11 @@
 som.add.numbers(SOM, scale = 1, col = "black")
 }
 \arguments{
-\item{SOM:}{the SOM object}
+\item{SOM}{the SOM object}
 
-\item{scale:}{a number to scale up or down the size of the text}
+\item{scale}{a number to scale up or down the size of the text}
 
-\item{col:}{the color of the text}
+\item{col}{the color of the text}
 }
 \description{
 Add the neuron numbering scheme to the SOM plot

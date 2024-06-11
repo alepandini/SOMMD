@@ -10,6 +10,8 @@ trj2pdb(traj, frame, filename)
 \item{traj}{a trj object.}
 
 \item{frame}{the frame to extract.}
+
+\item{filename}{for the output pdb file}
 }
 \value{
 a pdb object of the selected frame
