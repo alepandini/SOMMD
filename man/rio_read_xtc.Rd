@@ -2,8 +2,7 @@
 % Please edit documentation in R/rio_xtc.R
 \name{rio_read_xtc}
 \alias{rio_read_xtc}
-\title{Read xtc trajectory file
-Function to read an xtc trajectory file}
+\title{Read xtc trajectory file}
 \usage{
 rio_read_xtc(xtc_filename)
 }
@@ -14,7 +13,6 @@ rio_read_xtc(xtc_filename)
 Returns 3D array of cartesian coordinates
 }
 \description{
-Read xtc trajectory file
 Function to read an xtc trajectory file
 }
 \author{

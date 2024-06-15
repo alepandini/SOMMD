@@ -2,8 +2,7 @@
 % Please edit documentation in R/rio_xtc.R
 \name{rio_read_xtc2xyz}
 \alias{rio_read_xtc2xyz}
-\title{Read xtc trajectory file
-Function to read an xtc trajectory file}
+\title{Read xtc trajectory file}
 \usage{
 rio_read_xtc2xyz(xtc_filename)
 }
@@ -11,10 +10,9 @@ rio_read_xtc2xyz(xtc_filename)
 \item{xtc_filename}{contains the name and the path to the xtc file}
 }
 \value{
-Returns bio3d xyz array of cartesian coordinates
+Returns bio3d xyz array of Cartesian coordinates
 }
 \description{
-Read xtc trajectory file
 Function to read an xtc trajectory file
 }
 \author{

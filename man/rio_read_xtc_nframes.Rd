@@ -2,8 +2,7 @@
 % Please edit documentation in R/rio_xtc.R
 \name{rio_read_xtc_nframes}
 \alias{rio_read_xtc_nframes}
-\title{Read xtc trajectory file
-Function to read an xtc trajectory file}
+\title{Read xtc trajectory file}
 \usage{
 rio_read_xtc_nframes(xtc_filename)
 }
@@ -14,7 +13,6 @@ rio_read_xtc_nframes(xtc_filename)
 Returns number of frames in the trajectory
 }
 \description{
-Read xtc trajectory file
 Function to read an xtc trajectory file
 }
 \author{

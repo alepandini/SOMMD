@@ -2,8 +2,7 @@
 % Please edit documentation in R/rio_xtc.R
 \name{rio_write_xtc}
 \alias{rio_write_xtc}
-\title{Write xtc trajectory file
-Function to write an xtc trajectory file}
+\title{Write xtc trajectory file}
 \usage{
 rio_write_xtc(xtc_filename, trj)
 }
@@ -16,7 +15,6 @@ rio_write_xtc(xtc_filename, trj)
 Returns status of write execution
 }
 \description{
-Write xtc trajectory file
 Function to write an xtc trajectory file
 }
 \author{

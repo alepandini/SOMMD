@@ -2,8 +2,7 @@
 % Please edit documentation in R/rio_xtc.R
 \name{rio_read_xtc_natoms}
 \alias{rio_read_xtc_natoms}
-\title{Read xtc trajectory file
-Function to read a xtc trajectory file}
+\title{Read xtc trajectory file}
 \usage{
 rio_read_xtc_natoms(xtc_filename)
 }
@@ -14,7 +13,6 @@ rio_read_xtc_natoms(xtc_filename)
 Returns number of atoms in the structure
 }
 \description{
-Read xtc trajectory file
 Function to read a xtc trajectory file
 }
 \author{
