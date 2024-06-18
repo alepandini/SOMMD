@@ -1,17 +1,13 @@
-#' Calculation of Distances
-#'
-#' Compute the pairwise distance matrix of a given set of coordinates, and only retain to some selected distances
+#' @title Calculation of Distances
+#' @description Compute the pairwise distance matrix of a given set of coordinates, and only retain to some selected distances
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
-#'
 #' @param coord matrix of N atomic coordinates (N rows, 3 columns)
 #' @param mol.1_id vector containing the index of the first molecule for intermolecular distances only
 #' @param mol.2_id vector containing the index of the second molecule for intermolecular distances only
 #' @param sele contains the selection of distances coming from the native_contacts function
-#'
 #' @return D the selected distances for a frame
 #' @export
 #'
-
 calc.dists <- function(coord, mol.1_id=FALSE, mol.2_id=FALSE, sele=FALSE){
     N_atm <- nrow(coord)
     #Check that the mol.2_id selection is within the trj number of atoms:

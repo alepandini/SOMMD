@@ -1,25 +1,20 @@
-#' Clustering of Pathways
-#'
-#' Cluster pathways according to a time dependent or independent scheme
-#'
+#' @title Clustering of Pathways
+#' @description Cluster pathways according to a time dependent or independent scheme
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
-#'
-#' @param SOM a kohonen SOM object. 
+#' @param SOM a kohonen SOM object.
 #' @param start the vector specifying the starting frame of each replicas
 #' @param end the vector specifying the ending frame of each replicas
 #' @param time.dep choose whether to use time "dependent" or "independent" clustering of pathways
 #' @param method the method to be passed to hclust for the clustering
-#'
-#' @return representatives a vector of frames representatives of each neuron 
+#' @return representatives a vector of frames representatives of each neuron
 #' @export
-#'
-#' @examples 
+#' @examples
 #' # Cluster Pathways using the time dependent algorithm
 #' cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
 #'
 #' #Cluster Pathways using the time independent algorithm
 #' cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
-
+#'
 cluster.pathways <- function(SOM, start, end, time.dep="independent", method="complete"){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
@@ -35,9 +30,9 @@ cluster.pathways <- function(SOM, start, end, time.dep="independent", method="co
     }
     #check consistency of start and end vectors
     if( length(which(start>end)) > 0 ){
-        stop(paste("according to start and end vectors, replica", which(start>end)[1], 
-                    "start at frame", start[which(start>end)], 
-                    "and end at frame", end[which(start>end)], 
+        stop(paste("according to start and end vectors, replica", which(start>end)[1],
+                    "start at frame", start[which(start>end)],
+                    "and end at frame", end[which(start>end)],
                     "which is not possible", sep=' '))
     }
     if(time.dep != "dependent" & time.dep != "independent"){
@@ -47,7 +42,7 @@ cluster.pathways <- function(SOM, start, end, time.dep="independent", method="co
     paths <- matrix(NA, nrow=max(end-start)+1, ncol=length(start))
     for(i in 1:length(start)){
         paths[1:((end[i]-start[i])+1), i] <- SOM$unit.classif[start[i]:end[i]]
-    }   
+    }
     #mat is a matrix of distances
     mat <- matrix(0, ncol=length(start), nrow=length(start))
     #Check if replicas are of same length in case of time dependent clustering
@@ -67,16 +62,11 @@ cluster.pathways <- function(SOM, start, end, time.dep="independent", method="co
     return(path.clust)
 }
 
-
-
-### Internal Function
-#' Distance between two paths
-#'
-#' Function to compute the distance between two paths
+#' @title Distance between two paths
+#' @description Function to compute the distance between two paths
 #' @param A a vector of frame neuron assignment for replica 1
 #' @param B a vector of frame neuron assignment for replica 2
 #' @param SOM.grid the grid coordinate of the SOM neurons
-#'
 #' @return the distance between the two pathways
 #' @noRd
 dist.paths <- function(A, B, SOM.grid, time.dep='independent'){

@@ -21,6 +21,7 @@ Compute the cluster representatives
 # Divide the SOM in the selected number of clusters
 #Get representative frames for each cluster
 CL_repres <- cluster.representatives(SOM, SOM.hc)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

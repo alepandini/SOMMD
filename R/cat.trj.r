@@ -1,15 +1,10 @@
-#' Concatenate simulations
-#'
-#' Function to concatenate two simulations.
-#'
+#' @title Concatenate simulations
+#' @description Function to concatenate two simulations.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param trj1 the first trj file
 #' @param ... additional trj files
-#'
 #' @return trj with the simulations concatenated
 #' @export
-#'
 #' @examples
 #' # Read the three simulations
 #' trj1 <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
@@ -17,7 +12,7 @@
 #' trj3 <- read.trj(trjfile="rep_003.xtc", topfile="ref.pdb")
 #' # Concatenate the simulations
 #'   trj <- cat.trj(trj1, trj2, trj3)
-
+#'
 cat.trj <-  function(trj1, ...){
     traj_list <- list(...)
     #Append all the simulations subsequently
@@ -42,10 +37,9 @@ cat.trj <-  function(trj1, ...){
         }
         trj$trjfile <- c(trj$trjfile, T$trjfile)
         trj$start <- c(trj$start, utils::tail(trj$end, 1)+1)
-        trj$end   <- c(trj$end, utils::tail(trj$start,1)+(dim(T$coord)[3]-1)) 
+        trj$end   <- c(trj$end, utils::tail(trj$start,1)+(dim(T$coord)[3]-1))
         trj$coord <- abind::abind(trj$coord, T$coord, along = 3)
         trj$call <- sys.call()
     }
     return(trj)
 }
-

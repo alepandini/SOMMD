@@ -35,6 +35,7 @@ cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
 
 #Cluster Pathways using the time independent algorithm
 cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
+
 }
 \author{
 Stefano Motta\email{stefano.motta@unimib.it}

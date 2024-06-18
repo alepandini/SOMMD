@@ -24,6 +24,7 @@ trj2 <- read.trj(trjfile="rep_002.xtc", topfile="ref.pdb")
 trj3 <- read.trj(trjfile="rep_003.xtc", topfile="ref.pdb")
 # Concatenate the simulations
   trj <- cat.trj(trj1, trj2, trj3)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

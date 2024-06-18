@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.distances.r
 \name{calc.distances}
 \alias{calc.distances}
-\title{Function to compute distances to be used to train the SOM}
+\title{TBA}
 \usage{
 calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL, cap = NULL)
 }
@@ -26,14 +26,15 @@ Function to compute distances to be used to train the SOM
 \examples{
 # Read reference pdb with native conformation
 pdb <- bio3d::read.pdb("ref.pdb")
-# Read the trajectory 
+# Read the trajectory
 trj <- read.trj(trjfile="sim.xtc", topfile="ref.pdb")
 # Select only Cbeta atoms to perform the analysis
 sele_atoms <- which(trj$top$elety=="CB")
 # Choose only native contacts
 sele_dists <- native_contacts(struct=pdb, distance=1.0, atoms=sele_atoms)
-# Compute distances for SOM training. 
+# Compute distances for SOM training.
 DIST <- calc.distances(trj, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

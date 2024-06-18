@@ -1,14 +1,10 @@
-#' Compute average property
-#'
-#' Function to compute the average value of a property for each neuron.
+#' @title Compute average property
+#' @description Function to compute the average value of a property for each neuron.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param SOM the SOM object to cluster
 #' @param P the property for each frame of the simulation
-#'
 #' @return avg.neur.p the per-neuron average of the property.
 #' @export
-#'
 #' @examples
 #' #Compute distances between these two atoms in every frame of the simulation
 #' Term_dist <- apply(trj$coord[Terminals,,], 3, dist)

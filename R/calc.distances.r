@@ -1,28 +1,25 @@
-#' Function to compute distances to be used to train the SOM
+#' @title TBA
+#' @description Function to compute distances to be used to train the SOM
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param trj contains the trajectory coordinates (array with three dimensions obtained by rioxdr)
 #' @param mol.2 contains the atom indexes of the second molecule in case only intermolecular distances should be computed
 #' @param sele contains the selection of distances coming from the native_contacts function
 #' @param atoms contains a list of atoms indexes on which the distances will be computed
 #' @param cap If a number is given, distances greater than this value are set at the cap value
-#'
 #' @return D the set of distances used to train the SOM is computed for all the frames.
-#'
 #' @export
-#'
 #' @examples
 #' # Read reference pdb with native conformation
 #' pdb <- bio3d::read.pdb("ref.pdb")
-#' # Read the trajectory 
+#' # Read the trajectory
 #' trj <- read.trj(trjfile="sim.xtc", topfile="ref.pdb")
 #' # Select only Cbeta atoms to perform the analysis
 #' sele_atoms <- which(trj$top$elety=="CB")
 #' # Choose only native contacts
 #' sele_dists <- native_contacts(struct=pdb, distance=1.0, atoms=sele_atoms)
-#' # Compute distances for SOM training. 
+#' # Compute distances for SOM training.
 #' DIST <- calc.distances(trj, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
-
+#'
 calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
     #Check that the trajectory is of class trj:
     if(!methods::is(trj,"trj")){
