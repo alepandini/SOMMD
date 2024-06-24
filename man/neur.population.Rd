@@ -19,7 +19,8 @@ neur.population(SOM, start = 1, end = length(SOM$unit.classif), N = 1)
 Function to compute the per-neuron population
 }
 \examples{
-neur.population(SOM) 
+neur.population(SOM)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

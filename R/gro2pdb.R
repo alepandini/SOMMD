@@ -1,16 +1,12 @@
-#' Convert a struct object into a pdb obtect
-#'
+#' @title Convert structure to pdb object
+#' @description Convert a struct object into a pdb obtect
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param struct contains the struct object to convert
-#'
 #' @return Returns an object with class "pdb"
-#'
 #' @export
-#'
 #' @examples
 #' pdb <- struct2pdb(struct)
-
+#'
 struct2pdb <- function(struct){
     if (missing(struct)) {
         stop("please specify a struct object to convert")
@@ -40,15 +36,10 @@ struct2pdb <- function(struct){
     pdb$atom$b <- 0
     #Other pdb fields
     pdb$xyz <- struct$xyz
-    pdb$calpha <- pdb$atom$type %in% c("ALA", "CYS", "ASP", "GLU", "PHE", "GLY", "HIS", "ILE", "LYS", "LEU", "MET", "ASN", "PRO", "GLN", "ARG", "SER", "THR", "VAL", "TRP", "TYR") & 
+    pdb$calpha <- pdb$atom$type %in% c("ALA", "CYS", "ASP", "GLU", "PHE", "GLY", "HIS", "ILE", "LYS", "LEU", "MET", "ASN", "PRO", "GLN", "ARG", "SER", "THR", "VAL", "TRP", "TYR") &
                   pdb$atom$elety == "CA"
-    pdb$call <- sys.call()       
+    pdb$call <- sys.call()
     #Set the class of the object
     class(pdb) <- "pdb"
     return(pdb)
-}                    
-                    
-                    
-
-
-
+}

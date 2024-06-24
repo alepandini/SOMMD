@@ -17,6 +17,7 @@ Compute the representative frame of each neuron (the closest to the neuron codeb
 }
 \examples{
 NEUR_repres <- neur.representatives(SOM)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Network.functions.r
 \name{map2color}
 \alias{map2color}
-\title{Function map a numeric vector of a property to a vector of colors for that property according to that property value.}
+\title{Map the property vector to colours}
 \usage{
 map2color(x, pal, limits = NULL, na.col = "grey")
 }

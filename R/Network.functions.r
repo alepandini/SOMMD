@@ -1,18 +1,17 @@
-#' Compute transition matrix
-#' 
-#' Compute the transition matrix starting from a vector of subsequent classifications
+#' @title Compute transition matrix
+#' @description Compute the transition matrix starting from a vector of subsequent classifications
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param classif a vector of neuron assigment (usually passed by SOM$unit.classif
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
-#'
 #' @return trans
 #' @export
+#'
 comp.trans.mat <- function(classif, start=1){
-#   Check that the classif is numeric  
+#   Check that the classif is numeric
     if(is.numeric(classif)==FALSE){
         stop("classif must be a numeric vector")
     }
-#   Check that the start is numeric  
+#   Check that the start is numeric
     if(is.numeric(start)==FALSE){
         stop("start must be a numeric vector")
     }
@@ -41,14 +40,13 @@ comp.trans.mat <- function(classif, start=1){
     return(trans)
 }
 
-#' Convert transition matrix to Network
-#' 
-#' Function to convert a transition matrix to a network
+#' @title Convert transition matrix to Network
+#' @description Function to convert a transition matrix to a network
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trans a transition matrix (usually obtained from comp.trans.mat)
-#'
 #' @return The network in the form of a dataframe
 #' @export
+#'
 Matrix2Network <- function(trans){
 #   Check that trans have the shape of a transition matrix
     if( nrow(trans) != ncol(trans) ){
@@ -70,14 +68,13 @@ Matrix2Network <- function(trans){
     return(d)
 }
 
-#' Remove diagonal elements
-#' 
-#' Function to remove the diagonal from a network
+#' @title Remove diagonal elements
+#' @description Function to remove the diagonal from a network
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param d the network in the form of a dataframe
-#'
 #' @return The network with no diagonal
 #' @export
+#'
 rm.net.diag <- function(d){
 #   Check that d have the shape of a network dataframe
     if( ncol(d) != 3 ){
@@ -96,17 +93,16 @@ rm.net.diag <- function(d){
     return(d.nodiag)
 }
 
-#' convert a network to igraph object
-#' 
-#' Function to convert a network dataframe to an igraph object
+#' @title convert a network to igraph object
+#' @description Function to convert a network dataframe to an igraph object
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param d a network in the form of a dataframe
 #' @param SOM a kohonen object that form the network
 #' @param SOM.hc a vector of cluster assignment for SOM neurons
 #' @param col.set a vector of colors used for the SOM clusters
-#'
 #' @return The network as igraph object, with the SOM properties
 #' @export
+#'
 Network2Graph <- function(d, SOM, SOM.hc, col.set){
 #   Check that d have the shape of a network dataframe
     if( ncol(d) != 3 ){
@@ -149,19 +145,20 @@ Network2Graph <- function(d, SOM, SOM.hc, col.set){
         P <- pop[d[i,1]]
         W <- c(W, d[i,3]/P)
     }
-    W <- -log(W) 
+    W <- -log(W)
     igraph::E(net)$weight <- W
     return(net)
 }
 
-#' Function map a numeric vector of a property to a vector of colors for that property according to that property value.
+#' @title Map the property vector to colours
+#' @description Function map a numeric vector of a property to a vector of colors for that property according to that property value.
 #' @param x a numeric vector
 #' @param pal a color palette
 #' @param limits the values of the extremes for the colorscale
 #' @param na.col the color that will be assigned to the na.values of the vector
-#'
 #' @return COL a vector with the same length of x, with colors proportional to the values of x
 #' @export
+#'
 map2color <- function(x, pal, limits=NULL, na.col="grey"){
     if( is.numeric(x) == FALSE){
         stop("x must be a numeric vector")

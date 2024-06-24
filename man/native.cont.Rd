@@ -41,7 +41,7 @@ sele_atoms <- which(struct$atom$elety=="CB")
 
 #Choose only native contacts
 sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
-  
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

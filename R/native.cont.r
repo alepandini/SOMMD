@@ -1,18 +1,14 @@
-#' Select native contact distances
-#'
-#' Function to select only distances between residues making contacts in reference file or a frame of the simulation
+#' @title Select native contact distances
+#' @description Function to select only distances between residues making contacts in reference file or a frame of the simulation
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param struct a struct object read with read.struct() to compute the native.cont
 #' @param trj a trj object to compute the native.cont
 #' @param trj.frame The frame of the trj on which the native.cont are computed
 #' @param distance the distance cut-off
 #' @param mol.2 can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)
 #' @param atoms can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function
-#'
 #' @return sele.dist the selection of distances
 #' @export
-#'
 #' @examples
 #' #Read reference pdb with native conformation
 #' struct <- read.struct("../data/Medium_Dataset/ref.pdb")
@@ -22,8 +18,7 @@
 #'
 #' #Choose only native contacts
 #' sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
-#'   
-      
+#'
 native.cont <- function(struct=NULL, trj=NULL, trj.frame=1, distance, mol.2=FALSE, atoms=NULL){
     # If nor a struct object nor a trj is given, print an error message
     if(is.null(struct) & is.null(trj)){

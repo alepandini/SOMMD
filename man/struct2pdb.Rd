@@ -2,7 +2,7 @@
 % Please edit documentation in R/gro2pdb.R
 \name{struct2pdb}
 \alias{struct2pdb}
-\title{Convert a struct object into a pdb obtect}
+\title{Convert structure to pdb object}
 \usage{
 struct2pdb(struct)
 }
@@ -17,6 +17,7 @@ Convert a struct object into a pdb obtect
 }
 \examples{
 pdb <- struct2pdb(struct)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

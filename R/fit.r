@@ -1,25 +1,19 @@
-#' Coordinate superposition
-#' 
-#' Coordinate superposition with the Kabsch algorithm.
+#' @title Coordinate superposition
+#' @description Coordinate superposition with the Kabsch algorithm.
 #' This function make use of the bio3d fit.xyz function to align a SOMMD trj object.
 #' If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
-#
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param trj an object with class trj
 #' @param ref a struct object read with read.struct() to be used as reference
 #' @param trj.inds a vector of indices that selects the trj atoms upon which fitting should be based. If not specified all atoms will be used.
 #' @param ref.inds a vector of indices that selects the ref atoms upon which fitting should be based. If not specified all atoms will be used.
-#'
-#' @return an aligned trj object  
+#' @return an aligned trj object
 #' @export
-#'
 #' @examples
-#'
 #' # Fit a trajectory to the first frame based on alpha carbons:
 #' ca.inds <- which(trj$top$elety=="CA")
 #' trj.fit <- fit(trj, trj.inds=ca.inds)
-
+#'
 fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
     if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
@@ -75,22 +69,16 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
     return(trj)
 }
 
-
-#' Convert Trajectory to xyz
-#' 
-#' Convert the trj coordinates 3D-array in a 2D matrix.
-#
+#' @title Convert Trajectory to xyz
+#' @description Convert the trj coordinates 3D-array in a 2D matrix.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param trj an object with class trj
 #' @param inds indices for the output coordinates
-#'
 #' @return a xyz matrix with frames on rows and coordinates as columns
 #' @export
 #' @examples
-#'
 #' trj2xyz(trj)
-
+#'
 trj2xyz <- function(trj, inds=NULL){
     if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
@@ -110,4 +98,3 @@ trj2xyz <- function(trj, inds=NULL){
     xyz <- aperm(xt2, c(2,1))
     return(xyz)
 }
-

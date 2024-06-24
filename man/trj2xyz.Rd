@@ -18,8 +18,8 @@ a xyz matrix with frames on rows and coordinates as columns
 Convert the trj coordinates 3D-array in a 2D matrix.
 }
 \examples{
-
 trj2xyz(trj)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}
