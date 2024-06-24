@@ -58,15 +58,16 @@ calc.distances <- function(trj, mol.2=FALSE, sele=FALSE, atoms=NULL, cap=NULL){
             stop("cap must be a number or NULL")
         }
     }
+    coords <- trj$coord[atoms,,,drop=FALSE]
     #Compute intermolecular distances
     if(is.logical(mol.2) == FALSE){
         mol.2_id <- which(atoms %in% mol.2)
         mol.1 <- which(c(1:N_atm) %in% mol.2 ==FALSE)
         mol.1_id <- which(atoms %in% mol.1)
-        D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dists, mol.1_id=mol.1_id, mol.2_id=mol.2_id, sele=sele)
+        D <- apply(coords, 3, calc.dists, mol.1_id=mol.1_id, mol.2_id=mol.2_id, sele=sele)
     } else{
         #Compute all the distance matrix
-        D <- apply(trj$coord[atoms,,seq(1, dim(trj$coord)[3])], 3, calc.dists, sele=sele)
+        D <- apply(coords, 3, calc.dists, sele=sele)
     }
     #Apply capping
     if(is.null(cap) == FALSE){
