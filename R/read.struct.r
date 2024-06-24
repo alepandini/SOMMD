@@ -1,23 +1,17 @@
-#' Read structure files
-#'
-#' Function to read pdb and gro files
-#'
+#' @title Read structure files
+#' @description Function to read pdb and gro files
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param file contains the name and the path to the pdb or gro file to be read
-#'
 #' @return Returns a list of class "struct" with the following components:
 #' @return \item{atom}{ a data frame containing all atomic coordinate with a row per atom and a column per record type.}
 #' @return \item{xyz}{ a numeric matrix of class "xyz" containing the atomic coordinate data.}
 #' @return \item{box}{ a vector of box size.}
 #' @return \item{format}{ The format of the original file }
 #' @return \item{call}{ the matched call.}
-#'
 #' @export
-#'
 #' @examples
 #' struct <- read.struct("ref.gro")
-
+#'
 read.struct <- function(file){
   supported_formats <- c("pdb","gro")
   fileExtension <- tools::file_ext(file)

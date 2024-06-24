@@ -1,19 +1,14 @@
-#' Stride a trj
-#'
-#' Apply a stride to the frame of a trj object to reduce the number of frames
-#'
+#' @title Stride a trj
+#' @description Apply a stride to the frame of a trj object to reduce the number of frames
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
-#' @param traj a trj object. 
+#' @param traj a trj object.
 #' @param stride the stride to apply to the trajectory
-#'
 #' @return the trj object with a frame every \code{stride}
 #' @export
-#'
 #' @examples
 #' # keep a frame every 10 frame
 #' traj <- stride.trj(traj, 10)
-
+#'
 stride.trj <- function(traj, stride){
     #Check that the trajectory is of class trj:
     if(!methods::is(traj,"trj")){
@@ -44,7 +39,7 @@ stride.trj <- function(traj, stride){
             WARN2 <- TRUE
         }
         stride_traj$start[i] <- utils::head(RF, 1)
-        stride_traj$end[i] <- utils::tail(RF, 1) 
+        stride_traj$end[i] <- utils::tail(RF, 1)
     }
     if(WARN1){
         warning("Using this stride some of your simulation parts remain with no frame")

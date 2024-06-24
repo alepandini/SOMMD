@@ -12,7 +12,7 @@
 \item{...}{additional arguments to be passed to further methods}
 }
 \description{
-‘summary’ method for class ‘"struct"’.
+summary method for class struct
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

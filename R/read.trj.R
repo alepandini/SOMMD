@@ -1,12 +1,8 @@
-#' Read trj file
-#'
-#' Function to read a trajectory file
-#'
+#' @title Read trj file
+#' @description Function to read a trajectory file
 #' @author Alessandro Pandini
-#'
 #' @param trjfile contains the name and the path to the reference file (pdb or gro files are accepted)
 #' @param topfile contains the name and the path to the trajectory file (xtc or dcd files are accepted)
-#'
 #' @return Returns a list of class "trj" with the following components:
 #' @return \item{topfile}{ the input topology file.}
 #' @return \item{topformat}{ the format of the input topology.}
@@ -17,12 +13,10 @@
 #' @return \item{start}{ a vector with the first frame of the simulation. When multiple simulations are concatenated with \code{cat.trj} the vector indicates the first frame of each simulation.}
 #' @return \item{end}{ a vector with the last frame of the simulation. When multiple simulations are concatenated with \code{cat.trj} the vector indicates the last frame of each simulation.}
 #' @return \item{call}{ the matched call.}
-#'
 #' @export
-#'
 #' @examples
 #' trj <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
-
+#'
 read.trj <- function(trjfile, topfile){
   supported_top_formats <- c("pdb","gro")
   supported_trj_formats <- c("dcd","xtc")

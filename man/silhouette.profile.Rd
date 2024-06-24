@@ -28,6 +28,7 @@ Function to compute the silhouette profile for the Nclus cluster of the SOM neur
 }
 \examples{
 silhouette.profile(SOM, Nclus=8, clust_method="complete")
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

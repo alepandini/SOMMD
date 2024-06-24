@@ -20,6 +20,7 @@ Apply a stride to the frame of a trj object to reduce the number of frames
 \examples{
 # keep a frame every 10 frame
 traj <- stride.trj(traj, 10)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

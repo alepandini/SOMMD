@@ -34,6 +34,7 @@ Function trace pathway sampled on the SOM
 }
 \examples{
 trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

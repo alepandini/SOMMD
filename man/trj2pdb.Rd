@@ -25,6 +25,7 @@ trj2pdb(traj = trj, frame=1000, filename = "Frame_1000.pdb")
 #Estract the representative conformation of Neuron 8
 NEUR_repres <- neur.representatives(SOM)
 trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "../output/Neuron_8.pdb")
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

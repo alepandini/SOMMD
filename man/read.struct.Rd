@@ -27,6 +27,7 @@ Function to read pdb and gro files
 }
 \examples{
 struct <- read.struct("ref.gro")
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

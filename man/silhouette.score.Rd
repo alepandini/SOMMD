@@ -28,6 +28,7 @@ Function to compute the silhouette score for the clustering of SOM neurons
 }
 \examples{
 silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

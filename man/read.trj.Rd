@@ -37,6 +37,7 @@ Function to read a trajectory file
 }
 \examples{
 trj <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
+
 }
 \author{
 Alessandro Pandini

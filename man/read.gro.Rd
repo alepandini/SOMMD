@@ -25,6 +25,7 @@ Function to read gro files
 }
 \examples{
 gro <- read.gro("ref.gro")
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

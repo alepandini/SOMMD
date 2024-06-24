@@ -1,23 +1,17 @@
-#' Trace pathway
-#'
-#' Function trace pathway sampled on the SOM
-#'
+#' @title Trace pathway
+#' @description Function trace pathway sampled on the SOM
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
-#' @param SOM the SOM object 
+#' @param SOM the SOM object
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @param end a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
 #' @param N The portion of simulation that one want to plot
 #' @param draw.stride used to plot the pathways with a stride (usefull for very complex pathways)
 #' @param pts.scale a number to scale up or down the size of the circles
 #' @param lwd.scale a number to scale up or down the size of the lines
-#'
 #' @export
-#'
 #' @examples
 #' trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
-
-#Function to draw pathways over the SOM
+#'
 trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.stride=1, pts.scale=1, lwd.scale=1){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){

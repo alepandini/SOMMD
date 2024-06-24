@@ -1,14 +1,10 @@
-#' Summarizing a structure object
-#'
-#' ‘summary’ method for class ‘"struct"’.
+#' @title Summarizing a structure object
+#' @description summary method for class struct
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param object struct object
 #' @param ... additional arguments to be passed to further methods
-#'
 #' @export
 #'
-
 summary.struct <- function(object, ...) {
   if(!methods::is(object,"struct")){
     stop("Input should be a struct object, as obtained from 'read.struct()'")

@@ -26,6 +26,7 @@ for(NEURON in 1:nrow(SOM$grid$pts)){
 }
 # Add circles to the SOM plot
 SOM.add.circles(SOM, population, scale=0.9)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

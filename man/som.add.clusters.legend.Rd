@@ -16,6 +16,7 @@ Function to apply a legend of clusters to a SOM map image
 }
 \examples{
 som.add.clusters.legend(N.clus=8, color.scale=COL.SCALE)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

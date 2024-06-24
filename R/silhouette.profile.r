@@ -1,20 +1,15 @@
-#' Silhouette profile
-#'
-#' Function to compute the silhouette profile for the Nclus cluster of the SOM neurons
-#'
+#' @title Silhouette profile
+#' @description Function to compute the silhouette profile for the Nclus cluster of the SOM neurons
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#'
 #' @param SOM the SOM object to cluster
 #' @param Nclus the cluster number on which the silhouette profile will be computed
 #' @param dist_clust the metric for the distance calculation
 #' @param clust_method the method for the clustering (passed to the hclust function
-#'
 #' @return the silhouette profile computed with the cluster package
 #' @export
-#'
 #' @examples
 #' silhouette.profile(SOM, Nclus=8, clust_method="complete")
-
+#'
 silhouette.profile <- function(SOM, Nclus, dist_clust="euclidean", clust_method="complete"){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){

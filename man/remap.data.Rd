@@ -24,6 +24,7 @@ Assign new data to a pre-trained SOM
 DIST2 <- calc_distances(trj2, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
 # Map new data on the existing SOM
 SOM_new <- remap.data(SOM=SOM, X=DIST2)
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

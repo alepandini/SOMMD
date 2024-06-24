@@ -18,6 +18,7 @@ Add the neuron numbering scheme to the SOM plot
 }
 \examples{
 som.add.numbers(SOM, scale=0.5, col="black")
+
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}
