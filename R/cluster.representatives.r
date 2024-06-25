@@ -21,7 +21,7 @@ cluster.representatives <- function(SOM, clusters){
         stop("Number of cluster elements is different from number of neurons")
     }
     #Compute cluster centroid
-    centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
+    centroid <- sapply(unique(clusters), clust.centroid, SOM, clusters)
     repr.neur <- NULL
     #Compute the conformation closer to the centroid and store them in cl_repr
     for(i in 1:ncol(centroid)){
@@ -39,7 +39,7 @@ cluster.representatives <- function(SOM, clusters){
 #' @title Centroid of a cluster
 #' @description Function to compute the weighted mean (by population) of the vectors belonging to each clusters
 #' @param i the selected cluster
-#' @param dat the codebook vector of each cluster
+#' @param SOM a kohonen SOM object
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust
 #' @return the centroid of a selection of neurons
 #' @noRd
@@ -49,16 +49,16 @@ cluster.representatives <- function(SOM, clusters){
 #' # Compute cluster centroid for all the clusters
 #' centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
 #'
-clust.centroid = function(i, dat, clusters) {
-    ind = (clusters == i)
+clust.centroid = function(i, SOM, clusters) {
+    ind <- (clusters == i)
     if(sum(ind)>1){
         pop <- NULL
         for(neur in 1:length(clusters)){
-            pop <- c(pop, length(which(dat==neur)))
+            pop <- c(pop, length(which(SOM$unit.classif==neur)))
         }
-         return(apply(dat[ind,], 2, stats::weighted.mean, w=pop[ind]))
+         return(apply(SOM$codes[[1]][ind,], 2, stats::weighted.mean, w=pop[ind]))
     } else {
-        return(dat[ind,])
+        return(SOM$codes[[1]][ind,])
     }
 }
 
