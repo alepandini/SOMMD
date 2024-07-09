@@ -1,13 +1,13 @@
 # Funzione di test per cluster.pathways
 test_that("cluster.pathways works correctly in time independent mode", {
-  # Caricare il SOM
+  # Load SOM
   som_file <- system.file("extdata", "SOM.rds", package = "SOMMD")
   som_model <- readRDS(som_file)
-  # Definire le traiettorie
+  # Define trajectories
   start <- c(1, 51, 101)
   end <- c(50, 100, 150)
   
-  # Eseguire la funzione
+  # Execute Function
   result <- cluster.pathways(SOM = som_model, start = start, end = end, time.dep="independent")
   
   #Verify the obtained merge
@@ -22,14 +22,14 @@ test_that("cluster.pathways works correctly in time independent mode", {
 
 # Funzione di test per cluster.pathways
 test_that("cluster.pathways works correctly in time dependent mode", {
-  # Caricare il SOM
+  # Load SOM
   som_file <- system.file("extdata", "SOM.rds", package = "SOMMD")
   som_model <- readRDS(som_file)
-  # Definire le traiettorie
+  # Define trajectories
   start <- c(1, 51, 101)
   end <- c(50, 100, 150)
   
-  # Eseguire la funzione
+  # Execute Function
   result <- cluster.pathways(SOM = som_model, start = start, end = end, time.dep="dependent")
   
   #Verify the obtained merge
