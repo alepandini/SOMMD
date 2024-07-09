@@ -117,7 +117,7 @@ print(dim(DIST))
 Here the atom selection `sele.atoms` contains the atom indexes of the protein and ligand atoms retained relevant for the process we want to study. These are 40 atoms for the protein and 5 atoms for the ligand. Then, the `calc.distances`{style="color:magenta"} function compute all the intermolecular distances between every pair of protein and ligand atoms. This return a set of 40x5=200 distances. At this point the computed distances can be used to train the SOM as done before.
 
 ```{r}
-SOM_sel <- kohonen::som(DIST, grid = somgrid(10, 10, "hexagonal", 
+SOM_sel <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal", 
                                          neighbourhood.fct="gaussian", toroidal=FALSE), 
                     dist.fcts="euclidean", rlen=1000, mode='pbatch')
 ```
@@ -194,11 +194,8 @@ Using the information from the transition matrix of the simulations it is possib
 ```{r}
 #Compute transition matrix
 Tr_mat <- comp.trans.mat(SOM_sel$unit.classif, start = 1)
-#Convert the matrix to an igraph network
-d <- Matrix2Network(Tr_mat)
-#Remove the self transitions
-d_nodiag <- rm.net.diag(d)
-net <- Network2Graph(d_nodiag, SOM_sel, SOM.hc, COL.SCALE)
+#Create igraph object
+net <- Matrix2Graph(Tr_mat, SOM_sel, SOM.hc, COL.SCALE, diag=FALSE)
 ```
 
 Note that in the `comp.trans.mat`{style="color:magenta"} function, the `start` argument specify the starting point of the replicas. In case of a study case with multiple replicas, the transition between the last frame of the replica N and the first frame of the replica N+1 must be removed from the counting of transitions. In that case you can simply use the trj\$start vector that contains the starting frames of all the replicas concatenated with the `cat.trj`{style="color:magenta"} function. In the present case we are working with a single simulation, so the starting point is simply 1 (the first frame).

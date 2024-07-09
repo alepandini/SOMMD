@@ -40,14 +40,18 @@ comp.trans.mat <- function(classif, start=1){
     return(trans)
 }
 
-#' @title Convert transition matrix to Network
-#' @description Function to convert a transition matrix to a network
+
+#' @title Convert transition matrix to an igraph object
+#' @description Function to convert a transition matrix to an igraph object
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trans a transition matrix (usually obtained from comp.trans.mat)
-#' @return The network in the form of a dataframe
+#' @param SOM a kohonen object that form the network
+#' @param SOM.hc a vector of cluster assignment for SOM neurons
+#' @param col.set a vector of colors used for the SOM clusters
+#' @return The network as igraph object, with the SOM properties
 #' @export
 #'
-Matrix2Network <- function(trans){
+Matrix2Graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #   Check that trans have the shape of a transition matrix
     if( nrow(trans) != ncol(trans) ){
         stop("number of row and columns of trans must be the same")
@@ -55,6 +59,22 @@ Matrix2Network <- function(trans){
 #   Check that the values of the transition matrix are all equal or greater than zero
     if( length(which(trans < 0)) > 0 ){
         stop("trans cannot have negative numbers")
+    }
+    #check whether SOM is a kohonen object
+    if(inherits(SOM, "kohonen")==FALSE){
+        stop("SOM must be a kohonen object")
+    }
+    #check whether SOM.hc is numeric
+    if((is.numeric(SOM.hc) == FALSE)){
+        stop("SOM.hc must be the vector of cluster assignment as obtained for example by hclust")
+    }
+    #check if length of SOM.hc is compatible with SOM
+    if((length(SOM.hc) != nrow(SOM$grid$pts))){
+        stop(paste("SOM.hc have", length(SOM.hc), "elements, but SOM have", nrow(SOM$grid$pts), "neurons", sep=' '))
+    }
+    #check whether diag is logi
+    if(is.logical(diag) == FALSE){
+        stop("diag must be TRUE or FALSE")
     }
     #Create transition network
     d <- NULL
@@ -65,63 +85,15 @@ Matrix2Network <- function(trans){
             }
         }
     }
-    return(d)
-}
-
-#' @title Remove diagonal elements
-#' @description Function to remove the diagonal from a network
-#' @author Stefano Motta \email{stefano.motta@unimib.it}
-#' @param d the network in the form of a dataframe
-#' @return The network with no diagonal
-#' @export
-#'
-rm.net.diag <- function(d){
-#   Check that d have the shape of a network dataframe
-    if( ncol(d) != 3 ){
-        stop("d must be a network in the form of a dataframe (three columns)")
-    }
-    if( length(which(d[,3] < 0)) > 0 ){
-        stop("d cannot have negative numbers in the third column")
-    }
     #Remove elements on the diagonal
-    d.nodiag <- NULL
-    for(i in 1:nrow(d)){
-        if(d[i,1]!=d[i,2]){
-            d.nodiag <- rbind(d.nodiag, d[i,])
-        }
-    }
-    return(d.nodiag)
-}
-
-#' @title convert a network to igraph object
-#' @description Function to convert a network dataframe to an igraph object
-#' @author Stefano Motta \email{stefano.motta@unimib.it}
-#' @param d a network in the form of a dataframe
-#' @param SOM a kohonen object that form the network
-#' @param SOM.hc a vector of cluster assignment for SOM neurons
-#' @param col.set a vector of colors used for the SOM clusters
-#' @return The network as igraph object, with the SOM properties
-#' @export
-#'
-Network2Graph <- function(d, SOM, SOM.hc, col.set){
-#   Check that d have the shape of a network dataframe
-    if( ncol(d) != 3 ){
-        stop("d must be a network in the form of a dataframe (three columns)")
-    }
-    if( length(which(d[,3] < 0)) > 0 ){
-        stop("d cannot have negative numbers in the third column")
-    }
-    #check whether SOM is a kohonen object
-    if(inherits(SOM, "kohonen")==FALSE){
-        stop("SOM must be a kohonen object")
-    }
-    #check whether SOM.hc is numeric
-    if((is.numeric(SOM.hc) == FALSE)){
-        stop("SOM must be a kohonen object")
-    }
-    #check if length of SOM.hc is compatible with SOM
-    if((length(SOM.hc) != nrow(SOM$grid$pts))){
-        stop(paste("SOM.hc have", length(SOM.hc), "elements, but SOM have", nrow(SOM$grid$pts), "neurons", sep=' '))
+    if(diag==FALSE){
+      d.nodiag <- NULL
+      for(i in 1:nrow(d)){
+          if(d[i,1]!=d[i,2]){
+              d.nodiag <- rbind(d.nodiag, d[i,])
+          }
+      }
+      d <- d.nodiag    
     }
     pop <- NULL
     N.neur <- nrow(SOM$codes[[1]])
@@ -150,6 +122,7 @@ Network2Graph <- function(d, SOM, SOM.hc, col.set){
     return(net)
 }
 
+
 #' @title Map the property vector to colours
 #' @description Function map a numeric vector of a property to a vector of colors for that property according to that property value.
 #' @param x a numeric vector
@@ -159,7 +132,7 @@ Network2Graph <- function(d, SOM, SOM.hc, col.set){
 #' @return COL a vector with the same length of x, with colors proportional to the values of x
 #' @export
 #'
-map2color <- function(x, pal, limits=NULL, na.col="grey"){
+map_color <- function(x, pal, limits=NULL, na.col="grey"){
     if( is.numeric(x) == FALSE){
         stop("x must be a numeric vector")
     }
