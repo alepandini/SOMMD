@@ -1,4 +1,4 @@
-# Funzione di test per cluster.pathways
+# Funzione di test per comp.trans.mat
 test_that("comp.trans.mat works correctly", {
   # Load SOM
   som_file <- system.file("extdata", "SOM.rds", package = "SOMMD")
@@ -9,7 +9,6 @@ test_that("comp.trans.mat works correctly", {
   tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
   
   #Verify the obtained classification
-  sort(tr_mat, decreasing=TRUE)[1:10]
   expected_values <- c(5, 4, 4, 3, 3, 3, 3, 3, 3, 3)
   expect_equal(sort(tr_mat, decreasing=TRUE)[1:10], expected_values, tolerance = 1e-6)
 

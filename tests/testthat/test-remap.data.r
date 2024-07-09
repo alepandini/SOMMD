@@ -1,4 +1,4 @@
-# Funzione di test per cluster.pathways
+# Funzione di test per remap.data
 test_that("remap.data works correctly with add=FALSE", {
   # Load SOM
   som_file <- system.file("extdata", "SOM.rds", package = "SOMMD")
