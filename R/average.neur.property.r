@@ -6,10 +6,14 @@
 #' @return avg.neur.p the per-neuron average of the property.
 #' @export
 #' @examples
-#' #Compute distances between these two atoms in every frame of the simulation
-#' Term_dist <- apply(trj$coord[Terminals,,], 3, dist)
+#' #Read trajectory
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Compute distance between two atoms in every frame of the simulation
+#' Distance <- apply(trj$coord[c(162,1794),,], 3, dist)
 #' #Compute average property value for each neuron
-#' average.neur.property(SOM, Term_dist)
+#' avg.p <- average.neur.property(som_model, Distance)
 #'
 average.neur.property <- function(SOM, P){
     #check whether SOM is a kohonen object
