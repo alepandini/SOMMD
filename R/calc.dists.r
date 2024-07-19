@@ -6,7 +6,6 @@
 #' @param mol.2_id vector containing the index of the second molecule for intermolecular distances only
 #' @param sele contains the selection of distances coming from the native_contacts function
 #' @return D the selected distances for a frame
-#' @export
 #'
 calc.dists <- function(coord, mol.1_id=FALSE, mol.2_id=FALSE, sele=FALSE){
     N_atm <- nrow(coord)
