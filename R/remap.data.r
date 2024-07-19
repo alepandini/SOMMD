@@ -7,11 +7,19 @@
 #' @return The SOM with the new data mapped
 #' @export
 #' @examples
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Read a trajectory that was not used to train the som
+#' trj_2 <- read.trj(trjfile = system.file("extdata", "HIF2a-MD-2.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' #Selection of the same intermolecular distances used to train the SOM
+#' protein.sele <- which(gro$atom$resid!="020")
+#' ligand.sele <- which(gro$atom$resid=="020")
+#' heavy.atoms <- which(startsWith(gro$atom$elety, "H")==FALSE)
+#' sele.dists <- native.cont(struct=gro, distance=0.6, mol.2=ligand.sele, atoms=heavy.atoms)
 #' # Compute distances on new simulations (the same used for SOM training)
-#' DIST2 <- calc_distances(trj2, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
+#' dist_2 <- calc.distances(trj_2, mol.2=ligand.sele, sele=sele.dists, atoms=heavy.atoms)
 #' # Map new data on the existing SOM
-#' SOM_new <- remap.data(SOM=SOM, X=DIST2)
-#'
+#' som_model_2 <- remap.data(SOM=som_model, X=dist_2)
 remap.data <- function(SOM, X, add=FALSE)    {
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){

@@ -5,8 +5,10 @@
 #' @return a vector of frames representatives of each neuron
 #' @export
 #' @examples
-#' NEUR_repres <- neur.representatives(SOM)
-#'
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Compute representative frame for each neuron
+#' neuron_representatives <- neur.representatives(som_model)
 neur.representatives <- function(SOM){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){

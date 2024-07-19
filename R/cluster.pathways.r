@@ -9,11 +9,17 @@
 #' @return representatives a vector of frames representatives of each neuron
 #' @export
 #' @examples
-#' # Cluster Pathways using the time dependent algorithm
-#' cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
-#'
+#' #Read trajectory
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' #Assign length of the replicas
+#' trj$start <- seq(1, 25, by=5)
+#' trj$end <- seq(5, 25, by=5)
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Cluster Pathways using the time dependent algorithm
+#' clus.paths.tdep <- cluster.pathways(som_model, start=trj$start, end=trj$end, time.dep="dependent")
 #' #Cluster Pathways using the time independent algorithm
-#' cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
+#' clus.paths.tindep <- cluster.pathways(som_model, start=trj$start, end=trj$end, time.dep="independent")
 #'
 cluster.pathways <- function(SOM, start, end, time.dep="independent", method="complete"){
     #check whether SOM is a kohonen object

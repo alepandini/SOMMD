@@ -14,9 +14,9 @@
 #' @return \item{end}{ a vector with the last frame of the simulation. When multiple simulations are concatenated with \code{cat.trj} the vector indicates the last frame of each simulation.}
 #' @return \item{call}{ the matched call.}
 #' @export
-#' @examples
-#' trj <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
-#'
+#' @example
+#' #Read trajectory
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 read.trj <- function(trjfile, topfile){
   supported_top_formats <- c("pdb","gro")
   supported_trj_formats <- c("dcd","xtc")

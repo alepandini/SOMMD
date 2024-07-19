@@ -10,8 +10,8 @@
 #' @return \item{call}{ the matched call.}
 #' @export
 #' @examples
-#' struct <- read.struct("ref.gro")
-#'
+#' # Read structure file
+#' struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 read.struct <- function(file){
   supported_formats <- c("pdb","gro")
   fileExtension <- tools::file_ext(file)

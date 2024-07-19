@@ -7,9 +7,6 @@
 #' @return \item{xyz}{ a numeric matrix of class "xyz" containing the atomic coordinate data.}
 #' @return \item{box}{ a vector of box size.}
 #' @return \item{call}{ the matched call.}
-#' @examples
-#' gro <- read.gro("ref.gro")
-#'
 read.gro <- function(file){
     if (missing(file)) {
         stop("please specify a gro 'file' for reading")

@@ -7,7 +7,9 @@
 #' @param N The portion of simulation that one want to plot
 #' @export
 #' @examples
-#' neur.population(SOM)
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' pop <- neur.population(som_model)
 #'
 neur.population <- function(SOM, start=1, end=length(SOM$unit.classif), N=1){
     #check whether SOM is a kohonen object

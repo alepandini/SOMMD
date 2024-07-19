@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' # Read reference structure file with native conformation
-#' struct <- read.struct(system.file("extdata", "HIF2a-MD.gro", package = "SOMMD"))
+#' struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Read the trajectory
 #' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Select only Cbeta atoms to perform the analysis

@@ -10,12 +10,10 @@
 #' @return sele.dist the selection of distances
 #' @export
 #' @examples
-#' #Read reference pdb with native conformation
-#' struct <- read.struct("../data/Medium_Dataset/ref.pdb")
-#'
+#' # Read reference structure file with native conformation
+#' struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Select only Cbeta atoms to perform the analysis
 #' sele_atoms <- which(struct$atom$elety=="CB")
-#'
 #' #Choose only native contacts
 #' sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
 #'

@@ -6,12 +6,11 @@
 #' @return trj with the simulations concatenated
 #' @export
 #' @examples
-#' # Read the three simulations
-#' trj1 <- read.trj(trjfile="rep_001.xtc", topfile="ref.pdb")
-#' trj2 <- read.trj(trjfile="rep_002.xtc", topfile="ref.pdb")
-#' trj3 <- read.trj(trjfile="rep_003.xtc", topfile="ref.pdb")
+#' # Read the simulations
+#' trj1 <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj2 <- read.trj(trjfile = system.file("extdata", "HIF2a-MD-2.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Concatenate the simulations
-#'   trj <- cat.trj(trj1, trj2, trj3)
+#'   trj <- cat.trj(trj1, trj2)
 #'
 cat.trj <-  function(trj1, ...){
     traj_list <- list(...)

@@ -49,7 +49,7 @@ print(dim(DIST))
 From this calculation we have obtained a large matrix of 629 distances for the 9175 frames of the simulation. At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 10x10 SOM with hexagonal neurons.
 
 ```{r}
-SOM_nat <- kohonen::som(DIST, grid = somgrid(10, 10, "hexagonal", 
+SOM_nat <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal", 
                                          neighbourhood.fct="gaussian", toroidal=FALSE), 
                     dist.fcts="euclidean", rlen=1000, mode='pbatch')
 ```
