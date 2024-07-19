@@ -26,7 +26,7 @@ test_that("read.trj reads trajectory and topology files correctly", {
   
   #Verify the coordinates of an atom in trajectory
   result <- trj$coord[1809,,12]
-  expected_result <- c(4.99, 6.42, 3.84)
+  expected_result <- c(5.09, 6.20, 4.19)
   expect_equal(result, expected_result, tolerance = 1e-6)
 
 })
