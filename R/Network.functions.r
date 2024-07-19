@@ -2,11 +2,16 @@
 #' @description Compute the transition matrix starting from a vector of subsequent classifications
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param classif a vector of neuron assigment (usually passed by SOM$unit.classif
+#' @param N_states the number of states (usually number of neurons of the som). By default it is max(classif)
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @return trans
 #' @export
-#'
-comp.trans.mat <- function(classif, start=1){
+#' @examples
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Compute transition Matrix
+#' tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+comp.trans.mat <- function(classif, N_states=max(classif), start=1){
 #   Check that the classif is numeric
     if(is.numeric(classif)==FALSE){
         stop("classif must be a numeric vector")
@@ -22,21 +27,21 @@ comp.trans.mat <- function(classif, start=1){
     #Remove transitions across the replicas
     classif[start] <- 0
     #Compute the probability of passing from neuron i to neuron j
-    trans <- matrix(0, ncol=max(classif), nrow=max(classif))
-    for(i in 1:max(classif)){
+    trans <- matrix(0, ncol=N_states, nrow=N_states)
+    for(i in 1:N_states){
         #Total number of frame assigned to the neuron i
         total <- length(which(classif==i))
         #Neurons to which the neuron i has evolved to
         passage <- classif[which(classif==i)+1]
         if(total > 0){
-            for(j in 1:max(classif)){
+            for(j in 1:N_states){
                 NNN <- length(which(passage==j))
                     trans[i,j] <- NNN
             }
         }
     }
-    colnames(trans) <- paste("N_", seq(1:max(classif)), sep='')
-    rownames(trans) <- paste("N_", seq(1:max(classif)), sep='')
+    colnames(trans) <- paste("N_", seq(1:N_states), sep='')
+    rownames(trans) <- paste("N_", seq(1:N_states), sep='')
     return(trans)
 }
 
@@ -50,7 +55,16 @@ comp.trans.mat <- function(classif, start=1){
 #' @param col.set a vector of colors used for the SOM clusters
 #' @return The network as igraph object, with the SOM properties
 #' @export
-#'
+#' @examples
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Divide the SOM in the selected number of clusters
+#' som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
+#' #Compute transition matrix
+#' tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+#' colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a") 
+#' Create graph object
+#' net <- Matrix2Graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
 Matrix2Graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #   Check that trans have the shape of a transition matrix
     if( nrow(trans) != ncol(trans) ){
