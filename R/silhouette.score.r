@@ -8,7 +8,10 @@
 #' @return D the set of distances used to train the SOM is computed for all the frames.
 #' @export
 #' @examples
-#' silhouette.score(SOM, clust_method="complete", intervall=seq(2,30))
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #Compute the silhouette profile
+#' sil_score <- silhouette.score(som_model, clust_method="complete", interval=seq(2,8))
 #'
 silhouette.score <- function(SOM, dist_clust="euclidean", clust_method="complete", interval=seq(2,30)){
     #check whether SOM is a kohonen object

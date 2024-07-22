@@ -24,14 +24,14 @@ D the set of distances used to train the SOM is computed for all the frames.
 Function to compute distances to be used to train the SOM
 }
 \examples{
-# Read reference pdb with native conformation
-pdb <- bio3d::read.pdb("ref.pdb")
+# Read reference structure file with native conformation
+struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Read the trajectory
-trj <- read.trj(trjfile="sim.xtc", topfile="ref.pdb")
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Select only Cbeta atoms to perform the analysis
 sele_atoms <- which(trj$top$elety=="CB")
 # Choose only native contacts
-sele_dists <- native_contacts(struct=pdb, distance=1.0, atoms=sele_atoms)
+sele_dists <- native.cont(struct=struct, distance=1.0, atoms=sele_atoms)
 # Compute distances for SOM training.
 DIST <- calc.distances(trj, mol.2=FALSE, sele=sele_dists, atoms=sele_atoms)
 

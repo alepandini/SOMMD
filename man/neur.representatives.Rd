@@ -16,8 +16,10 @@ a vector of frames representatives of each neuron
 Compute the representative frame of each neuron (the closest to the neuron codebook)
 }
 \examples{
-NEUR_repres <- neur.representatives(SOM)
-
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#Compute representative frame for each neuron
+neuron_representatives <- neur.representatives(som_model)
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

@@ -7,15 +7,16 @@
 #' @param col.circles the background color of the drawn circles
 #' @export
 #' @examples
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #' # Compute per neuron population
-#' population <- NULL
-#' for(NEURON in 1:nrow(SOM$grid$pts)){
-#'     population <- c(population, length(which(SOM$unit.classif==NEURON)))
-#' }
+#' pop <- neur.population(som_model)
+#' #Plot the som
+#' plot(som_model, type = "count", bgcol=c("red", "blue", "yellow", "green"), shape='straight')
 #' # Add circles to the SOM plot
-#' SOM.add.circles(SOM, population, scale=0.9)
+#' som.add.circles(som_model, pop, scale=0.9)
 #'
-SOM.add.circles <- function(SOM, property, scale=1, col.circles="white"){
+som.add.circles <- function(SOM, property, scale=1, col.circles="white"){
     #check whether SOM is a kohonen object
     if(inherits(SOM, "kohonen")==FALSE){
         stop("SOM must be a kohonen object")

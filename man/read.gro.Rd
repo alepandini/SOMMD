@@ -23,10 +23,6 @@ Returns a list of class "pdb" with the following components:
 \description{
 Function to read gro files
 }
-\examples{
-gro <- read.gro("ref.gro")
-
-}
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}
 }

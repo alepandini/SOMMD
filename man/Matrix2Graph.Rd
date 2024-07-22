@@ -4,7 +4,7 @@
 \alias{Matrix2Graph}
 \title{Convert transition matrix to an igraph object}
 \usage{
-Matrix2Graph(trans, SOM, SOM.hc, COL.SCALE, diag = FALSE)
+Matrix2Graph(trans, SOM, SOM.hc, col.set, diag = FALSE)
 }
 \arguments{
 \item{trans}{a transition matrix (usually obtained from comp.trans.mat)}
@@ -20,6 +20,18 @@ The network as igraph object, with the SOM properties
 }
 \description{
 Function to convert a transition matrix to an igraph object
+}
+\examples{
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#Divide the SOM in the selected number of clusters
+som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
+#Compute transition matrix
+tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+#Define a set of colors
+colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a") 
+Create graph object
+net <- Matrix2Graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

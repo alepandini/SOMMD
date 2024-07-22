@@ -26,8 +26,8 @@ Returns a list of class "struct" with the following components:
 Function to read pdb and gro files
 }
 \examples{
-struct <- read.struct("ref.gro")
-
+# Read structure file
+struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

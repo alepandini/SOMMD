@@ -10,7 +10,12 @@
 #' @param lwd.scale a number to scale up or down the size of the lines
 #' @export
 #' @examples
-#' trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
+#' # Read the trajectory
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' #Read example SOM data
+#' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#' #trace pathway sampled on the SOM
+#' trace.path(som_model, start=trj$start, end=trj$end, N=1, pts.scale=0.5)
 #'
 trace.path <- function(SOM, start=1, end=length(SOM$unit.classif), N=1, draw.stride=1, pts.scale=1, lwd.scale=1){
     #check whether SOM is a kohonen object

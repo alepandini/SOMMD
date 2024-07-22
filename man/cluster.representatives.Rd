@@ -18,9 +18,12 @@ representatives a vector of frames representatives of each neuron
 Compute the cluster representatives
 }
 \examples{
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 # Divide the SOM in the selected number of clusters
+som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
 #Get representative frames for each cluster
-CL_repres <- cluster.representatives(SOM, SOM.hc)
+cl_repres <- cluster.representatives(som_model, som_cl)
 
 }
 \author{

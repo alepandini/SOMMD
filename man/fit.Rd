@@ -24,6 +24,8 @@ This function make use of the bio3d fit.xyz function to align a SOMMD trj object
 If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
 }
 \examples{
+#Read trajectory
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Fit a trajectory to the first frame based on alpha carbons:
 ca.inds <- which(trj$top$elety=="CA")
 trj.fit <- fit(trj, trj.inds=ca.inds)

@@ -27,7 +27,10 @@ the silhouette profile computed with the cluster package
 Function to compute the silhouette profile for the Nclus cluster of the SOM neurons
 }
 \examples{
-silhouette.profile(SOM, Nclus=8, clust_method="complete")
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#Compute the silhouette profile
+sil_pro <- silhouette.profile(som_model, Nclus=5, clust_method="complete")
 
 }
 \author{
