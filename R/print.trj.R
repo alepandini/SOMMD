@@ -4,9 +4,10 @@
 #' @param x trj object
 #' @param ... additional arguments to be passed to further methods
 #' @export
-#' @example
+#' @examples
 #' #Read trajectory
-#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Print basic informations
 #' print.trj(trj)
 print.trj <- function(x, ...) {

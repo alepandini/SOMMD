@@ -53,6 +53,7 @@ comp.trans.mat <- function(classif, N_states=max(classif), start=1){
 #' @param SOM a kohonen object that form the network
 #' @param SOM.hc a vector of cluster assignment for SOM neurons
 #' @param col.set a vector of colors used for the SOM clusters
+#' @param diag boolean condition to include diagonal elements
 #' @return The network as igraph object, with the SOM properties
 #' @export
 #' @examples
@@ -63,8 +64,8 @@ comp.trans.mat <- function(classif, N_states=max(classif), start=1){
 #' #Compute transition matrix
 #' tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
 #' #Define a set of colors
-#' colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a") 
-#' Create graph object
+#' colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a")
+#' #Create graph object
 #' net <- Matrix2Graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
 Matrix2Graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #   Check that trans have the shape of a transition matrix
@@ -108,7 +109,7 @@ Matrix2Graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
               d.nodiag <- rbind(d.nodiag, d[i,])
           }
       }
-      d <- d.nodiag    
+      d <- d.nodiag
     }
     pop <- NULL
     N.neur <- nrow(SOM$codes[[1]])

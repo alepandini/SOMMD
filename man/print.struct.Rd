@@ -14,6 +14,12 @@
 \description{
 A short description...
 }
+\examples{
+# Read structure file
+struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#Print basic information
+print.struct(struct)
+}
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}
 }

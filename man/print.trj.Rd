@@ -14,6 +14,13 @@
 \description{
 A short description...
 }
+\examples{
+#Read trajectory
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#Print basic informations
+print.trj(trj)
+}
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}
 }

@@ -35,6 +35,11 @@ Returns a list of class "trj" with the following components:
 \description{
 Function to read a trajectory file
 }
+\examples{
+#Read trajectory
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+}
 \author{
 Alessandro Pandini
 }

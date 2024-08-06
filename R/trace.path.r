@@ -11,7 +11,8 @@
 #' @export
 #' @examples
 #' # Read the trajectory
-#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Read example SOM data
 #' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #' #trace pathway sampled on the SOM

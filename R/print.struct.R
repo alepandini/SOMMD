@@ -4,10 +4,10 @@
 #' @param x trj object
 #' @param ... additional arguments to be passed to further methods
 #' @export
-#' @example
+#' @examples
 #' # Read structure file
 #' struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
-#' #Print basic informations
+#' #Print basic information
 #' print.struct(struct)
 print.struct <- function(x, ...) {
   # Print a summary of basic struct object features

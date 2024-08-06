@@ -33,7 +33,13 @@ trace.path(
 Function trace pathway sampled on the SOM
 }
 \examples{
-trace_path(SOM, start=trj$start, end=trj$end, N=1, scale=0.5)
+# Read the trajectory
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#trace pathway sampled on the SOM
+trace.path(som_model, start=trj$start, end=trj$end, N=1, pts.scale=0.5)
 
 }
 \author{

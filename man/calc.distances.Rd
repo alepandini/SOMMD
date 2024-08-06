@@ -27,7 +27,8 @@ Function to compute distances to be used to train the SOM
 # Read reference structure file with native conformation
 struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Read the trajectory
-trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Select only Cbeta atoms to perform the analysis
 sele_atoms <- which(trj$top$elety=="CB")
 # Choose only native contacts

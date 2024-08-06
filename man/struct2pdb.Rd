@@ -16,6 +16,9 @@ Returns an object with class "pdb"
 Convert a struct object into a pdb obtect
 }
 \examples{
+# Read structure file 
+struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#Convert structure to pdb object
 pdb <- struct2pdb(struct)
 
 }

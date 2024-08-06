@@ -7,7 +7,8 @@
 #' @export
 #' @examples
 #' # Read the simulation
-#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # keep a frame every 2 frame
 #' trj_strd <- stride.trj(trj, 2)
 #'

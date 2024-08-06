@@ -17,7 +17,12 @@ som.add.numbers(SOM, scale = 1, col = "black")
 Add the neuron numbering scheme to the SOM plot
 }
 \examples{
-som.add.numbers(SOM, scale=0.5, col="black")
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#Plot the som
+plot(som_model, type = "count", bgcol=c("red", "blue", "yellow", "green"), shape='straight')
+#Add neuron numbers on the som
+som.add.numbers(som_model, scale=0.5, col="black")
 
 }
 \author{

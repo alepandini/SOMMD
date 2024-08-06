@@ -4,10 +4,10 @@
 \alias{som.add.clusters.legend}
 \title{Add legend clusters}
 \usage{
-som.add.clusters.legend(N.clus, color.scale)
+som.add.clusters.legend(Nclus, color.scale)
 }
 \arguments{
-\item{N.clus}{the number of clusters to which put the legent}
+\item{Nclus}{the number of clusters to which put the legent}
 
 \item{color.scale}{the color scale used for the image}
 }
@@ -15,7 +15,17 @@ som.add.clusters.legend(N.clus, color.scale)
 Function to apply a legend of clusters to a SOM map image
 }
 \examples{
-som.add.clusters.legend(N.clus=8, color.scale=COL.SCALE)
+#Read example SOM data
+som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
+#Divide the SOM in the selected number of clusters
+som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
+#Define a set of colors
+colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a") 
+#Plot the som with neurons colored according to clusters
+plot(som_model, type = "mapping", bgcol=colors[som_cl], col=rgb(0,0,0,0), shape='straight', main="")
+kohonen::add.cluster.boundaries(som_model, som_cl, lwd=5)
+#Add legend to the plot
+som.add.clusters.legend(Nclus=4, color.scale=colors)
 
 }
 \author{

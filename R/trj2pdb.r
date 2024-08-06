@@ -8,7 +8,8 @@
 #' @export
 #' @examples
 #' # Read the trajectory
-#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Write the pdb file for a specific frame
 #' trj2pdb(traj = trj, frame=5, filename = "Frame_5.pdb")
 #'

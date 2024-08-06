@@ -14,6 +14,8 @@ Matrix2Graph(trans, SOM, SOM.hc, col.set, diag = FALSE)
 \item{SOM.hc}{a vector of cluster assignment for SOM neurons}
 
 \item{col.set}{a vector of colors used for the SOM clusters}
+
+\item{diag}{boolean condition to include diagonal elements}
 }
 \value{
 The network as igraph object, with the SOM properties
@@ -29,8 +31,8 @@ som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="
 #Compute transition matrix
 tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
 #Define a set of colors
-colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a") 
-Create graph object
+colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a")
+#Create graph object
 net <- Matrix2Graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
 }
 \author{

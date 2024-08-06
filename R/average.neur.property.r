@@ -7,7 +7,8 @@
 #' @export
 #' @examples
 #' #Read trajectory
-#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"), topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Read example SOM data
 #' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #' #Compute distance between two atoms in every frame of the simulation

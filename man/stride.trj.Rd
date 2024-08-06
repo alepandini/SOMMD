@@ -18,8 +18,11 @@ the trj object with a frame every \code{stride}
 Apply a stride to the frame of a trj object to reduce the number of frames
 }
 \examples{
-# keep a frame every 10 frame
-traj <- stride.trj(traj, 10)
+# Read the simulation
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+# keep a frame every 2 frame
+trj_strd <- stride.trj(trj, 2)
 
 }
 \author{
