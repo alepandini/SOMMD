@@ -195,7 +195,7 @@ Using the information from the transition matrix of the simulations it is possib
 #Compute transition matrix
 Tr_mat <- comp.trans.mat(SOM_sel$unit.classif, start = 1)
 #Create igraph object
-net <- Matrix2Graph(Tr_mat, SOM_sel, SOM.hc, COL.SCALE, diag=FALSE)
+net <- matrix2graph(Tr_mat, SOM_sel, SOM.hc, COL.SCALE, diag=FALSE)
 ```
 
 Note that in the `comp.trans.mat`{style="color:magenta"} function, the `start` argument specify the starting point of the replicas. In case of a study case with multiple replicas, the transition between the last frame of the replica N and the first frame of the replica N+1 must be removed from the counting of transitions. In that case you can simply use the trj\$start vector that contains the starting frames of all the replicas concatenated with the `cat.trj`{style="color:magenta"} function. In the present case we are working with a single simulation, so the starting point is simply 1 (the first frame).

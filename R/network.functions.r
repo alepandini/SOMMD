@@ -66,8 +66,8 @@ comp.trans.mat <- function(classif, N_states=max(classif), start=1){
 #' #Define a set of colors
 #' colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a")
 #' #Create graph object
-#' net <- Matrix2Graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
-Matrix2Graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
+#' net <- matrix2graph(tr_mat, som_model, som_cl, colors, diag=FALSE)
+matrix2graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #   Check that trans have the shape of a transition matrix
     if( nrow(trans) != ncol(trans) ){
         stop("number of row and columns of trans must be the same")

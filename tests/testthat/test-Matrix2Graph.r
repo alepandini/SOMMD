@@ -1,5 +1,5 @@
-# Funzione di test per Matrix2Graph
-test_that("Matrix2Graph works correctly", {
+# Funzione di test per matrix2graph
+test_that("matrix2graph works correctly", {
   # Load SOM
   som_file <- system.file("extdata", "som_model.rds", package = "SOMMD")
   som_model <- readRDS(som_file)
@@ -13,7 +13,7 @@ test_that("Matrix2Graph works correctly", {
   colorset <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
                 "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
                 "#747474", "#f88587", "#a4db77")
-  net <- Matrix2Graph(tr_mat, som_model, SOM.hc, colorset, diag=FALSE)  
+  net <- matrix2graph(tr_mat, som_model, SOM.hc, colorset, diag=FALSE)  
   
   #Verify the network edge width
   expected_values <- c(0.0000000, 2.2284935, 1.2883582, 2.4526184, 0.0000000, 1.0209997, 1.8084393,
