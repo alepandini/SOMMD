@@ -18,6 +18,9 @@ a xyz matrix with frames on rows and coordinates as columns
 Convert the trj coordinates 3D-array in a 2D matrix.
 }
 \examples{
+#Read trajectory
+trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+  topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 trj2xyz(trj)
 
 }

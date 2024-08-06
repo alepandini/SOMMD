@@ -12,6 +12,8 @@
 #' #Read a trajectory that was not used to train the som
 #' trj_2 <- read.trj(trjfile = system.file("extdata", "HIF2a-MD-2.xtc", package = "SOMMD"),
 #'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
+#' #Read reference structure file
+#' gro <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Selection of the same intermolecular distances used to train the SOM
 #' protein.sele <- which(gro$atom$resid!="020")
 #' ligand.sele <- which(gro$atom$resid=="020")

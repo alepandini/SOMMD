@@ -19,7 +19,7 @@ A short description...
 trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #Print basic informations
-print.trj(trj)
+print(trj)
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

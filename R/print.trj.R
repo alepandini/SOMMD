@@ -9,7 +9,7 @@
 #' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
 #'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Print basic informations
-#' print.trj(trj)
+#' print(trj)
 print.trj <- function(x, ...) {
   # Print a summary of basic trj object features
   trj <- x

@@ -8,7 +8,7 @@
 #' # Read structure file
 #' struct <- read.struct(system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' #Print basic information
-#' print.struct(struct)
+#' print(struct)
 print.struct <- function(x, ...) {
   # Print a summary of basic struct object features
   struct <- x

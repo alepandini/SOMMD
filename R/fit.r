@@ -80,6 +80,9 @@ fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
 #' @return a xyz matrix with frames on rows and coordinates as columns
 #' @export
 #' @examples
+#' #Read trajectory
+#' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
+#'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' trj2xyz(trj)
 #'
 trj2xyz <- function(trj, inds=NULL){
