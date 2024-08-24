@@ -8,3 +8,4 @@ cran-comments.md
 ^src/xdrfile/xdrfile\.o$
 ^src/xdrfile/xdrfile_trr\.o$
 ^src/xdrfile/xdrfile_xtc\.o$
+^\.github$
