@@ -1,18 +1,22 @@
 Package: SOMMD
-Title: Self Organising Maps for the analysis of Molecular Dynamics data
+Title: Self Organising Maps for the Analysis of Molecular Dynamics Data
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Alessandro",
            family = "Pandini",
-           role = c("aut", "cre"),
+           role = c("aut", "cre", "cph"),
            email = "alessandro.pandini@gmail.com",
            comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X")),
     person(given = "Stefano",
            family = "Motta",
-           role = c("aut"),
+           role = c("aut", "cph"),
            email = "stefano.motta@unimib.it",
            comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
-Description: What the package does (one paragraph).
+Description: Processes data from Molecular Dynamics simulations using 
+    Self Organising Maps. Features include the ability to read different 
+    input formats and to write output trajectories. Trajectory can be 
+    analysed using Kohonen maps to identify groups of important frames.
+    Output visualisation can be generated for maps and pathways.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
