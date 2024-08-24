@@ -24,10 +24,10 @@ XDRFILE *rio_xdrfile_open(SEXP xtc_filename_, const char *open_mode){
   int xtc_filename_length;
 
   const char *xtc_filename = CHAR(asChar(xtc_filename_));
-  xtc_filename_length = strlen(xtc_filename);
+  xtc_filename_length = strlen(xtc_filename) + 1;
 
   char xtc_filename_input[xtc_filename_length];
-  strcpy(xtc_filename_input, xtc_filename);
+  strncpy(xtc_filename_input, xtc_filename, xtc_filename_length);
 
   /* open xtc file handle */
   XDRFILE* xtc_file = xdrfile_open(xtc_filename_input, open_mode);
@@ -45,10 +45,10 @@ SEXP rio_read_xtc_natoms_(SEXP xtc_filename_)
   int xtc_filename_length;
 
   const char *xtc_filename = CHAR(asChar(xtc_filename_));
-  xtc_filename_length = strlen(xtc_filename);
+  xtc_filename_length = strlen(xtc_filename) + 1;
 
   char xtc_filename_input[xtc_filename_length];
-  strcpy(xtc_filename_input, xtc_filename);
+  strncpy(xtc_filename_input, xtc_filename, xtc_filename_length);
 
   /* read number of atoms from xtc file */
   read_xtc_natoms(xtc_filename_input, &natms);
@@ -80,10 +80,10 @@ SEXP rio_read_xtc_nframes_(SEXP xtc_filename_)
   int xtc_filename_length;
 
   const char *xtc_filename = CHAR(asChar(xtc_filename_));
-  xtc_filename_length = strlen(xtc_filename);
+  xtc_filename_length = strlen(xtc_filename) + 1;
 
   char xtc_filename_input[xtc_filename_length];
-  strcpy(xtc_filename_input, xtc_filename);
+  strncpy(xtc_filename_input, xtc_filename, xtc_filename_length);
 
   /* read number of atoms from xtc file */
   natms = asInteger(rio_read_xtc_natoms_(xtc_filename_));
