@@ -16,23 +16,29 @@ This is A Notebook that explain how to use the SOMMD package to perform analysis
 
 ## 1.2 Compute Features
 
-At first we read the simulation files (the gro and the trajectory files).
+At first load the SOMMD package:
+
+```{r} library(SOMMD)}
+```
+
+Then read the simulation files (the gro and the trajectory files).
 
 ```{r}
-library(kohonen)
-devtools::load_all("..")
+#Dowload the MD simulation data 
+utils::download.file("https://figshare.com/ndownloader/articles/26935465/versions/2", destfile = "ARNT_dataset.zip", method = "curl")
+utils::unzip("02_ARNT_dataset.zip")
 
-#Read the xtc files in the folder
-folder <- system.file("data/02_ARNT_dataset/", package="SOMMD")
+#Read the names of the xtc files in the folder
+strfile <- "./02_ARNT_dataset/ARNT.pdb"
+folder <- "./02_ARNT_dataset"
 xtcfiles <- list.files(folder, pattern = "*.xtc")
-pdbfile <- system.file("data/02_ARNT_dataset/ref.pdb", package="SOMMD")
 
 #Read the first replica
-trj <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=pdbfile)
+trj <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=strfile)
 #Append all other trj files
 for(trj_file in xtcfiles[-1]){
   rep <- read.trj(trjfile=paste(folder, "/", trj_file, sep=''),
-                  topfile=pdbfile)
+                  topfile=strfile)
   trj <- cat.trj(trj, rep)
 }
 ```
@@ -43,11 +49,11 @@ At this point you have to choose a set of descriptors that will be used for the 
 
 ```{r}
 #Read reference pdb with native conformation
-pdb <- bio3d::read.pdb("../data/02_ARNT_dataset/ref.pdb")
+ref.str <- read.struct("./02_ARNT_dataset/ARNT.pdb")
 #Select only Cbeta atoms to perform the analysis
 sele.atoms <- which(trj$top$elety=="CB")
 #Choose only native contacts
-sele.dists <- native.cont(struct=pdb, distance=1.0, atoms=sele.atoms)
+sele.dists <- native.cont(struct=ref.str, distance=1.0, atoms=sele.atoms)
 #Compute distances for SOM training. 
 DIST <- calc.distances(trj, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 ```
@@ -57,7 +63,7 @@ DIST <- calc.distances(trj, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 8x8 SOM with hexagonal neurons.
 
 ```{r}
-SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal", 
+SOM <- kohonen::som(DIST, grid = kohonen::somgrid(8, 8, "hexagonal", 
                                          neighbourhood.fct="gaussian", toroidal=FALSE), 
                     dist.fcts="euclidean", rlen=1000, mode='pbatch')
 ```
@@ -83,7 +89,7 @@ COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a",
                "#747474", "#f88587", "#a4db77")
 #Plot the SOM colored by clusters
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 
 ```
 
@@ -101,7 +107,7 @@ Neur.avg.d <- average.neur.property(SOM, Term_dist)
 
 #Plot the SOM colored according to the average property value of each neuron
 plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name=colorRampPalette(c("blue", "yellow", "red")), main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 ```
 
 From this plot it is simple to identify the corner in which the protein is folded (low distance values) and where it is unfolded (high distance values).
@@ -118,7 +124,7 @@ par(mfrow=c(2,2))
 for(rep in c(1,3,9,11)){
   plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Replica ", rep, sep=""))
-  add.cluster.boundaries(SOM, SOM.hc, lwd=3)
+  kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=3)
   #Add the path tracing
   trace.path(SOM, start=trj$start, end=trj$end, N=rep, pts.scale=0.5, lwd.scale=0.4)
 }
@@ -143,19 +149,24 @@ If you are interested in using a trained SOM to represent a new set of data you 
 We read in in the `trj2` object the new set of simulations, as done before, and compute the distances that are used as descriptors.
 
 ```{r}
-#Read additional simulations
+#Dowload the MD simulations at lower pulling speed 
+utils::download.file("https://figshare.com/ndownloader/articles/26935495/versions/2", destfile = "ARNT_lowspeed_dataset", method = "curl")
+utils::unzip("ARNT_lowspeed_dataset.zip")
 
-folder <- system.file("data/02_ARNT_lowspeed_dataset/", package="SOMMD")
+#Read the names of the xtc files in the folder
+strfile <- "./02_ARNT_lowspeed_dataset/ARNT.pdb"
+folder <- "./02_ARNT_lowspeed_dataset"
 xtcfiles <- list.files(folder, pattern = "*.xtc")
 
 #Read the first replica
-trj2 <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=pdbfile)
+trj2 <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=strfile)
 #Append all other trj files
 for(trj_file in xtcfiles[-1]){
   rep <- read.trj(trjfile=paste(folder, "/", trj_file, sep=''),
-                  topfile=pdbfile)
-  trj2 <- cat.trj(trj, rep)
+                  topfile=strfile)
+  trj2 <- cat.trj(trj2, rep)
 }
+
 #Compute distances (the same used for SOM training)
 DIST2 <- calc.distances(trj2, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 ```
@@ -164,7 +175,7 @@ At this point the new set of simulations can be mapped on the SOM trained with t
 
 ```{r}
 #Map new data on the existing SOM
-SOM_new <- map.data(SOM=SOM, X=DIST2)
+SOM_new <- remap.data(SOM=SOM, X=DIST2)
 ```
 
 The returned SOM object contains the new mapped data and can be used to generate plot for the new set of simulations. To evaluate if the new data are consistent with the old data, we can compare the distributions of distances of the new data from the SOM neuron vectors. These distances are telling us how similar is each frame to the closest vector. Low values means that the frame is well representated by a SOM neuron, while high values means that the frame is not well represented by the SOM neurons.
@@ -185,7 +196,7 @@ par(mfrow=c(2,3))
 for(rep in c(1:5)){
   plot(SOM_new, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), 
        shape='straight', main=paste("Low Speed Replica ", rep, sep=""))
-  add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
+  kohonen::add.cluster.boundaries(SOM_new, SOM.hc, lwd=3)
   trace.path(SOM_new, start=trj2$start, end=trj2$end, N=rep, pts.scale=0.5, lwd.scale=0.5)
 }
 ```

@@ -18,11 +18,10 @@ The aim of this notebook is to provide a brief introduction to SOM training with
 
 ## 1.2 Getting Started
 
-Load the SOMMD and kohonen packages:
+Load the SOMMD package:
 
 ```{r}
-library(kohonen)
-devtools::load_all("..")
+library(SOMMD)
 ```
 
 Then use the command [`help(package=SOMMD)`]{style="color:magenta"} to list the functions within the package and [`help(FunctionName)`]{style="color:magenta"} to obtain more information about an individual function.
@@ -34,8 +33,11 @@ A number of example data sets are shipped with the SOMMD package. In the example
 The code below sets the file paths for the trajectory data (xtc) and reference structure data (gro).
 
 ```{r}
-xtcfile <- system.file("data/01_FOXP1_dataset/WT-1-PROD.xtc", package="SOMMD")
-grofile <- system.file("data/01_FOXP1_dataset/WT.gro", package="SOMMD")
+utils::download.file("https://figshare.com/ndownloader/articles/26935432/versions/3", destfile = "FOXP1_dataset.zip", method = "curl")
+utils::unzip("FOXP1_dataset.zip")
+
+xtcfile <- "./01_FOXP1_dataset/FOXP1_WT-1-PROD.xtc"
+strfile <- "./01_FOXP1_dataset/FOXP1_WT.gro"
 ```
 
 Note that in the above example the [`system.file()`]{style="color:magenta"} command returns a character string with the complete path to the example dataset included with the SOMMD package. This is required as users may install the package in different locations. When using your own input files the [`system.file()`]{style="color:magenta"} command will not be required.
@@ -43,14 +45,13 @@ Note that in the above example the [`system.file()`]{style="color:magenta"} comm
 Now read in the trajectory:
 
 ```{r}
-trj <- read.trj(trjfile=xtcfile, topfile=grofile)
+trj <- read.trj(trjfile=xtcfile, topfile=strfile)
 ```
 
 The [`read.trj`]{style="color:magenta"} function processes the input files and returns the new object [`trj`]{style="color:magenta"}. We can check the basic structure of this objects with the following command:
 
 ```{r}
-### THE PRINT COMMAND IS NOT ALREADY DONE
-#print(trj)
+print(trj)
 ```
 
 We can see that the system is composed of 1482 atoms, and the trajectory have 2001 frames. A peculiarity of the [`trj`]{style="color:magenta"} object is that it contains the atomic information of the system (read from the `topfile`{style="color:magenta"} argument).
@@ -70,7 +71,7 @@ At this point the atomic xyz coordinates can be directly passed to the SOM:
 
 ```{r}
 SOM <- kohonen::som(trj2xyz(trj.fit, inds=ca.inds), 
-                    grid = somgrid(8, 8, "hexagonal", neighbourhood.fct="gaussian", toroidal=TRUE), 
+                    grid = kohonen::somgrid(8, 8, "hexagonal", neighbourhood.fct="gaussian", toroidal=TRUE), 
                     dist.fcts="euclidean", rlen=500, mode='pbatch')
 ```
 
@@ -91,9 +92,9 @@ An alternative and more accurate descriptor of a protein conformation, is the di
 The following code read the native structure as a gro file, compute the selection of distances forming a native contacts and then compute the descriptors that will be used to train the SOM.
 
 ```{r}
-gro <- read.gro(grofile)
+ref.str <- read.struct(strfile)
 cb.inds <- which(trj$top$elety=="CB" & trj$top$resno > 470 & trj$top$resno < 542)
-sele.dists <- native.cont(struct=gro, distance=1.1, atoms=cb.inds)
+sele.dists <- native.cont(struct=ref.str, distance=1.1, atoms=cb.inds)
 DIST <- calc.distances(trj, atoms=cb.inds, sele=sele.dists)
 ```
 
@@ -102,7 +103,7 @@ Note that in the example above, the `native.cont`{style="color:magenta"} functio
 SOM is then trained based on the computed descriptors.
 
 ```{r}
-SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal", 
+SOM <- kohonen::som(DIST, grid = kohonen::somgrid(8, 8, "hexagonal", 
                                          neighbourhood.fct="gaussian", toroidal=TRUE), 
                     dist.fcts="euclidean", rlen=500, mode='pbatch')
 ```
@@ -146,7 +147,7 @@ COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a",
                "#747474", "#f88587", "#a4db77")
 #Plot the SOM colored by clusters
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 
 ```
 
@@ -157,9 +158,9 @@ Every neuron and cluster have a number/name. The numbering/naming scheme can be 
 ```{r}
 #Plot the SOM with neuron numbers
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 som.add.numbers(SOM, scale=0.5, col="black")
-som.add.clusters.legend(N.clus=8, color.scale=COL.SCALE)
+som.add.clusters.legend(Nclus=8, color.scale=COL.SCALE)
 ```
 
 ## 1.7 Extraction of representative frames
@@ -186,10 +187,10 @@ To extract a conformation saving the pdb structure file simply use the `trj2pdb`
 
 ```{r}
 #Estract the representative conformation of Neuron 8
-trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "../output/Neuron_8.pdb")
+trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "./01_FOXP1_dataset/Neuron_8.pdb")
 
 #Estract the representative conformation of Cluster B
-trj2pdb(traj = trj, frame=CL_repres$frames["B"], filename = "../output/Cluster_B.pdb")
+trj2pdb(traj = trj, frame=CL_repres$frames["B"], filename = "./01_FOXP1_dataset/Cluster_B.pdb")
 ```
 
 Note that `trj2pdb`{style="color:magenta"} saves a pdb file with the coordinate of a selected frame of the simulation. Here we are passing as input the frame of the representative structures.
@@ -201,9 +202,9 @@ The population of each neuron can be represented using circles with the size pro
 ```{r}
 #Plot the SOM with circles with size proportional to the neuron population 
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 population <- neur.population(SOM)
-SOM.add.circles(SOM, population, scale=0.9)
+som.add.circles(SOM, population, scale=0.9)
 ```
 
 Neurons with bigger circles are populated by more frames. Note that in the function `SOM.add.circles`{style="color:magenta"} the `scale` argument regulates the dimension of the circles and can be used to avoid circles that exceed the dimension of the neuron.
@@ -214,18 +215,18 @@ Colors-scales can be used to represent the average property of frames belonging 
 
 ```{r}
 
-RMSD_file <- system.file("data/01_FOXP1_dataset/RMSD_WT-1-PROD.dat", package="SOMMD")
+RMSD_file <- "./01_FOXP1_dataset/FOXP1_RMSD_WT-1-PROD.dat"
 RMSD <- read.table(RMSD_file)
 Neur.avg.RMSD <- average.neur.property(SOM, RMSD[,1])
 par(mfrow=c(1,2))
 
 #Plot the SOM with circles with size proportional to the average RMSD values
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
-SOM.add.circles(SOM, Neur.avg.RMSD, scale=0.5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+som.add.circles(SOM, Neur.avg.RMSD, scale=0.5)
 #Plot the SOM colored according to the average property value of each neuron
 plot(SOM, type = "property", property=Neur.avg.RMSD, shape='straight', palette.name=colorRampPalette(c("blue", "green", "red")), main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 ```
 
 You will probably see that there is a neuron with a very extreme value of the RMSD. Any external property can be used provided that every property value is associated to a frame (the length of the vector of the property must be equal to the number of frames in trj).
@@ -240,15 +241,15 @@ At first we read all the five xtc files:
 
 ```{r}
 #Read the xtc files in the folder
-folder <- system.file("data/01_FOXP1_dataset/", package="SOMMD")
-xtcfiles <- list.files(folder, pattern = "WT-.-PROD.xtc")
-grofile <- system.file("data/01_FOXP1_dataset/WT.gro", package="SOMMD")
+folder <- "./01_FOXP1_dataset"
+xtcfiles <- list.files(folder, pattern = "FOXP1_WT-.-PROD.xtc")
+strfile <- "./01_FOXP1_dataset/FOXP1_WT.gro"
 
-MD1 <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=grofile)
-MD2 <- read.trj(trjfile=paste(folder, "/", xtcfiles[2], sep=''), topfile=grofile)
-MD3 <- read.trj(trjfile=paste(folder, "/", xtcfiles[3], sep=''), topfile=grofile)
-MD4 <- read.trj(trjfile=paste(folder, "/", xtcfiles[4], sep=''), topfile=grofile)
-MD5 <- read.trj(trjfile=paste(folder, "/", xtcfiles[5], sep=''), topfile=grofile)
+MD1 <- read.trj(trjfile=paste(folder, "/", xtcfiles[1], sep=''), topfile=strfile)
+MD2 <- read.trj(trjfile=paste(folder, "/", xtcfiles[2], sep=''), topfile=strfile)
+MD3 <- read.trj(trjfile=paste(folder, "/", xtcfiles[3], sep=''), topfile=strfile)
+MD4 <- read.trj(trjfile=paste(folder, "/", xtcfiles[4], sep=''), topfile=strfile)
+MD5 <- read.trj(trjfile=paste(folder, "/", xtcfiles[5], sep=''), topfile=strfile)
 ```
 
 And then we will concatenate all the simulations:
@@ -268,11 +269,11 @@ rm(MD1, MD2, MD3, MD4, MD5)
 At this point you can use the concatenated trajectory to train a SOM as done in the previous exercise:
 
 ```{r}
-gro <- read.gro(grofile)
+ref.str <- read.struct(strfile)
 cb.inds <- which(trj$top$elety=="CB" & trj$top$resno > 470 & trj$top$resno < 542)
-sele.dists <- native.cont(struct=gro, distance=1.1, atoms=cb.inds)
+sele.dists <- native.cont(struct=ref.str, distance=1.1, atoms=cb.inds)
 DIST <- calc.distances(trj, atoms=cb.inds, sele=sele.dists)
-SOM <- kohonen::som(DIST, grid = somgrid(8, 8, "hexagonal", 
+SOM <- kohonen::som(DIST, grid = kohonen::somgrid(8, 8, "hexagonal", 
                                          neighbourhood.fct="gaussian", toroidal=TRUE), 
                     dist.fcts="euclidean", rlen=1000, mode='pbatch')
 ```
@@ -302,9 +303,9 @@ COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a",
 
 #Plot the SOM with neuron numbers
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-add.cluster.boundaries(SOM, SOM.hc, lwd=5)
+kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 som.add.numbers(SOM, scale=0.5, col="black")
-som.add.clusters.legend(N.clus=8, color.scale=COL.SCALE)
+som.add.clusters.legend(Nclus=8, color.scale=COL.SCALE)
 ```
 
 To inspect the space sampled by each replica, plot the population of each replica:
@@ -314,9 +315,9 @@ par(mfrow=c(2,3))
 
 for(rep in 1:5){
   plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
-  add.cluster.boundaries(SOM, SOM.hc, lwd=3)
+  kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=3)
   population <- neur.population(SOM, start=trj$start, end=trj$end, N=rep)
-  SOM.add.circles(SOM, population, scale=0.4)
+  som.add.circles(SOM, population, scale=0.4)
 }
 ```
 
