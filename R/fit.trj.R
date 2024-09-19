@@ -15,9 +15,9 @@
 #'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Fit a trajectory to the first frame based on alpha carbons:
 #' ca.inds <- which(trj$top$elety=="CA")
-#' trj.fit <- fit(trj, trj.inds=ca.inds)
+#' trj.fit <- fit.trj(trj, trj.inds=ca.inds)
 #'
-fit <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
+fit.trj <- function(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL){
     if(!methods::is(trj,"trj")){
         stop("The trajectory should be an object with class trj")
     }
