@@ -6,7 +6,7 @@ test_that("comp.trans.mat works correctly", {
 
   
   # Execute Function
-  tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+  tr_mat <- comp.trans.mat(som_model, start = 1)
   
   #Verify the obtained classification
   expected_values <- c(5, 4, 4, 3, 3, 3, 3, 3, 3, 3)

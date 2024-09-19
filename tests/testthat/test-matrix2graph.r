@@ -3,7 +3,7 @@ test_that("matrix2graph works correctly", {
   # Load SOM
   som_file <- system.file("extdata", "som_model.rds", package = "SOMMD")
   som_model <- readRDS(som_file)
-  tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+  tr_mat <- comp.trans.mat(som_model, start = 1)
   
   # Execute Function
   SOM.hc <- c(1,2,2,3,3,3,3,1,3,4,1,1,2,3,3,3,3,3,1,4,1,5,5,3,3,
