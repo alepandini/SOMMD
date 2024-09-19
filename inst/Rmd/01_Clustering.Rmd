@@ -64,7 +64,7 @@ In this simple example we will train a SOM using the protein C⍺ atomic coordin
 
 ```{r}
 ca.inds <- which(trj$top$elety=="CA")
-trj.fit <- fit(trj, trj.inds=ca.inds)
+trj.fit <- fit.trj(trj, trj.inds=ca.inds)
 ```
 
 At this point the atomic xyz coordinates can be directly passed to the SOM:
@@ -187,10 +187,10 @@ To extract a conformation saving the pdb structure file simply use the `trj2pdb`
 
 ```{r}
 #Estract the representative conformation of Neuron 8
-trj2pdb(traj = trj, frame=NEUR_repres[8], filename = "./01_FOXP1_dataset/Neuron_8.pdb")
+trj2pdb(trj = trj, frame=NEUR_repres[8], filename = "./01_FOXP1_dataset/Neuron_8.pdb")
 
 #Estract the representative conformation of Cluster B
-trj2pdb(traj = trj, frame=CL_repres$frames["B"], filename = "./01_FOXP1_dataset/Cluster_B.pdb")
+trj2pdb(trj = trj, frame=CL_repres$frames["B"], filename = "./01_FOXP1_dataset/Cluster_B.pdb")
 ```
 
 Note that `trj2pdb`{style="color:magenta"} saves a pdb file with the coordinate of a selected frame of the simulation. Here we are passing as input the frame of the representative structures.

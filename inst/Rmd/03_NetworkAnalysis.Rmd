@@ -190,7 +190,7 @@ Using the information from the transition matrix of the simulations it is possib
 
 ```{r}
 #Compute transition matrix
-Tr_mat <- comp.trans.mat(SOM_sel$unit.classif, start = 1)
+Tr_mat <- comp.trans.mat(SOM_sel, start = 1)
 #Create igraph object
 net <- matrix2graph(Tr_mat, SOM_sel, SOM.hc, COL.SCALE, diag=FALSE)
 ```
@@ -237,11 +237,11 @@ col.palette <- colorRampPalette(c("blue", "green", "red"))(200)
 
 par(mfrow=c(1,2))
 #Do the plot for Sx
-COL <- map_color(Neur.avg.Sx, col.palette)
+COL <- map.color(Neur.avg.Sx, col.palette)
 plot(net, edge.arrow.size=igraph::E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
 
 #Do the plot for Zx
-COL <- map_color(Neur.avg.Zx, col.palette)
+COL <- map.color(Neur.avg.Zx, col.palette)
 plot(net, edge.arrow.size=igraph::E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
 ```
 
