@@ -4,14 +4,14 @@
 \alias{comp.trans.mat}
 \title{Compute transition matrix}
 \usage{
-comp.trans.mat(classif, N_states = max(classif), start = 1)
+comp.trans.mat(SOM, start = 1)
 }
 \arguments{
+\item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
+
 \item{classif}{a vector of neuron assigment (usually passed by SOM$unit.classif}
 
 \item{N_states}{the number of states (usually number of neurons of the som). By default it is max(classif)}
-
-\item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
 }
 \value{
 trans
@@ -23,7 +23,7 @@ Compute the transition matrix starting from a vector of subsequent classificatio
 #Read example SOM data
 som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #Compute transition Matrix
-tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+tr_mat <- comp.trans.mat(som_model, start = 1)
 }
 \author{
 Stefano Motta \email{stefano.motta@unimib.it}

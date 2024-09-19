@@ -29,7 +29,7 @@ som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #Divide the SOM in the selected number of clusters
 som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
 #Compute transition matrix
-tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+tr_mat <- comp.trans.mat(som_model, start = 1)
 #Define a set of colors
 colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a")
 #Create graph object

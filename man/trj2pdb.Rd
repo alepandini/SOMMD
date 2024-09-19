@@ -4,10 +4,10 @@
 \alias{trj2pdb}
 \title{Extract frame to pdb}
 \usage{
-trj2pdb(traj, frame, filename)
+trj2pdb(trj, frame, filename)
 }
 \arguments{
-\item{traj}{a trj object.}
+\item{trj}{a trj object.}
 
 \item{frame}{the frame to extract.}
 
@@ -25,7 +25,7 @@ Extract a trj frame to a pdb object
 trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 # Write the pdb file for a specific frame
-trj2pdb(traj = trj, frame=5, filename = "Frame_5.pdb")
+trj2pdb(trj = trj, frame=5, filename = "Frame_5.pdb")
 }
 
 }

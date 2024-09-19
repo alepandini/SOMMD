@@ -4,12 +4,12 @@
 \alias{som.add.circles}
 \title{Add cicles to SOM}
 \usage{
-som.add.circles(SOM, property, scale = 1, col.circles = "white")
+som.add.circles(SOM, P, scale = 1, col.circles = "white")
 }
 \arguments{
 \item{SOM}{the SOM object}
 
-\item{property}{a vector containing the per-neuron property to plot}
+\item{P}{a vector containing the per-neuron property to plot}
 
 \item{scale}{a number to scale up or down the size of the drawn circles}
 

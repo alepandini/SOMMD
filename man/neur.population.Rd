@@ -13,7 +13,7 @@ neur.population(SOM, start = 1, end = length(SOM$unit.classif), N = 1)
 
 \item{end}{a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)}
 
-\item{N}{The portion of simulation that one want to plot}
+\item{N}{An integer for the portion (replica) of the simulations to be plotted}
 }
 \description{
 Function to compute the per-neuron population

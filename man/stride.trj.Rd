@@ -4,10 +4,10 @@
 \alias{stride.trj}
 \title{Stride a trj}
 \usage{
-stride.trj(traj, stride)
+stride.trj(trj, stride)
 }
 \arguments{
-\item{traj}{a trj object.}
+\item{trj}{a trj object.}
 
 \item{stride}{the stride to apply to the trajectory}
 }
