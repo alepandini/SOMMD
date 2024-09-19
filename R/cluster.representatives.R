@@ -51,7 +51,7 @@ cluster.representatives <- function(SOM, clusters){
 #' # Compute cluster centroid for all the clusters
 #' centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
 #'
-clust.centroid = function(i, SOM, clusters) {
+clust.centroid <- function(i, SOM, clusters) {
     ind <- (clusters == i)
     if(sum(ind)>1){
         pop <- NULL

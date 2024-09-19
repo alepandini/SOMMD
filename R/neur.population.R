@@ -4,7 +4,7 @@
 #' @param SOM the SOM object
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @param end a vector containing the end frames of each replica (usually contained in trj$end if replicas were merged with cat_trj)
-#' @param N The portion of simulation that one want to plot
+#' @param N An integer for the portion (replica) of the simulations to be plotted
 #' @export
 #' @examples
 #' #Read example SOM data
