@@ -1,8 +1,7 @@
 #' @title Compute transition matrix
 #' @description Compute the transition matrix starting from a vector of subsequent classifications
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
-#' @param classif a vector of neuron assigment (usually passed by SOM$unit.classif
-#' @param N_states the number of states (usually number of neurons of the som). By default it is max(classif)
+#' @param SOM a kohonen object on which transitions between neurons will be computed
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
 #' @return trans
 #' @export

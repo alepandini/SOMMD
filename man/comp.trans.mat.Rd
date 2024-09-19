@@ -7,11 +7,9 @@
 comp.trans.mat(SOM, start = 1)
 }
 \arguments{
+\item{SOM}{a kohonen object on which transitions between neurons will be computed}
+
 \item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
-
-\item{classif}{a vector of neuron assigment (usually passed by SOM$unit.classif}
-
-\item{N_states}{the number of states (usually number of neurons of the som). By default it is max(classif)}
 }
 \value{
 trans
