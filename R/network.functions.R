@@ -10,22 +10,22 @@
 #' #Read example SOM data
 #' som_model <- readRDS(system.file("extdata", "SOM_HIFa.rds", package = "SOMMD"))
 #' #Compute transition Matrix
-#' tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
-comp.trans.mat <- function(classif, N_states=max(classif), start=1){
-#   Check that the classif is numeric
-    if(is.numeric(classif)==FALSE){
-        stop("classif must be a numeric vector")
+#' tr_mat <- comp.trans.mat(som_model, start = 1)
+comp.trans.mat <- function(SOM, start=1){
+    #check whether SOM is a kohonen object
+    if(inherits(SOM, "kohonen")==FALSE){
+        stop("SOM must be a kohonen object")
     }
-#   Check that the start is numeric
-    if(is.numeric(start)==FALSE){
-        stop("start must be a numeric vector")
-    }
+    classif <- SOM$unit.classif
+    N_states <- nrow(SOM$codes[[1]])
 #   Check all start values are within the length of classif
     if(sum((start-length(classif))>0) != 0){
         stop("some start values exceed the length of classif")
     }
+    toremove <- start-1
+    toremove <- which(toremove > 0)
     #Remove transitions across the replicas
-    classif[start] <- 0
+    classif[toremove] <- 0
     #Compute the probability of passing from neuron i to neuron j
     trans <- matrix(0, ncol=N_states, nrow=N_states)
     for(i in 1:N_states){
@@ -62,7 +62,7 @@ comp.trans.mat <- function(classif, N_states=max(classif), start=1){
 #' #Divide the SOM in the selected number of clusters
 #' som_cl <- cutree(hclust(dist(som_model$codes[[1]], method="euclidean"), method="complete"), 4)
 #' #Compute transition matrix
-#' tr_mat <- comp.trans.mat(som_model$unit.classif, start = 1)
+#' tr_mat <- comp.trans.mat(som_model, start = 1)
 #' #Define a set of colors
 #' colors <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a")
 #' #Create graph object
@@ -148,7 +148,7 @@ matrix2graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #' @return COL a vector with the same length of x, with colors proportional to the values of x
 #' @export
 #'
-map_color <- function(x, pal, limits=NULL, na.col="grey"){
+map.color <- function(x, pal, limits=NULL, na.col="grey"){
     if( is.numeric(x) == FALSE){
         stop("x must be a numeric vector")
     }
