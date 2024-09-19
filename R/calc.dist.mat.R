@@ -3,7 +3,7 @@
 #' @author Stefano Motta\email{stefano.motta@unimib.it}
 #' @param coord matrix of N atomic coordinates (N rows, 3 columns)
 #' @return mat
-#' @export
+#' @noRd
 #'
 calc.dist.mat <- function(coord){
     mat <- as.matrix(stats::dist(coord), method='euclidean', upper=TRUE, diag=TRUE)
