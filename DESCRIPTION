@@ -14,8 +14,8 @@ Authors@R: c(
            comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
 Description: Processes data from Molecular Dynamics simulations using 
     Self Organising Maps. Features include the ability to read different 
-    input formats and to write output trajectories. Trajectory can be 
-    analysed using Kohonen maps to identify groups of important frames.
+    input formats. Trajectory can be analysed using Kohonen maps to 
+    identify groups of important frames.
     Output visualisation can be generated for maps and pathways.
 License: GPL-3 | file LICENSE
 URL: https://github.com/alepandini/SOMMD
