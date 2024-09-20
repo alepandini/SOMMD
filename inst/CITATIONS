@@ -1,0 +1,12 @@
+citHeader("To cite SOMMD in publications use:")
+citEntry(entry = "article",
+         author = "Motta S., Callea, L., Bonati L., Pandini A",
+         title = "PathDetect-SOM: A Neural Network Approach for the Identification of Pathways in Ligand Binding Simulations",
+         journal = "Journal of Chemical Theory and Computation",
+         year = "2022",
+         volume = "18",
+         pages = "1957-1968",
+         number = "3", 
+         doi = "10.1021/acs.jctc.1c01163")
+citFooter("Original article and updates are available from https://github.com/alepandini/SOMMD")
+         
