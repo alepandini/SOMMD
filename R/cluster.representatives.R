@@ -45,11 +45,6 @@ cluster.representatives <- function(SOM, clusters){
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust
 #' @return the centroid of a selection of neurons
 #' @noRd
-#' @examples
-#' # Perform clustering of neurons
-#' clusters <- cutree(hclust(dist(SOM$codes[[1]], method="euclidean"), method="complete"), 8)
-#' # Compute cluster centroid for all the clusters
-#' centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
 #'
 clust.centroid <- function(i, SOM, clusters) {
     ind <- (clusters == i)
@@ -72,13 +67,6 @@ clust.centroid <- function(i, SOM, clusters) {
 #' @param cl the cluster for which the representative neuron should be computed
 #' @return the representative neuron
 #' @noRd
-#' @examples
-#' # Perform clustering of neurons
-#' clusters <- cutree(hclust(dist(SOM$codes[[1]], method="euclidean"), method="complete"), 8)
-#' # Compute cluster centroid
-#' centroid <- sapply(unique(clusters), clust.centroid, SOM$codes[[1]], clusters)
-#' #Select the representative neuron of the first cluster
-#' repr.neur <- select_representative(centroid, SOM, clusters, 1))
 #'
 select_representative <- function(centroid, SOM, clusters, cl){
     frame <- which(clusters==cl)
