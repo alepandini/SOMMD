@@ -5,7 +5,7 @@ Authors@R: c(
     person(given = "Alessandro",
            family = "Pandini",
            role = c("aut", "cre", "cph"),
-           email = "alessandro.pandini@gmail.com",
+           email = "alessandro.pandini@brunel.ac.uk",
            comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X")),
     person(given = "Stefano",
            family = "Motta",
@@ -22,13 +22,12 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: R (>= 3.5.0)
-Imports: 
-    bio3d,
-    kohonen,
-    abind,
-    cluster,
-    methods,
-    igraph
-Suggests: 
-    testthat (>= 3.0.0)
+Imports: bio3d, kohonen, abind, cluster, methods, igraph
+Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
+NeedsCompilation: yes
+Packaged: 2024-09-20 10:28:15 UTC; apandini
+Author: Alessandro Pandini [aut, cre, cph]
+    (<https://orcid.org/0000-0002-4158-233X>),
+  Stefano Motta [aut, cph] (<https://orcid.org/0000-0002-0812-6834>)
+Maintainer: Stefano Motta <stefano.motta@unimib.it>
