@@ -4,18 +4,18 @@ Version: 0.1.0
 Authors@R: c(
     person(given = "Alessandro",
            family = "Pandini",
-           role = c("aut", "cre", "cph"),
+           role = c("aut", "cph"),
            email = "alessandro.pandini@brunel.ac.uk",
            comment = c(ORCID = "https://orcid.org/0000-0002-4158-233X")),
     person(given = "Stefano",
            family = "Motta",
-           role = c("aut", "cph"),
+           role = c("aut", "cre", "cph"),
            email = "stefano.motta@unimib.it",
            comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
 Description: Processes data from Molecular Dynamics simulations using 
     Self Organising Maps. Features include the ability to read different 
-    input formats. Trajectory can be analysed using Kohonen maps to 
-    identify groups of important frames.
+    input formats. Trajectory can be analysed to identify groups of 
+    important frames.
     Output visualisation can be generated for maps and pathways.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8

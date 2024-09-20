@@ -1,17 +1,14 @@
 # SOMMD
-<!-- badges: start -->
-  [![R-CMD-check](https://github.com/alepandini/SOMMD/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/alepandini/SOMMD/actions/workflows/R-CMD-check.yaml)
- <!-- badges: end -->
  
 Self Organising Map for analysis of Molecular Dynamics data
 
 ## Features ##
 
-SOMMD provides functions to processes data from Molecular Dynamics simulations using Self Organising Maps. Features include the ability to read different input formats such as pdb, gro, dcd and xtc files. Trajectory can be analysed using Kohonen maps to identify groups of important frames.
+SOMMD provides functions to processes data from Molecular Dynamics simulations using Self Organising Maps. Features include the ability to read different input formats such as pdb, gro, dcd and xtc files. Trajectory can be analysed to identify groups of important frames.
 
 ## Installing SOMMD ##
 
-For the majority of users we recommend the use of the last stable release available from [CRAN](http://cran.r-project.org/web/packages/SOMMD/). 
+For the majority of users we recommend the use of the last stable release available from CRAN. 
 To install from within R issue the command:
 
 ```
