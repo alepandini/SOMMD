@@ -6,7 +6,6 @@ NULL
 #' @author Alessandro Pandini
 #' @param xtc_filename contains the name and the path to the xtc file
 #' @return Returns number of atoms in the structure
-#' @export
 rio_read_xtc_natoms <- function(xtc_filename){
   natms <- .Call("rio_read_xtc_natoms_", xtc_filename)
   return(natms)
@@ -17,7 +16,6 @@ rio_read_xtc_natoms <- function(xtc_filename){
 #' @author Alessandro Pandini
 #' @param xtc_filename contains the name and the path to the xtc file
 #' @return Returns number of frames in the trajectory
-#' @export
 rio_read_xtc_nframes <- function(xtc_filename){
   nframes <- .Call("rio_read_xtc_nframes_", xtc_filename)
   return(nframes)
@@ -28,7 +26,6 @@ rio_read_xtc_nframes <- function(xtc_filename){
 #' @author Alessandro Pandini
 #' @param xtc_filename contains the name and the path to the xtc file
 #' @return Returns 3D array of cartesian coordinates
-#' @export
 rio_read_xtc <- function(xtc_filename){
   xyz_3D_array <- .Call("rio_read_xtc_", xtc_filename)
   return(xyz_3D_array)
@@ -47,7 +44,6 @@ rio_coord_reshape <- function(xyz_3D_array){
 #' @author Alessandro Pandini
 #' @param xtc_filename contains the name and the path to the xtc file
 #' @return Returns bio3d xyz array of Cartesian coordinates
-#' @export
 rio_read_xtc2xyz <- function(xtc_filename){
   xyz_3D_array <- rio_read_xtc(xtc_filename)
   reshaped_xyz_array <- rio_coord_reshape(xyz_3D_array)
@@ -60,7 +56,6 @@ rio_read_xtc2xyz <- function(xtc_filename){
 #' @param xtc_filename contains the name and the path to the xtc file to write
 #' @param trj trajectory object to save
 #' @return Returns status of write execution
-#' @export
 rio_write_xtc <- function(xtc_filename, trj){
   coords <- trj$coord
   natoms <- dim(coords)[1]
