@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param SOM the SOM object to cluster
 #' @param P the property for each frame of the simulation
-#' @return avg.neur.p the per-neuron average of the property.
+#' @return The a vector with the per-neuron average of the property.
 #' @export
 #' @examples
 #' #Read trajectory

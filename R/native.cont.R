@@ -47,8 +47,7 @@ native.cont <- function(struct=NULL, trj=NULL, trj.frame=1, distance, mol.2=FALS
     if(is.logical(mol.2) == FALSE){
         #Check that the second molecule number are in the range 1:Natm
         if(length(which(mol.2 %in% c(1:Natm) == FALSE)) > 0){
-            cat(paste("Atoms of the second molecule:\n", mol.2, "\nare not in the range 1-", Natm, "\n", sep=''))
-            return(NULL)
+            stop(paste("Atoms of the second molecule:\n", mol.2, "\nare not in the range 1-", Natm, "\n", sep=''))
         }
         #Consider only atoms that are within the atom selection (atoms)
         mol.2_id <- which(atoms %in% mol.2)

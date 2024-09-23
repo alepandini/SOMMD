@@ -1,7 +1,5 @@
 #' @title Coordinate superposition
-#' @description Coordinate superposition with the Kabsch algorithm.
-#' This function make use of the bio3d fit.xyz function to align a SOMMD trj object.
-#' If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
+#' @description Coordinate superposition with the Kabsch algorithm. This function make use of the bio3d fit.xyz function to align a SOMMD trj object. If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trj an object with class trj
 #' @param ref a struct object read with read.struct() to be used as reference

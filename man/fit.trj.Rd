@@ -19,9 +19,7 @@ fit.trj(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL)
 an aligned trj object
 }
 \description{
-Coordinate superposition with the Kabsch algorithm.
-This function make use of the bio3d fit.xyz function to align a SOMMD trj object.
-If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
+Coordinate superposition with the Kabsch algorithm. This function make use of the bio3d fit.xyz function to align a SOMMD trj object. If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.
 }
 \examples{
 #Read trajectory

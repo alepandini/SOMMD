@@ -6,7 +6,7 @@
 #' @param sele contains the selection of distances coming from the native_contacts function
 #' @param atoms contains a list of atoms indexes on which the distances will be computed
 #' @param cap If a number is given, distances greater than this value are set at the cap value
-#' @return D the set of distances used to train the SOM is computed for all the frames.
+#' @return A matrix containing the selected distances for all the frames of the simulation.
 #' @export
 #' @examples
 #' # Read reference structure file with native conformation
