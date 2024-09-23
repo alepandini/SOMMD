@@ -14,10 +14,14 @@ Authors@R: c(
            comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
 Description: Processes data from Molecular Dynamics simulations using 
     Self Organising Maps. Features include the ability to read different 
-    input formats. Trajectory can be analysed to identify groups of 
-    important frames.
-    Output visualisation can be generated for maps and pathways.
-License: GPL-3 | file LICENSE
+    input formats. Trajectory can be analysed to identify groups of important
+    frames. Output visualisation can be generated for maps and pathways.
+    Methodological details can be found in Motta S et al (2022) 
+    <doi.org/10.1021/acs.jctc.1c01163>.
+    I/O functions for xtc format files were implemented using the xdrfile C
+    library available under open source license. The relevant information can 
+    be found in inst/COPYRIGHT.
+License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
