@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param V1 the first vector
 #' @param V2 the second vector
-#' @return the euclidean distance between the two vectors
+#' @return The euclidean distance between the two vectors
 #' @noRd
 #'
 compute.distance <- function(V1, V2){
@@ -14,7 +14,7 @@ compute.distance <- function(V1, V2){
 #' @description Function to create a vector of two letters identifiers
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param letters the vector of the possible letters to combine
-#' @return a vector of the possible combination of two letters
+#' @return A vector of the possible combination of two letters
 #' @noRd
 #'
 TwoLetters <- function(letters=LETTERS){

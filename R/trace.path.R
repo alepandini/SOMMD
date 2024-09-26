@@ -8,6 +8,7 @@
 #' @param draw.stride used to plot the pathways with a stride (usefull for very complex pathways)
 #' @param pts.scale a number to scale up or down the size of the circles
 #' @param lwd.scale a number to scale up or down the size of the lines
+#' @return Called for its effect.
 #' @export
 #' @examples
 #' # Read the trajectory

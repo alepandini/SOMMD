@@ -1,8 +1,9 @@
-#' @title TBC
+#' @title print.struct
 #' @description A short description...
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param x trj object
 #' @param ... additional arguments to be passed to further methods
+#' @return Called for its effect.
 #' @export
 #' @examples
 #' # Read structure file

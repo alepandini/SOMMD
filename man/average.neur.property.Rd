@@ -12,7 +12,7 @@ average.neur.property(SOM, P)
 \item{P}{the property for each frame of the simulation}
 }
 \value{
-avg.neur.p the per-neuron average of the property.
+The a vector with the per-neuron average of the property.
 }
 \description{
 Function to compute the average value of a property for each neuron.

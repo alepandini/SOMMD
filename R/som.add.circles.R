@@ -5,6 +5,7 @@
 #' @param P a vector containing the per-neuron property to plot
 #' @param scale a number to scale up or down the size of the drawn circles
 #' @param col.circles the background color of the drawn circles
+#' @return Called for its effect.
 #' @export
 #' @examples
 #' #Read example SOM data

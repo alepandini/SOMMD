@@ -16,7 +16,7 @@ calc.dists(coord, mol.1_id = FALSE, mol.2_id = FALSE, sele = FALSE)
 \item{sele}{contains the selection of distances coming from the native_contacts function}
 }
 \value{
-D the selected distances for a frame
+A matrix contaning the selected distances for a frame
 }
 \description{
 Compute the pairwise distance matrix of a given set of coordinates, and only retain to some selected distances

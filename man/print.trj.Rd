@@ -11,6 +11,9 @@
 
 \item{...}{additional arguments to be passed to further methods}
 }
+\value{
+Called for its effect.
+}
 \description{
 A short description...
 }

@@ -3,6 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param Nclus the number of clusters to which put the legent
 #' @param color.scale the color scale used for the image
+#' @return Called for its effect.
 #' @export
 #' @examples
 #' #Read example SOM data

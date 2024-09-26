@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.distances.R
 \name{calc.distances}
 \alias{calc.distances}
-\title{TBA}
+\title{calc.distances}
 \usage{
 calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL, cap = NULL)
 }
@@ -18,7 +18,7 @@ calc.distances(trj, mol.2 = FALSE, sele = FALSE, atoms = NULL, cap = NULL)
 \item{cap}{If a number is given, distances greater than this value are set at the cap value}
 }
 \value{
-D the set of distances used to train the SOM is computed for all the frames.
+A matrix containing the set of distances computed for all the frames.
 }
 \description{
 Function to compute distances to be used to train the SOM

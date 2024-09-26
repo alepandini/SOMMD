@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trj1 the first trj file
 #' @param ... additional trj files
-#' @return trj with the simulations concatenated
+#' @return A trj object with the simulations concatenated
 #' @export
 #' @examples
 #' # Read the simulations

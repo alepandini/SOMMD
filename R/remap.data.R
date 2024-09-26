@@ -4,7 +4,7 @@
 #' @param SOM a trained SOM
 #' @param X a data set with the same number of features of the dataset used to train the SOM
 #' @param add whether to append the new data to the ones used to train the SOM
-#' @return The SOM with the new data mapped
+#' @return An object of class "kohonen" with the new data mapped
 #' @export
 #' @examples
 #' #Read example SOM data

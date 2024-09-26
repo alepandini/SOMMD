@@ -27,7 +27,7 @@ native.cont(
 \item{atoms}{can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function}
 }
 \value{
-sele.dist the selection of distances
+A vector containing the index of a subset of selected distances
 }
 \description{
 Function to select only distances between residues making contacts in reference file or a frame of the simulation

@@ -5,7 +5,7 @@
 #' @param Nclus the cluster number on which the silhouette profile will be computed
 #' @param dist_clust the metric for the distance calculation
 #' @param clust_method the method for the clustering (passed to the hclust function
-#' @return the silhouette profile computed with the cluster package
+#' @return A vector of silhouette profile computed with the cluster package
 #' @export
 #' @examples
 #' #Read example SOM data

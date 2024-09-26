@@ -2,7 +2,7 @@
 #' @description Compute the representative frame of each neuron (the closest to the neuron codebook)
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param SOM a kohonen SOM object.
-#' @return a vector of frames representatives of each neuron
+#' @return A vector containing the index of the representative frames for each neuron
 #' @export
 #' @examples
 #' #Read example SOM data

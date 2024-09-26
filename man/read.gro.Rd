@@ -10,7 +10,7 @@ read.gro(file)
 \item{file}{contains the name and the path to the gro file to be read}
 }
 \value{
-Returns a list of class "pdb" with the following components:
+Returns a list of class "gro" with the following components:
 
 \item{atom}{ a data frame containing all atomic coordinate with a row per atom and a column per record type.}
 

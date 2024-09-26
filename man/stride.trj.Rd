@@ -12,7 +12,7 @@ stride.trj(trj, stride)
 \item{stride}{the stride to apply to the trajectory}
 }
 \value{
-the trj object with a frame every \code{stride}
+An object of class trj with a frame every \code{stride}
 }
 \description{
 Apply a stride to the frame of a trj object to reduce the number of frames

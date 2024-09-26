@@ -3,6 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param struct contains the struct object to convert
 #' @return Returns an object with class "pdb"
+#' @return An object of class "pdb"
 #' @export
 #' @examples
 #' # Read structure file 

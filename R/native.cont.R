@@ -7,7 +7,7 @@
 #' @param distance the distance cut-off
 #' @param mol.2 can be FALSE (default), use the whole distance matrix, or a vector containing the atomic number of the second molecule (and compute only intermolecular distances)
 #' @param atoms can be NULL (default), consider all the atoms present in coords, or a vector containing a set of atomic numbers to consider in the calculation (e.g. only CB). atoms can be obtained with the bio3d atom.select function
-#' @return sele.dist the selection of distances
+#' @return A vector containing the index of a subset of selected distances
 #' @export
 #' @examples
 #' # Read reference structure file with native conformation

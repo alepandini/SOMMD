@@ -5,7 +5,7 @@
 #' @param ref a struct object read with read.struct() to be used as reference
 #' @param trj.inds a vector of indices that selects the trj atoms upon which fitting should be based. If not specified all atoms will be used.
 #' @param ref.inds a vector of indices that selects the ref atoms upon which fitting should be based. If not specified all atoms will be used.
-#' @return an aligned trj object
+#' @return A trj object aligned
 #' @export
 #' @examples
 #' #Read trajectory

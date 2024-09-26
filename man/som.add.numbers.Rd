@@ -13,6 +13,9 @@ som.add.numbers(SOM, scale = 1, col = "black")
 
 \item{col}{the color of the text}
 }
+\value{
+Called for its effect.
+}
 \description{
 Add the neuron numbering scheme to the SOM plot
 }

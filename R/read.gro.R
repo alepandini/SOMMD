@@ -2,7 +2,7 @@
 #' @description Function to read gro files
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param file contains the name and the path to the gro file to be read
-#' @return Returns a list of class "pdb" with the following components:
+#' @return Returns a list of class "gro" with the following components:
 #' @return \item{atom}{ a data frame containing all atomic coordinate with a row per atom and a column per record type.}
 #' @return \item{xyz}{ a numeric matrix of class "xyz" containing the atomic coordinate data.}
 #' @return \item{box}{ a vector of box size.}

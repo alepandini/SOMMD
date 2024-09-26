@@ -18,7 +18,7 @@ matrix2graph(trans, SOM, SOM.hc, col.set, diag = FALSE)
 \item{diag}{boolean condition to include diagonal elements}
 }
 \value{
-The network as igraph object, with the SOM properties
+An igraph object, with SOM properties annotated
 }
 \description{
 Function to convert a transition matrix to an igraph object

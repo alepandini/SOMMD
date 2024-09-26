@@ -5,14 +5,15 @@
 #' @param frame the frame to extract.
 #' @param filename for the output pdb file
 #' @return a pdb object of the selected frame
+#' @return Called for its effect.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Read the trajectory
 #' trj <- read.trj(trjfile = system.file("extdata", "HIF2a-MD.xtc", package = "SOMMD"),
 #'   topfile = system.file("extdata", "HIF2a.gro", package = "SOMMD"))
 #' # Write the pdb file for a specific frame
-#' trj2pdb(trj = trj, frame=5, filename = "Frame_5.pdb")
+#' trj2pdb(trj = trj, frame=5, filename = tempfile(fileext = '.pdb' ))
 #' }
 #'
 trj2pdb <- function(trj, frame, filename){

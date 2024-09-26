@@ -12,7 +12,7 @@ comp.trans.mat(SOM, start = 1)
 \item{start}{a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)}
 }
 \value{
-trans
+A matrix of pairwise transitions between neurons
 }
 \description{
 Compute the transition matrix starting from a vector of subsequent classifications

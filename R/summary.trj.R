@@ -3,6 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param object trajectory object
 #' @param ... additional arguments to be passed to further methods
+#' @return Called for its effect.
 #' @export
 #'
 summary.trj <- function(object, ...) {

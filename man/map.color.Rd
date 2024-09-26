@@ -16,7 +16,7 @@ map.color(x, pal, limits = NULL, na.col = "grey")
 \item{na.col}{the color that will be assigned to the na.values of the vector}
 }
 \value{
-COL a vector with the same length of x, with colors proportional to the values of x
+A vector with colors proportional to the values of x
 }
 \description{
 Function map a numeric vector of a property to a vector of colors for that property according to that property value.

@@ -12,7 +12,7 @@ cat.trj(trj1, ...)
 \item{...}{additional trj files}
 }
 \value{
-trj with the simulations concatenated
+A trj object with the simulations concatenated
 }
 \description{
 Function to concatenate two simulations.

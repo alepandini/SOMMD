@@ -1,4 +1,4 @@
-#' @title TBA
+#' @title calc.distances
 #' @description Function to compute distances to be used to train the SOM
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trj contains the trajectory coordinates (array with three dimensions obtained by rioxdr)
@@ -6,7 +6,7 @@
 #' @param sele contains the selection of distances coming from the native_contacts function
 #' @param atoms contains a list of atoms indexes on which the distances will be computed
 #' @param cap If a number is given, distances greater than this value are set at the cap value
-#' @return A matrix containing the selected distances for all the frames of the simulation.
+#' @return A matrix containing the set of distances computed for all the frames.
 #' @export
 #' @examples
 #' # Read reference structure file with native conformation

@@ -3,6 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param object struct object
 #' @param ... additional arguments to be passed to further methods
+#' @return Called for its effect.
 #' @export
 #'
 summary.struct <- function(object, ...) {

@@ -11,6 +11,8 @@ struct2pdb(struct)
 }
 \value{
 Returns an object with class "pdb"
+
+An object of class "pdb"
 }
 \description{
 Convert a struct object into a pdb obtect

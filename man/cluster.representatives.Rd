@@ -12,7 +12,7 @@ cluster.representatives(SOM, clusters)
 \item{clusters}{a vector of clusters assignment for each neuron, as returned for example by hclust.}
 }
 \value{
-representatives a vector of frames representatives of each neuron
+A vector of frames representatives of each neuron
 }
 \description{
 Compute the cluster representatives

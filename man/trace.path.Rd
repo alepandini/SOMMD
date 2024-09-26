@@ -29,6 +29,9 @@ trace.path(
 
 \item{lwd.scale}{a number to scale up or down the size of the lines}
 }
+\value{
+Called for its effect.
+}
 \description{
 Function trace pathway sampled on the SOM
 }

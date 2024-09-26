@@ -11,6 +11,9 @@ som.add.clusters.legend(Nclus, color.scale)
 
 \item{color.scale}{the color scale used for the image}
 }
+\value{
+Called for its effect.
+}
 \description{
 Function to apply a legend of clusters to a SOM map image
 }

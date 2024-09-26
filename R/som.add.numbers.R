@@ -4,6 +4,7 @@
 #' @param SOM the SOM object
 #' @param scale a number to scale up or down the size of the text
 #' @param col the color of the text
+#' @return Called for its effect.
 #' @export
 #' @examples
 #' #Read example SOM data

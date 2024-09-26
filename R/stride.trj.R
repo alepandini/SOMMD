@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param trj a trj object.
 #' @param stride the stride to apply to the trajectory
-#' @return the trj object with a frame every \code{stride}
+#' @return An object of class trj with a frame every \code{stride}
 #' @export
 #' @examples
 #' # Read the simulation

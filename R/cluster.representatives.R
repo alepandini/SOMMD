@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param SOM a kohonen SOM object.
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust.
-#' @return representatives a vector of frames representatives of each neuron
+#' @return A vector of frames representatives of each neuron
 #' @export
 #' @examples
 #' #Read example SOM data
@@ -43,7 +43,7 @@ cluster.representatives <- function(SOM, clusters){
 #' @param i the selected cluster
 #' @param SOM a kohonen SOM object
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust
-#' @return the centroid of a selection of neurons
+#' @return A vector containing the centroid of a selection of neurons
 #' @noRd
 #'
 clust.centroid <- function(i, SOM, clusters) {
@@ -65,7 +65,7 @@ clust.centroid <- function(i, SOM, clusters) {
 #' @param SOM the SOM object
 #' @param clusters a vector of clusters assignment for each neuron, as returned for example by hclust
 #' @param cl the cluster for which the representative neuron should be computed
-#' @return the representative neuron
+#' @return An integere with the representative neuron number for the cluster
 #' @noRd
 #'
 select_representative <- function(centroid, SOM, clusters, cl){

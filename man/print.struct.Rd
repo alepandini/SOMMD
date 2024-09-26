@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.struct.R
 \name{print.struct}
 \alias{print.struct}
-\title{TBC}
+\title{print.struct}
 \usage{
 \method{print}{struct}(x, ...)
 }
@@ -10,6 +10,9 @@
 \item{x}{trj object}
 
 \item{...}{additional arguments to be passed to further methods}
+}
+\value{
+Called for its effect.
 }
 \description{
 A short description...

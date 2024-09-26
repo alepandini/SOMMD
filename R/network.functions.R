@@ -3,7 +3,7 @@
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param SOM a kohonen object on which transitions between neurons will be computed
 #' @param start a vector containing the start frames of each replica (usually contained in trj$start if replicas were merged with cat_trj)
-#' @return trans
+#' @return A matrix of pairwise transitions between neurons
 #' @export
 #' @examples
 #' #Read example SOM data
@@ -53,7 +53,7 @@ comp.trans.mat <- function(SOM, start=1){
 #' @param SOM.hc a vector of cluster assignment for SOM neurons
 #' @param col.set a vector of colors used for the SOM clusters
 #' @param diag boolean condition to include diagonal elements
-#' @return The network as igraph object, with the SOM properties
+#' @return An igraph object, with SOM properties annotated
 #' @export
 #' @examples
 #' #Read example SOM data
@@ -144,7 +144,7 @@ matrix2graph <- function(trans, SOM, SOM.hc, col.set, diag=FALSE){
 #' @param pal a color palette
 #' @param limits the values of the extremes for the colorscale
 #' @param na.col the color that will be assigned to the na.values of the vector
-#' @return COL a vector with the same length of x, with colors proportional to the values of x
+#' @return A vector with colors proportional to the values of x
 #' @export
 #'
 map.color <- function(x, pal, limits=NULL, na.col="grey"){

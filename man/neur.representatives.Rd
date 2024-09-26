@@ -10,7 +10,7 @@ neur.representatives(SOM)
 \item{SOM}{a kohonen SOM object.}
 }
 \value{
-a vector of frames representatives of each neuron
+A vector containing the index of the representative frames for each neuron
 }
 \description{
 Compute the representative frame of each neuron (the closest to the neuron codebook)

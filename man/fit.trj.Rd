@@ -16,7 +16,7 @@ fit.trj(trj, ref = NULL, trj.inds = NULL, ref.inds = NULL)
 \item{ref.inds}{a vector of indices that selects the ref atoms upon which fitting should be based. If not specified all atoms will be used.}
 }
 \value{
-an aligned trj object
+A trj object aligned
 }
 \description{
 Coordinate superposition with the Kabsch algorithm. This function make use of the bio3d fit.xyz function to align a SOMMD trj object. If ref is not specified, the trj object is aligned to the first frame of the simulation, otherwise it is aligned to the reference input object.

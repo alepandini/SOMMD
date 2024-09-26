@@ -5,7 +5,7 @@
 #' @param dist_clust the metric for the distance calculation
 #' @param clust_method the method for the clustering (passed to the hclust function
 #' @param interval the cluster number on which the silhouette score will be computed
-#' @return D the set of distances used to train the SOM is computed for all the frames.
+#' @return A vector with the silhouette scores for all the frames
 #' @export
 #' @examples
 #' #Read example SOM data

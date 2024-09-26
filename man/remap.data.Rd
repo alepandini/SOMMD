@@ -14,7 +14,7 @@ remap.data(SOM, X, add = FALSE)
 \item{add}{whether to append the new data to the ones used to train the SOM}
 }
 \value{
-The SOM with the new data mapped
+An object of class "kohonen" with the new data mapped
 }
 \description{
 Assign new data to a pre-trained SOM

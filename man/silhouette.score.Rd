@@ -21,7 +21,7 @@ silhouette.score(
 \item{interval}{the cluster number on which the silhouette score will be computed}
 }
 \value{
-D the set of distances used to train the SOM is computed for all the frames.
+A vector with the silhouette scores for all the frames
 }
 \description{
 Function to compute the silhouette score for the clustering of SOM neurons

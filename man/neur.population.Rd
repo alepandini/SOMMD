@@ -15,6 +15,9 @@ neur.population(SOM, start = 1, end = length(SOM$unit.classif), N = 1)
 
 \item{N}{An integer for the portion (replica) of the simulations to be plotted}
 }
+\value{
+A vector containing the per-neuron population
+}
 \description{
 Function to compute the per-neuron population
 }

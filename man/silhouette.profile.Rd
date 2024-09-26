@@ -21,7 +21,7 @@ silhouette.profile(
 \item{clust_method}{the method for the clustering (passed to the hclust function}
 }
 \value{
-the silhouette profile computed with the cluster package
+A vector of silhouette profile computed with the cluster package
 }
 \description{
 Function to compute the silhouette profile for the Nclus cluster of the SOM neurons

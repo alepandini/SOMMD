@@ -15,6 +15,9 @@ som.add.circles(SOM, P, scale = 1, col.circles = "white")
 
 \item{col.circles}{the background color of the drawn circles}
 }
+\value{
+Called for its effect.
+}
 \description{
 Function to add circles to a SOM plot, with dimension proportional to a selected property
 }
