@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.trj.R
 \name{print.trj}
 \alias{print.trj}
-\title{TBC}
+\title{Print Trajectory}
 \usage{
 \method{print}{trj}(x, ...)
 }

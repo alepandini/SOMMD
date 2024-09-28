@@ -23,7 +23,7 @@ trace.path(
 
 \item{N}{The portion of simulation that one want to plot}
 
-\item{draw.stride}{used to plot the pathways with a stride (usefull for very complex pathways)}
+\item{draw.stride}{used to plot the pathways with a stride (useful for very complex pathways)}
 
 \item{pts.scale}{a number to scale up or down the size of the circles}
 

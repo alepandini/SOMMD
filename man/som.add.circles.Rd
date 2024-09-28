@@ -2,7 +2,7 @@
 % Please edit documentation in R/som.add.circles.R
 \name{som.add.circles}
 \alias{som.add.circles}
-\title{Add cicles to SOM}
+\title{Add circles to SOM}
 \usage{
 som.add.circles(SOM, P, scale = 1, col.circles = "white")
 }
