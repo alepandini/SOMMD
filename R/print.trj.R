@@ -1,4 +1,4 @@
-#' @title TBC
+#' @title Print Trajectory
 #' @description A short description...
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param x trj object

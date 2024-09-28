@@ -1,4 +1,4 @@
-#' @title Add cicles to SOM
+#' @title Add circles to SOM
 #' @description Function to add circles to a SOM plot, with dimension proportional to a selected property
 #' @author Stefano Motta \email{stefano.motta@unimib.it}
 #' @param SOM the SOM object
