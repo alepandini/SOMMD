@@ -11,14 +11,22 @@ Authors@R: c(
            family = "Motta",
            role = c("aut", "cre", "cph"),
            email = "stefano.motta@unimib.it",
-           comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834"))) 
+           comment = c(ORCID = "https://orcid.org/0000-0002-0812-6834")),
+    person(given = "Erik",
+           family = "Lindahl",
+           role = c("ctb"),
+           comment = "Author of xdrfile C library"),
+    person(given = " David",
+           family = " van der Spoel",
+           role = c("ctb"),
+           comment = "Author of xdrfile C library")) 
 Description: Processes data from Molecular Dynamics simulations using 
     Self Organising Maps. Features include the ability to read different 
-    input formats. Trajectory can be analysed to identify groups of important
+    input formats. Trajectories can be analysed to identify groups of important
     frames. Output visualisation can be generated for maps and pathways.
     Methodological details can be found in Motta S et al (2022) 
     <doi:10.1021/acs.jctc.1c01163>.
-    I/O functions for xtc format files were implemented using the xdrfile C
+    I/O functions for xtc format files were implemented using the 'xdrfile'
     library available under open source license. The relevant information can 
     be found in inst/COPYRIGHT.
 License: GPL-3
