@@ -42,6 +42,6 @@ Packaged: 2024-09-20 10:28:15 UTC; apandini
 Author: Alessandro Pandini [aut, cph]
     (<https://orcid.org/0000-0002-4158-233X>),
   Stefano Motta [aut, cre, cph] (<https://orcid.org/0000-0002-0812-6834>),
-  Erik Lindhal [ctb],
-  David van der Spoel [ctb]
+  Erik Lindahl [ctb] (Author of xdrfile C library),
+  David van der Spoel [ctb] (Author of xdrfile C library)
 Maintainer: Stefano Motta <stefano.motta@unimib.it>
