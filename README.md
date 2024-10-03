@@ -1,4 +1,11 @@
 # SOMMD
+
+<!-- badges: start -->
+  [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+  [![cran-version](https://www.r-pkg.org/badges/version-last-release/SOMMD?color=blue)](https://cran.r-project.org/web/packages/SOMMD/index.html)
+  [![downloads](https://cranlogs.r-pkg.org/badges/grand-total/SOMMD)](https://cranlogs.r-pkg.org/badges/grand-total/SOMMD)
+
+<!-- badges: end -->
  
 Self Organising Map for analysis of Molecular Dynamics data
 
