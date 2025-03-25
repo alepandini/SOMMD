@@ -274,7 +274,7 @@ kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 ```
 
 In the first plot the SOM is shown with circles whose size is proportional to the average RMSD values of each neuron. Larger circles indicate neurons that correspond to conformations with higher RMSD, reflecting greater deviation.
-In the second plot the SOM is colored according to the average RMSD values for each neuron. A color gradient from blue (low RMSD) to red (high RMSD) is used to show how the RMSD varies across the map.
+In the second plot the SOM is colored according to the average RMSD values for each neuron. A color gradient from blue (low RMSD) to red (high RMSD) is used to show how the RMSD varies across the map. When analyzing a property, one should look for patterns and correlations between regions of the map to understand how different conformations relate to specific structural or dynamic properties.
 
 You may notice that some neurons have very extreme values for RMSD. These extreme values could indicate conformations that are very different from the majority of the dataset. Such neurons might represent outliers or particular conformation sampled during MD simulations.
 
@@ -380,6 +380,6 @@ for(rep in 1:5){
 }
 ```
 
-This set of plots shows the population of each replica on the SOM map. The size of the circles represents how many frames from each replica fall into each neuron, helping to visualize the overlap and unique sampling of the space by different replicas.
+This set of plots shows the population of each replica on the SOM map. The size of the circles represents how many frames from each replica fall into each neuron, helping to visualize the overlap and unique sampling of the space by different replicas. Specifically, it is possible to identify which simulations sampled overlapping regions of the space, indicating that they explored similar conformational states. Additionally, it is possible to identify clusters that were exclusively sampled by individual replicas, highlighting regions of the space that were unique to a specific replica and not shared with others. This analysis is crucial for understanding how well the replicas have converged and diversified during the simulation. It allows to assess the extent of exploration, the regions that have been more thoroughly sampled, and the areas that may require further exploration to achieve a comprehensive representation of the system’s behavior.
 
 **Excercise:** Select a cluster or neuron that is unique to a particular replica and investigate the structural differences that make it distinct from the others. This will allow you to understand how different replicas explore different conformations of the system.
