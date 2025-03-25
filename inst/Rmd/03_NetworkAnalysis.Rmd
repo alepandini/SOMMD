@@ -12,11 +12,17 @@ header-includes:
 
 ## 1.1 Introduction
 
-This is A Notebook that explain how to use the SOMMD package to perform analysis of pathways sampled during molecular dynamics simulations and build a network graph that represent the transitions between pairs of neurons. Detailed instructions on how to perform SOM training and path tracing can be found in previous notebook. Here we build a network that represent pathways sampled during a metadynamic simulation of a protein-ligand binding. Metadynamic is a type of enhanced sampling MD method in which a gaussian-shaped potential is added to bias the system at the current position of some collective variables (CVs), at regular time intervals. This allows the system to escape from any local minimum and to visit new regions in the CVs space. In the present case, the CVs used to perfom MetaD are the position along a predefined path *S(x)* and the distance from the reference path *Z(x)*. The system object of the study is a 1.8 µs Metadynamic simulation that explore the binding of the THS-020 ligand to the PAS-B domain of HIF-2⍺. For more information regarding the system, and the interpretation of the analysis, please refer to the following papers: `[L.` `Callea et al., J. Chem. Theory Comput. 2021, 17, 7, 3841–3851 doi.org/10.1021/acs.jctc.1c00114]`, `[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`.
+This notebook demonstrates how to use the SOMMD package to analyze pathways sampled during molecular dynamics simulations and construct a network graph representing transitions between neurons. Detailed instructions on SOM training and path tracing can be found in the previous notebooks. Here, we focus on building a network to represent pathways explored during a metadynamics simulation of a protein-ligand binding event.
+
+Metadynamics is an enhanced sampling MD method in which a Gaussian-shaped potential is periodically added to bias the system at the current position of predefined collective variables (CVs). This technique allows the system to escape local minima and explore new regions in the CV space. In this case, the CVs used for metadynamics are the position along a predefined path S(x) and the deviation from the reference path Z(x).
+
+The system under investigation is a 1.8 µs metadynamics simulation of the THS-020 ligand binding to the PAS-B domain of HIF-2⍺. For further details on the system and the interpretation of the analysis, refer to the following papers:
+
+`[L.` `Callea et al., J. Chem. Theory Comput. 2021, 17, 7, 3841–3851 doi.org/10.1021/acs.jctc.1c00114]`, `[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`.
 
 ## 1.2 Train SOM with native interactions
 
-At first we load the SOMMD package and read the simulation files (the gro and the trajectory files).
+We begin by loading the SOMMD package and reading the simulation files (GRO and trajectory files).
 
 ```{r}
 library(SOMMD)
@@ -30,7 +36,7 @@ strfile <- "./03_HIF_dataset/HIF.gro"
 trj <- read.trj(trjfile=xtcfile, topfile=strfile)
 ```
 
-At this point you have to choose a set of descriptors that will be used for the training of the SOM. In the present case we want to study a ligand binding process, and to describe the position of the ligand within the binding site, a set of intermolecular distances between the ligand and the protein atoms is usually a good descriptor. At first, let's try with a simple selection: the set of distances of ligand and protein heavy atoms forming a contact (distance \< 6 Å) in the reference file.
+To analyze the ligand binding process, we need meaningful descriptors that capture the ligand’s position within the binding site. A practical approach is to consider intermolecular distances between ligand and protein atoms. Here, we select the heavy atoms forming a contact (distance \< 6 Å) in the reference structure.
 
 ```{r}
 #Read reference pdb with native conformation
@@ -48,7 +54,7 @@ DIST <- calc.distances(trj, mol.2=ligand.sele, sele=sele.dists, atoms=heavy.atom
 print(dim(DIST))
 ```
 
-From this calculation we have obtained a large matrix of 629 distances for the 9175 frames of the simulation. At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 10x10 SOM with hexagonal neurons.
+The computed distance matrix consists of 629 descriptors across 9175 simulation frames. This matrix serves as input for training the SOM using the kohonen package. We define a 10×10 non-periodic SOM with hexagonal neurons.
 
 ```{r}
 SOM_nat <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal", 
@@ -56,7 +62,7 @@ SOM_nat <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal",
                     dist.fcts="euclidean", rlen=500, mode='pbatch')
 ```
 
-Now we will choose the best number of cluster based on the silhouette profile, and choose a maximum in the average silhouette score plot.
+To determine the optimal number of clusters, we evaluate the silhouette score for different cluster numbers and select the one maximizing the average silhouette value.
 
 ```{r}
 sil.score <- silhouette.score(SOM_nat, clust_method="complete", interval=seq(2,30))
@@ -66,6 +72,8 @@ for(i in seq(0, max(sil.score[,1]), by=2)){
 }
 
 ```
+
+Assuming 10 as a optimal number of clusters according to the silhouette profile (see previuos notebooks), we assign colors to the clusters and visualize the SOM map:
 
 ```{r}
 Nclus <- 10
@@ -79,6 +87,8 @@ COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a",
 plot(SOM_nat, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 kohonen::add.cluster.boundaries(SOM_nat, SOM.hc, lwd=5)
 ```
+
+Finally, we analyze how the CVs S(x) and Z(x) distribute over the trained SOM, allowing us to interpret the relationship between sampled metastable states and the simulation’s biased variables.
 
 ```{r}
 #Plot the value of S(x) and Z(x) over the SOM.
@@ -99,9 +109,14 @@ plot(SOM_nat, type = "property", property=Neur.avg.Zx, shape='straight', palette
 kohonen::add.cluster.boundaries(SOM_nat, SOM.hc, lwd=5)
 ```
 
+These plots allow us to interpret the SOM by mapping neurons and clusters onto the Free Energy Surface (FES) obtained from metadynamics, helping to identify different states and their relationships within the binding process.
+
 ## 1.3 Train SOM using a selection of atoms and a distance cap
 
-Now let's try to change approach, and use a selection of atoms that we retain to be relevant for the binding process. Selected atoms should describe both the binding site and the mouth at the entrance of the binding site. Ideally, both atoms from backbone and from large or polar/charged sidechains should be included when the side chain dynamics and interactions are relevant for binding. Similarly, selected ligand atoms should well describe the core molecular structure and all the relevant lateral groups. Here we will use the set of atoms used in the reference work: `[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`. Note that the option cap=1.2 will be used in the `calc.distances`{style="color:magenta"} function to set the value of all the distances greater than 12 Å to 12 Å. This remove part of the noise, as all the unbound state appear similar to the SOM, that will be dedicated to the description of conformations where the ligand is in contact with the protein.
+Now, let’s adopt a different approach by selecting atoms that are particularly relevant to the binding process. These atoms should describe both the binding site and the entrance of the binding pocket. Ideally, the selection should include backbone atoms as well as side chains that are large, polar, or charged—especially when side-chain dynamics and interactions play a key role in binding. Likewise, the ligand atom selection should capture the core molecular structure along with important functional groups.
+
+Here, we use the same atom set from our reference study:
+`[S Motta et al., J. Chem. Theory Comput. 2022, 18, 3, 1957–1968 doi.org/10.1021/acs.jctc.1c01163]`. Additionally, we apply a capping value of 1.2 in the `calc.distances`{style="color:magenta"} function, which ensures that all distances greater than 12 Å are set to 12 Å. This helps reduce noise by making all unbound states appear similar, allowing the SOM to focus on the conformations where the ligand is in contact with the protein.
 
 ```{r}
 #atoms selection
@@ -116,7 +131,7 @@ DIST <- calc.distances(trj, mol.2=ligand.sele, atoms=sele.atoms, cap=1.2)
 print(dim(DIST))
 ```
 
-Here the atom selection `sele.atoms` contains the atom indexes of the protein and ligand atoms retained relevant for the process we want to study. These are 40 atoms for the protein and 5 atoms for the ligand. Then, the `calc.distances`{style="color:magenta"} function compute all the intermolecular distances between every pair of protein and ligand atoms. This return a set of 40x5=200 distances. At this point the computed distances can be used to train the SOM as done before.
+The selection `sele.atoms` contains the indexes of protein and ligand atoms deemed important for our analysis. In this case, we have 40 protein atoms and 5 ligand atoms. Then, the `calc.distances`{style="color:magenta"} function computes all intermolecular distances between every protein and ligand atom pair, yielding 40 × 5 = 200 distance values. These computed distances will now serve as input for training the SOM.
 
 ```{r}
 SOM_sel <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal", 
@@ -124,7 +139,7 @@ SOM_sel <- kohonen::som(DIST, grid = kohonen::somgrid(10, 10, "hexagonal",
                     dist.fcts="euclidean", rlen=500, mode='pbatch')
 ```
 
-Select an optimal number of clusters
+To determine the optimal number of clusters, we compute the silhouette score for different cluster numbers.
 
 ```{r}
 sil.score <- silhouette.score(SOM_sel, clust_method="complete", interval=seq(2,30))
@@ -134,6 +149,8 @@ for(i in seq(0, max(sil.score[,1]), by=2)){
 }
 
 ```
+
+Assuming 12 as a optimal number of clusters according to the silhouette profile (see previuos notebooks), we assign colors to the clusters and visualize the SOM map:
 
 ```{r}
 Nclus <- 12
@@ -149,6 +166,10 @@ kohonen::add.cluster.boundaries(SOM_sel, SOM.hc, lwd=5)
 
 ```
 
+### Mapping Free Energy Surface Properties to the SOM
+
+Next, we map the free energy landscape obtained from metadynamics onto the SOM, using the S(x) and Z(x) properties.
+
 ```{r}
 #Re-compute the average per-neuron value of Sx and Zx for the new SOM
 Neur.avg.Sx <- average.neur.property(SOM_sel, Sx[,1])
@@ -163,15 +184,15 @@ plot(SOM_sel, type = "property", property=Neur.avg.Zx, shape='straight', palette
 kohonen::add.cluster.boundaries(SOM_sel, SOM.hc, lwd=5)
 ```
 
-We can appreciate two advantages from this second SOM:
+**Key Insights from This SOM Approach**: 
+By using this refined atom selection and distance capping, we observe two major advantages:
 
-1.  The space on the map dedicated to the completly unbound state (S(x) \> 8) is dramatically reduced to few neurons in one corner. This is due to the capping value imposed during the distance calculation.
-
-2.  The bound states (S(x) \< 4) occupy a whole side of the map, instead of a corner. This means that we are able to better describe the different bound conformation. This is also due to the fact that we are not concentrating our efforts in describing the native conformation, but the set chosen distances are good for all the sampled bound states. The reduction of distances using the native.cont function that we used in the previous section, is indeed good if we want to focus on the persistence/breaking of the native interactions, but this is achieved only at the cost of reducing the ability to describe new interactions not present in the native conformation.
+* **Improved Handling of the Unbound State**: The region of the SOM corresponding to the completely unbound state (S(x) > 8) is now limited to a few neurons in one corner of the map. This is the results from the imposed capping value, which prevents excessive focus on trivial unbound conformations.
+* **Better Description of Bound Conformations**: Bound states (S(x) < 4) now occupy an entire side of the SOM rather than being confined to a corner. This suggests that we have improved resolution in describing different binding poses.
 
 ## 1.4 Trace Pathways
 
-At this point one can trace the pathways sampled during each replica on the SOM.
+At this stage, we can visualize the sampled binding/unbinding pathways over the SOM.
 
 ```{r}
 #Plot the SOM colored by clusters
@@ -182,11 +203,13 @@ trace.path(SOM_sel, pts.scale=1, lwd.scale=0.5)
 
 ```
 
-However, the result is very confusing, as the simulation continuously evolves back and forth along the reaction path.
+However, the resulting plot is quite complex because the simulation exhibits frequent transitions back and forth along the reaction coordinate.
 
 ## **1.5 Representing SOM as a graph network**
 
-Using the information from the transition matrix of the simulations it is possible to build a graph network that represent all the possible pathways sampled.
+By utilizing the transition matrix derived from the simulation data, it is possible to construct a graph network that represents all the possible pathways sampled during the simulations. This approach provides a visual and quantitative method to explore the dynamics between different states of the system.
+
+The first step is to compute the transition matrix, which encodes the probabilities of transitioning between different states (or nodes) in the SOM. The function `comp.trans.mat`{style="color:magenta"} computes this matrix based on the SOM structure.
 
 ```{r}
 #Compute transition matrix
@@ -195,9 +218,9 @@ Tr_mat <- comp.trans.mat(SOM_sel, start = 1)
 net <- matrix2graph(Tr_mat, SOM_sel, SOM.hc, COL.SCALE, diag=FALSE)
 ```
 
-Note that in the `comp.trans.mat`{style="color:magenta"} function, the `start` argument specify the starting point of the replicas. In case of a study case with multiple replicas, the transition between the last frame of the replica N and the first frame of the replica N+1 must be removed from the counting of transitions. In that case you can simply use the trj\$start vector that contains the starting frames of all the replicas concatenated with the `cat.trj`{style="color:magenta"} function. In the present case we are working with a single simulation, so the starting point is simply 1 (the first frame).
+In the `comp.trans.mat`{style="color:magenta"} function, the `start` argument specifies the starting frame of the simulation. If you have multiple simulation replicas, you should account for the transition between the last frame of one replica and the first frame of the next. This is done using the trj\$start vector that contains the starting frames of all the replicas concatenated with the `cat.trj`{style="color:magenta"} function. In this case, we are using a single simulation, so the starting point is simply the first frame (1).
 
-Using the igraph package several representation of the SOM can be obtained:
+Once the transition matrix is created, you can visualize the network. The `igraph` package is used to create and plot the network.
 
 ```{r}
 edge.start <- igraph::ends(net, es=igraph::E(net), names=F)[,1]
@@ -206,7 +229,9 @@ edge.col <- igraph::V(net)$color[edge.start]
 plot(net, edge.arrow.size=igraph::E(net)$width/5, edge.curved=0.17, edge.color='black', vertex.label="", layout=SOM_sel$grid$pts)
 ```
 
-However, optimal disposition of vertex can be used. Several algorithm exist able to estimate optimal network vertices placement on the plane. Here we will use the force-directed layout algorithm by Fruchterman and Reingold.
+This code visualizes the network using the default SOM layout, which places the nodes based on their positions in the SOM grid. This layout is straightforward, but you may prefer to use other algorithms that can optimize the layout of the network based on the edges.
+
+To better visualize the relationships between the states, you can apply a force-directed layout algorithm. The `Fruchterman-Reingold` algorithm is commonly used for this purpose. It optimizes the placement of nodes to reduce edge crossings and improve the readability of the graph.
 
 ```{r}
 coords = igraph::layout_with_fr(net)
@@ -214,9 +239,13 @@ plot(net, edge.arrow.size=igraph::E(net)$width/5, edge.curved=0.17, edge.color='
 
 ```
 
-Note that since the layout algorithm is not deterministic, you will obtain a different vertex disposition every time you rerun the layout_with_fr() command. You may also try to run the command several time to search for a clear vertex disposition.
+Note that the `layout_with_fr()`{style="color:magenta"} function is not deterministic, meaning that each time you run the algorithm, the node positions may change. You can try running the function multiple times to find a clear and stable layout.
 
-You may also want to perform a kinetic-like clustering using a community detection method. Among those available in igraph, the walktrap method allows to treat biderectional graph. This function tries to find densely connected subgraphs, also called communities in a graph via random walks. The idea is that short random walks tend to stay in the same community.
+### Community Detection: Kinetic-like Clustering
+
+Another interesting approach is to perform community detection on the graph. This method identifies groups of nodes (communities) that are more densely connected to each other than to the rest of the network. In the context of SOM, this can be interpreted as finding clusters of states that are more likely to transition between each other.
+
+The `walktrap` algorithm in `igraph` is useful for identifying communities in bidirectional graphs. It works by simulating random walks on the graph and detecting areas where the walks are more likely to stay within the same community.
 
 ```{r}
 CL_walktrap <- igraph::cluster_walktrap(net)
@@ -228,7 +257,13 @@ plot(net, edge.arrow.size=igraph::E(net)$width/10, edge.curved=0.17, vertex.colo
 
 ```
 
-Here neurons are divided according to the transition probability instead of their geometric similarity. To map a property to a graph, simply set the color of each node according to a colorscale. You should easily identify two pathways that connect the unbound state with the two different bound states.
+Here, the network nodes (representing the states) are grouped based on the probability of transition between them, rather than their geometric similarity. The coloring of nodes reflects their community affiliation. You should easily identify two pathways that connect the unbound state with the two different bound states.
+
+### Mapping Properties onto the Graph
+
+You can also map specific properties of the states (e.g., S(x), Z(x)) onto the graph nodes to visualize how these properties vary across different states. This is done by assigning a color scale based on the property values.
+
+For example, to visualize how the property S(x) varies across the graph, you can use the following code:
 
 ```{r}
 #Set the color scale
@@ -245,4 +280,6 @@ COL <- map.color(Neur.avg.Zx, col.palette)
 plot(net, edge.arrow.size=igraph::E(net)$width/10, edge.curved=0.17, vertex.color=COL, edge.color='black', vertex.label="", layout=coords)
 ```
 
-From these plots it is possible to appreciate the two distinct paths that lead to the native bound state (low *S(x)* and *Z(x)* values) and the alternative bound state (low *S(x)* and high *Z(x)* values).
+In these plots, you will be able to clearly distinguish two distinct pathways: one leading to the native bound state (characterized by low S(x) and Z(x) values), and another leading to an alternative bound state (with low S(x) and high Z(x) values).
+
+The network representation offers a powerful advantage when visualizing complex pathways. During simulations, you can sample various pathways, and the graph provides a unique visualization that integrates all these pathways into a single, comprehensive representation. This makes it easier to understand the transitions and relationships between states, and to identify key pathways that might not be immediately obvious from the raw simulation data.
