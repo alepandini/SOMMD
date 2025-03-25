@@ -164,11 +164,13 @@ plot(sil.prof, main="", do.clus.stat = FALSE, do.n.k = FALSE)
 abline(v=mean(sil.prof[,3]), col='red', lty=3, lwd=2)
 ```
 
-The first plot displays the average silhouette score for each number of clusters. The ideal number of clusters is typically the value that corresponds to the highest average silhouette score, but it’s also important to visually inspect the silhouette profiles to assess the quality of the clusters for specific numbers. This is shown in the second plot, where the silhouette profile for 8 clusters shows individual cluster quality. The red dashed line indicates the mean silhouette value for each cluster in this configuration. By inspecting both the silhouette score and the silhouette profiles, you can decide on the optimal number of clusters for your SOM.
+The first plot displays the average silhouette score for different numbers of clusters. The optimal number of clusters is typically the one that corresponds to the highest average silhouette score, but this can vary depending on the specific SOM training instance. Since SOM training is stochastic, the silhouette score peak may change, so it's important to inspect the plot and select the most appropriate value.
+
+The second plot shows the silhouette profile for 8 clusters as an example, allowing you to visually assess the quality of clustering. The red dashed line represents the mean silhouette value for each cluster in this configuration. You should adjust the number of clusters based on your specific results by examining both the silhouette score plot and individual silhouette profiles.
 
 ### Dividing the SOM into Clusters
 
-Once a reasonable number of clusters has been chosen, the SOM can be divided using the cutree function, which performs hierarchical clustering on the neurons. Below, we divide the SOM into 8 clusters and color the neurons according to their cluster assignments:
+Once a reasonable number of clusters has been chosen, the SOM can be divided using the `cutree`{style="color:magenta"} function, which performs hierarchical clustering on the neurons. In this example, we assume 8 clusters, but you should determine the appropriate value based on the silhouette score and cluster profiles in your specific case.
 
 ```{r}
 #Divide the SOM in the selected number of clusters
@@ -184,7 +186,7 @@ kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 
 ```
 
-In this code, the SOM is colored according to the cluster each neuron belongs to. The kohonen::add.cluster.boundaries function visually highlights the boundaries between clusters, making it easier to observe the groupings on the map.
+In this code, the SOM is colored according to the cluster each neuron belongs to. The `kohonen::add.cluster.boundaries`{style="color:magenta"} function visually highlights the boundaries between clusters, making it easier to observe the groupings on the map.
 
 ### Visualizing Neurons and Clusters
 
@@ -198,7 +200,7 @@ som.add.numbers(SOM, scale=0.5, col="black")
 som.add.clusters.legend(Nclus=8, color.scale=COL.SCALE)
 ```
 
-Here, we use som.add.numbers to label each neuron with its corresponding number, and som.add.clusters.legend to display a legend indicating the cluster colors.
+Here, we use som.add.numbers to label each neuron with its corresponding number, and `som.add.clusters.legend`{style="color:magenta"} to display a legend indicating the cluster colors.
 
 ### Interpretation of Neurons and Clusters
 
@@ -223,7 +225,7 @@ cat(CL_repres$frames)
 
 ```
 
-If NA values appear in the output, they correspond to empty neurons or clusters that do not have a representative frame. This can occur if a cluster or neuron contains too few data points to produce a representative structure.
+If `NA` values appear in the output, they correspond to empty neurons or clusters that do not have a representative frame. This can occur if a cluster or neuron contains too few data points to produce a representative structure.
 Once you've identified the representative frames, you can extract the corresponding conformation (structure) from the simulation trajectory. Use the `trj2pdb`{style="color:magenta"} function to save the structure of a representative frame in PDB format:
 
 ```{r}

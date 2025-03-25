@@ -12,22 +12,30 @@ header-includes:
 
 ## 1.1 Introduction
 
-This is A Notebook that explain how to use the SOMMD package to perform analysis of pathways sampled during molecular dynamics simulations. Detailed instructions on how to perform SOM training and cluster analysis can be found in the Clustering of MD trajectory notebook. Here we will perform analysis of pathways sampled during Steered MD simulations of a protein domain unfolding. Steered MD is a type of enhanced sampling MD method that apply a force, to pull the system in a particular direction. In the present case, the direction of pulling is the distance between the C-terminal and N-terminal ends of the protein. The system object of the study is the PAS-B domain of ARNT. For more information regarding the system, and the interpretation of the analysis, please refer to the following paper: [`S Motta et al., J. Chem. Theory Comput. 2021, 17, 4, 2080–2089 doi.org/10.1021/acs.jctc.0c01308`]{.underline}
+This notebook demonstrates how to use the SOMMD package to analyze pathways sampled during molecular dynamics (MD) simulations. Detailed instructions on how to perform SOM training and cluster analysis can be found in the Clustering of MD trajectory notebook.
 
-## 1.2 Compute Features
+Here, we focus on analyzing pathways sampled during Steered Molecular Dynamics (SMD) simulations of a protein domain unfolding process. SMD is an enhanced sampling technique that applies an external force to pull the system in a specific direction, allowing us to explore otherwise inaccessible conformational transitions. In this case, the pulling direction is defined by the distance between the C-terminal and N-terminal ends of the protein.
 
-At first load the SOMMD package:
+The system under investigation is the PAS-B domain of ARNT. For more details on the system and the interpretation of the results, refer to the following paper: [`S Motta et al., J. Chem. Theory Comput. 2021, 17, 4, 2080–2089 doi.org/10.1021/acs.jctc.0c01308`]{.underline}
+
+## 1.2 Compute Descriptors
+
+First, load the SOMMD package:
 
 ```{r} library(SOMMD)}
 ```
 
-Then read the simulation files (the gro and the trajectory files).
+Next, download and extract the molecular dynamics (MD) trajectory files:
 
 ```{r}
 #Dowload the MD simulation data 
 utils::download.file("https://figshare.com/ndownloader/articles/26935465/versions/2", destfile = "ARNT_dataset.zip", method = "curl")
 utils::unzip("ARNT_dataset.zip")
+```
 
+Now, load the PDB structure and trajectory files into R:
+
+```{r}
 #Read the names of the xtc files in the folder
 strfile <- "./02_ARNT_dataset/ARNT.pdb"
 folder <- "./02_ARNT_dataset"
@@ -43,9 +51,11 @@ for(trj_file in xtcfiles[-1]){
 }
 ```
 
-Note that after reading the first replica, here we used a for loop to read all the other xtc files present in the dataset folder, and concatenate all them together.
+Note that the first trajectory file is loaded, and then a loop is used to sequentially load and concatenate all remaining trajectory files in the dataset.
+This ensures that all simulation data is combined into a single dataset for further analysis.
 
-At this point you have to choose a set of descriptors that will be used for the training of the SOM. SOMMD have a series of built-in function that facilitate the computation of some common descriptors. In the present case we want to study an unfolding process, and to describe the protein conformation during the unfolding the C𝛃 pairwise distances are a valid choice. Among these distances, the most interesting ones are those between atoms forming a contact in the native (folded) conformation. These distances can be selected using the [`native_contacts`]{style="color:magenta"} function.
+To train a Self-Organizing Map (SOM), we must define descriptors that effectively capture the structural changes in the protein during unfolding. A useful choice is the pairwise distances between C𝛃 atoms, particularly those forming native contacts in the folded state. These distances provide insights into how the native structure is disrupted over time.
+We can select these distances using the `native_contacts`{style="color:magenta"}function:
 
 ```{r}
 #Read reference pdb with native conformation
@@ -58,9 +68,16 @@ sele.dists <- native.cont(struct=ref.str, distance=1.0, atoms=sele.atoms)
 DIST <- calc.distances(trj, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 ```
 
+**Why C𝛃 Pairwise Distances?**
+
+* C𝛃 atoms are often used to describe protein conformational changes because they are centrally located in residues and less affected by fluctuations of hydrogen atoms.
+* The selected distances correspond to native contacts, meaning they are particularly relevant for tracking the unfolding process.
+
+Depending on the specific system and type of process you are interested in, you may want to choose a different set of descriptors.
+
 ## 1.3 SOM Training
 
-At this point the computed distances can be used to train the SOM using the kohonen function. We will train a sheet-shaped (non periodic) 8x8 SOM with hexagonal neurons.
+With the selected descriptors, we can now train the Self-Organizing Map (SOM) using the `kohonen` package. Here we define a 8x8 grid of hexagonal neurons with a Gaussian neighborhood function.
 
 ```{r}
 SOM <- kohonen::som(DIST, grid = kohonen::somgrid(8, 8, "hexagonal", 
@@ -68,7 +85,7 @@ SOM <- kohonen::som(DIST, grid = kohonen::somgrid(8, 8, "hexagonal",
                     dist.fcts="euclidean", rlen=1000, mode='pbatch')
 ```
 
-Now we will choose the best number of cluster based on the silhouette profile, and choose a maximum in the average silhouette score plot.
+To segment the SOM into meaningful groups of conformations, we perform hierarchical clustering and assess silhouette scores to determine the optimal number of clusters.
 
 ```{r}
 sil.score <- silhouette.score(SOM, clust_method="complete", interval=seq(2,30))
@@ -76,13 +93,22 @@ plot(sil.score, type='b', pch=19, lwd=1, xlab="Number of clusters", ylab='Averag
 for(i in seq(0, max(sil.score[,1]), by=2)){
     abline(v=i, col="grey", lwd=0.5)
 }
-
 ```
+
+The **silhouette score** quantifies how well-separated each cluster is. The **optimal number of clusters** is identified as the peak in the silhouette score curve. Depending on the level of detail needed, one may stop at the first peak for a coarse clustering or consider subsequent peaks for a more refined partitioning of the data.
+
+In this example, we assume an optimal number of 10 clusters, but since SOM training is stochastic, this value may change. Be sure to inspect your silhouette score plot and adjust accordingly.
+
 
 ```{r}
 Nclus <- 10
 #Divide the SOM in the selected number of clusters
 SOM.hc <- cutree(hclust(dist(SOM$codes[[1]], method="euclidean"), method="complete"), Nclus)
+```
+
+Finally, we assign colors to the clusters and visualize the SOM map:
+
+```{r}
 #Choose a pleasing to the eye set of colors
 COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a", 
                "#a0451f", "#96c3dc", "#fbb25c", "#ff7f00", "#bea0cc", 
@@ -90,12 +116,13 @@ COL.SCALE <- c("#1f78b4", "#33a02c", "#e31a1c", "#ffff88", "#6a3d9a",
 #Plot the SOM colored by clusters
 plot(SOM, type = "mapping", bgcol=COL.SCALE[SOM.hc], col=rgb(0,0,0,0), shape='straight', main="")
 kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
-
 ```
+
+In this map each hexagon represents a neuron in the SOM, while the color coding corresponds to different conformational clusters. This visualization provides a structured representation of conformations sampled during the unfolding.
 
 ## 1.4 Representation of properties on SOM
 
-To inspect the characteristics of the SOM, we will compute the distance between the C⍺ atoms of the C- and N- terminal ends of the domain and plot this property on the SOM.
+To analyze how specific structural properties are distributed across the SOM, we will compute the distance between the C⍺ atoms of the N- and C-terminal ends of the protein domain and visualize this property on the map. This distance provides insight into whether the protein is in a more folded (shorter distance) or unfolded (longer distance) state.
 
 ```{r}
 #Select the index of the first and last CA atoms
@@ -110,13 +137,19 @@ plot(SOM, type = "property", property=Neur.avg.d, shape='straight', palette.name
 kohonen::add.cluster.boundaries(SOM, SOM.hc, lwd=5)
 ```
 
-From this plot it is simple to identify the corner in which the protein is folded (low distance values) and where it is unfolded (high distance values).
+In the resulting SOM, neurons are colored according to the average C⍺-C⍺ terminal distance of the structures they represent. The blue regions correspond to low distance values, indicating that the protein is in a more compact (folded) conformation. Conversely, the red regions represent high distance values, suggesting that the protein is in a more extended (unfolded) state. Often the two extremes are positioned at opposite corners of the map.
+
+By inspecting the spatial organization of these states on the SOM, and comparing with the clusters, you can gain insights into the structural transitions explored during the simulation and how different conformational states are grouped.
 
 # 2.Analysis of Pathways
 
 ## 2.1 Trace Pathways
 
-At this point one can trace the pathways sampled during each replica on the SOM. This can be done using the function [`trace_path`]{style="color:magenta"}. This function draw the pathway followed by a simulation on the SOM. In order to simplify the plot of pathways from different replicas, the trj object contains the information of start and end of each replica merged with [`cat_trj`]{style="color:magenta"} in `trj$start` and `trj$end`. Using this information one can plot the pathway of a specific replica:
+Each trajectory represents a sequence of transitions between neurons, revealing dominant unfolding/folding or binding pathways. Identifying the most frequent pathways can provide insights into conformational changes and preferred energy landscapes.
+To analyze the pathways explored by different replicas on the SOMwe can use the `trace_path`{style="color:magenta"} function, which visualizes the trajectory followed by a simulation on the SOM.
+
+To simplify the plotting of pathways from different replicas, the `trj` object stores the start and end frames (`trj$start` and `trj$end`) of each replica—merged using the
+`cat_trj`{style="color:magenta"} function. Using this information, we can plot the pathway of a specific replica as follows:
 
 ```{r}
 #Plot the SOM colored by clusters
@@ -130,9 +163,11 @@ for(rep in c(1,3,9,11)){
 }
 ```
 
+This allows us to visualize the movement of each replica across the SOM, helping to identify similarities and differences in trajectories.
+
 ## 2.2 Clustering of Pathways
 
-The type of sampled pathways can be inspected using a pathway clustering method:
+To better understand the types of pathways sampled, we can perform pathway clustering using:
 
 ```{r}
 path.clust <- cluster.pathways(SOM, start=trj$start, end=trj$end, time.dep="dependent")
@@ -140,13 +175,15 @@ plot(path.clust, xlab="")
 
 ```
 
-This shows the similarity between pathways sampled in different replicas. Note that here we used the option: `time.dep="dependent"`, that compare the frames at the same time in the simulations. Given that in constant pulling speed Steered MD simulations proceed at the same speed, this is a valid option. If the simulations evolve at different speeds (for example in constant pulling force Steered MD). a `time.dep="independent"` algorithm would be more appropriate.
+This analysis groups similar pathways across different replicas. Here, we used the option: `time.dep="dependent"`, , which compares frames at the same time points in different simulations. This approach is valid for Steered MD simulations with a constant pulling speed, as they progress at the same rate.
 
-## 2.3 Adding new data
+However, if the simulations evolve at different speeds (e.g., in constant-force Steered MD), the `time.dep="independent"` setting should be used instead, as it allows for time-independent pathway comparisons.
 
-If you are interested in using a trained SOM to represent a new set of data you can use the `map.data`{style="color:magenta"} function. This function returns a the original trained SOM, with the new data mapped (assigned to the closest neuron). In the present case, we will analyze data from additional steered MD simulations run at lower pulling speeds. These simulations are stored in a different folder of the package.
+## 2.3 Mapping new data
 
-We read in in the `trj2` object the new set of simulations, as done before, and compute the distances that are used as descriptors.
+A trained SOM can also be used to analyze new simulation datasets. This is done using the function `map.data`{style="color:magenta"}, which assigns new data points to the closest neurons in the existing SOM.
+
+In this example, we analyze data from additional Steered MD simulations run at lower pulling speeds, stored in a different folder. We first load these simulations and compute the same descriptors used to train the original SOM.
 
 ```{r}
 #Dowload the MD simulations at lower pulling speed 
@@ -171,14 +208,16 @@ for(trj_file in xtcfiles[-1]){
 DIST2 <- calc.distances(trj2, mol.2=FALSE, sele=sele.dists, atoms=sele.atoms)
 ```
 
-At this point the new set of simulations can be mapped on the SOM trained with the set of simulations at higher pulling speed.
+Now, we map this new dataset onto the previously trained SOM:
 
 ```{r}
 #Map new data on the existing SOM
 SOM_new <- remap.data(SOM=SOM, X=DIST2)
 ```
 
-The returned SOM object contains the new mapped data and can be used to generate plot for the new set of simulations. To evaluate if the new data are consistent with the old data, we can compare the distributions of distances of the new data from the SOM neuron vectors. These distances are telling us how similar is each frame to the closest vector. Low values means that the frame is well representated by a SOM neuron, while high values means that the frame is not well represented by the SOM neurons.
+The returned `SOM_new` oobject contains the original SOM structure, now enriched with the newly mapped data.
+
+To check whether the new data is well represented by the original SOM, we compare the distribution of distances between data points and their assigned SOM neurons. Low values indicate that frames are well represented, while higher values suggest poor representation.
 
 ```{r}
 #Map new data on the existing SOM
@@ -187,9 +226,9 @@ boxplot(SOM_new$distances, at=2, add=TRUE, pch=16)
 axis(1, at=c(1,2), labels=c("High Speed", "Low Speed"))
 ```
 
-As can be seen the distances from the SOM vectors in the two cases are similar. Slightly higher values may be obtained for the data mapped on SOM, but this is expected as the SOM is optimized to represent the first set of data.
+From this plot, we observe that the distance distributions are similar, meaning that the new data is consistent with the original dataset. A slight increase in distances is expected, as the SOM was initially trained only on the high-speed dataset.
 
-The mapped SOM object can be used to produce any kind of SOM plot. Here we trace the pathways of the low speed set of simulations
+Since the mapped SOM contains both datasets, we can now visualize the pathways sampled at lower pulling speeds:
 
 ```{r}
 par(mfrow=c(2,3))
@@ -201,4 +240,5 @@ for(rep in c(1:5)){
 }
 ```
 
-As can be seen the pathways sampled are similar to ones sampled at higher pulling speed.
+From these plots, we can compare the pathways explored at different pulling speeds. As can be seen the pathways sampled by the low-speed replicas are similar to those sampled by higher-speed simulations. This indicates that, despite the different pulling speeds, the overall exploration of the conformational space remains similar, suggesting that the system may converge toward similar structural states under varying conditions.
+
